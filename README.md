@@ -1,1 +1,1 @@
-# mgm-user
+# RYZ_SRVCE_MGM-Frontend
