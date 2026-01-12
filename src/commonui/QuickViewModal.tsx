@@ -2,9 +2,9 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/data/products";
-import { useWishlist } from "@/hooks/use-wishlist";
-import { Link } from "react-router-dom";
+import { formatPrice } from "@/lib/products";
+import { useWishlist } from "@/lib/use-wishlist";
+import Link from "next/link";
 
 interface QuickViewModalProps {
   product: any;
@@ -62,7 +62,7 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-yellow-300/20 opacity-60"></div>
                   </Button>
 
-                  <Link to={`/product/${product.id}`}>
+                  <Link href={`/product/${product.id}`}>
                     <Button 
                       variant="outline"
                       className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-600 text-foreground shadow-lg hover:shadow-xl border border-yellow-200/60 hover:border-yellow-300/80 transition-all duration-300 transform hover:scale-105 overflow-hidden group"
