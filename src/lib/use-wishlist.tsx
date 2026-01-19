@@ -1,26 +1,37 @@
-import * as React from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "wishlist";
-let memory: number[] = (() => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-})();
 
+let memory: number[] = [];
 const listeners: Array<(ids: number[]) => void> = [];
+
 function notify() {
   listeners.forEach((l) => l(memory));
 }
 
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    memory = raw ? JSON.parse(raw) : [];
+  } catch {
+    memory = [];
+  }
+}
+
+function saveToStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
+  } catch {}
+}
+
+/* ---------- Public API ---------- */
+
 export function addToWishlist(id: number) {
   if (!memory.includes(id)) {
     memory = [id, ...memory];
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
-    } catch {}
+    saveToStorage();
     notify();
   }
 }
@@ -28,28 +39,31 @@ export function addToWishlist(id: number) {
 export function removeFromWishlist(id: number) {
   if (memory.includes(id)) {
     memory = memory.filter((i) => i !== id);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
-    } catch {}
+    saveToStorage();
     notify();
   }
 }
 
 export function toggleWishlist(id: number) {
-  if (memory.includes(id)) removeFromWishlist(id);
-  else addToWishlist(id);
+  memory.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
 }
 
 export function isInWishlist(id: number) {
   return memory.includes(id);
 }
 
-export function useWishlist() {
-  const [ids, setIds] = React.useState<number[]>(() => memory);
+/* ---------- Hook ---------- */
 
-  React.useEffect(() => {
+export function useWishlist() {
+  const [ids, setIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    loadFromStorage();
+    setIds(memory);
+
     const listener = (newIds: number[]) => setIds(newIds);
     listeners.push(listener);
+
     return () => {
       const idx = listeners.indexOf(listener);
       if (idx > -1) listeners.splice(idx, 1);
@@ -58,9 +72,9 @@ export function useWishlist() {
 
   return {
     ids,
-    add: (id: number) => addToWishlist(id),
-    remove: (id: number) => removeFromWishlist(id),
-    toggle: (id: number) => toggleWishlist(id),
+    add: addToWishlist,
+    remove: removeFromWishlist,
+    toggle: toggleWishlist,
     isIn: (id: number) => memory.includes(id),
   };
 }

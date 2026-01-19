@@ -1,7 +1,6 @@
-"use client";
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 
 interface AnimatedPageProps {
   children: React.ReactNode;
@@ -28,23 +27,19 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             className="relative w-24 h-24 mx-auto mb-4"
           >
-            <div className="absolute inset-0 fixed-0 flex items-center justify-center">
-              <Image
+            <div className="absolute inset-0 flex items-center justify-center">
+              <img
                 src="/images/footer-logo.png"
                 alt="MGM Jewels Logo"
-                width={128}
-                height={128}
-                priority
+                className="w-32 h-32 object-contain"
               />
             </div>
             <div className="absolute inset-0 rounded-full border-4 border-gold/20 border-t-gold"></div>
           </motion.div>
           <motion.div
-            {...({
-              initial: { opacity: 0 },
-              animate: { opacity: 1 },
-              transition: { delay: 0.5, duration: 0.5 },
-            } as any)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
             className="text-primary-foreground/70 text-sm"
           >
             Crafting Excellence
@@ -56,11 +51,9 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
 
   return (
     <motion.div
-      {...({
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.5, ease: "easeOut" },
-      } as any)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className={className}
     >
       {children}
