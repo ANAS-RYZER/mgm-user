@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";

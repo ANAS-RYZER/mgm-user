@@ -1,9 +1,11 @@
+"use client";
 import { Heart, ShoppingBag } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product, formatPrice } from "@/lib/product";
 import { cardVariants, hoverLift } from "@/lib/animations";
 import { useWishlist } from "@/lib/use-wishlist";
 import Link from "next/link";
+import Image from "next/image";
 interface ProductCardProps {
   product: Product;
   index?: number;
@@ -28,13 +30,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
   return (
     <motion.div
-      {...({
-        variants: cardVariants,
-        initial: "initial",
-        animate: "animate",
-        exit: "exit",
-        transition: { delay: index * 0.1 },
-      } as any)}
+            variants={cardVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ delay: index * 0.1 }}
       {...hoverLift}
       className="group"
     >
@@ -70,13 +70,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             </button>
           </div>
 
-          {/* Image */}
-          <img
+         <Image
             src={product.image.src}
             alt={product.name}
-            loading="lazy"
-            decoding="async"
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-2xl"
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-2xl"
+            priority={index < 2}
           />
 
           {/* Hover Overlay */}
