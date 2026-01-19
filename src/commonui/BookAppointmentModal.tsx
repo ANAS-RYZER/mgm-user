@@ -6,7 +6,7 @@ import { X, Calendar, Clock, MapPin, User, Phone, Mail, MessageSquare } from "lu
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/lib/use-toast";
 
 interface BookAppointmentModalProps {
   isOpen: boolean;
