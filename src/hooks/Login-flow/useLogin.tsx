@@ -1,10 +1,8 @@
 // hooks/auth/useMe.ts
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/httpClient";
 import { session } from "@/lib/session";
-type UseMeOptions = {
-  enabled?: boolean;
-};
+
 
 
 export const useLogin = () => {

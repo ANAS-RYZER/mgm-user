@@ -160,7 +160,7 @@ const FilterSidebar: React.FC<Props> = ({
               Minimum
             </p>
             <p className="text-base font-bold text-primary">
-              {formatPrice(priceRange[0])}
+              {formatPrice(priceRange[0] ?? 0)}
             </p>
           </div>
           <div className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 hover:border-primary/50 transition-colors duration-200">
@@ -168,7 +168,7 @@ const FilterSidebar: React.FC<Props> = ({
               Maximum
             </p>
             <p className="text-base font-bold text-primary">
-              {formatPrice(priceRange[1])}
+              {formatPrice(priceRange[1] ?? 0)}
             </p>
           </div>
         </div>

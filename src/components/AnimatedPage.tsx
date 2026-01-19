@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface AnimatedPageProps {
@@ -28,7 +28,7 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
             className="relative w-24 h-24 mx-auto mb-4"
           >
             <div className="absolute inset-0 flex items-center justify-center">
-              <img
+              <Image
                 src="/images/footer-logo.png"
                 alt="MGM Jewels Logo"
                 className="w-32 h-32 object-contain"

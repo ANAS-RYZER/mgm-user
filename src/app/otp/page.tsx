@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,7 +12,7 @@ import { scaleInVariants } from "@/lib/animations";
 import { useSearchParams } from "next/navigation";
 import { useVerifyOtp } from "@/hooks/Login-flow/useLogin";
 
-export default function OtpVerification() {
+function OtpVerificationContent() {
   const router = useRouter();
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
@@ -206,5 +206,22 @@ export default function OtpVerification() {
         </div>
       </div>
     </AnimatedPage>
+  );
+}
+
+export default function OtpVerification() {
+  return (
+    <Suspense
+      fallback={
+        <AnimatedPage className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </AnimatedPage>
+      }
+    >
+      <OtpVerificationContent />
+    </Suspense>
   );
 }

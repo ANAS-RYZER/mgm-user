@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/products";
 import { useWishlist } from "@/lib/use-wishlist";
 import Link from "next/link";
+import Image from "next/image";
 
 interface QuickViewModalProps {
   product: any;

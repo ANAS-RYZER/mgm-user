@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import AnimatedPage from "@/components/AnimatedPage";
 import { scaleInVariants } from "@/lib/animations";
 import { useLogin, useSignup } from "@/hooks/Login-flow/useLogin";
+import Image from "next/image";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function SignInPage() {
       signup(
         { email: formData.email, password: formData.password },
         {
-          onSuccess: ({ sessionId }) => {
+          onSuccess: ({ sessionId }: { sessionId: string }) => {
             toast({
               title: "Account created successfully!",
               description: "You have signed up successfully.",
@@ -111,7 +112,7 @@ export default function SignInPage() {
         >
           <div className="flex justify-center mb-8">
             <Link href="/">
-              <img
+              <Image
                 src="/images/footer-logo.png"
                 alt="MGM MEGA GOLD MART Logo"
                 className="h-16 w-auto"
