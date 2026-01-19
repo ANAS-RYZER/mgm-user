@@ -32,6 +32,9 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
                 src="/images/footer-logo.png"
                 alt="MGM Jewels Logo"
                 className="w-32 h-32 object-contain"
+                width={128}
+                height={128}
+                priority
               />
             </div>
             <div className="absolute inset-0 rounded-full border-4 border-gold/20 border-t-gold"></div>

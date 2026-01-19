@@ -116,6 +116,9 @@ export default function SignInPage() {
                 src="/images/footer-logo.png"
                 alt="MGM MEGA GOLD MART Logo"
                 className="h-16 w-auto"
+                width={180}
+                height={64}
+                priority
               />
             </Link>
           </div>
