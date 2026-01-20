@@ -18,7 +18,11 @@ export function useCatalogueFilters() {
   const maxProductPrice = Math.max(...products.map((p) => p.price), 300000);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [priceRange, setPriceRange] = useState([0, maxProductPrice]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+  0,
+  maxProductPrice ?? 0,
+]);
+
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     searchParams.get("category") ? [searchParams.get("category")!] : []
   );

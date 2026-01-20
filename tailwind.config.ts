@@ -51,24 +51,13 @@ const config: Config = {
       fontFamily: {
         montserrat: ["var(--font-montserrat)", "sans-serif"],
         display: [
-          "ui-serif",
-          "Georgia",
-          "Cambria",
-          '"Times New Roman"',
-          "Times",
-          "serif",
+         '"Montserrat"', '"Helvetica Neue"', 'Arial', 'sans-serif'
         ],
         body: [
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          '"Helvetica Neue"',
-          "Arial",
-          "sans-serif",
+         '"Poppins"', '"Inter"', '"Helvetica Neue"', 'sans-serif'
         ],
+        heading: ['"Bebas Neue"', '"Montserrat"', 'sans-serif'],
+        elegant: ['"Playfair Display"', 'Georgia', 'serif'],
       },
     },
   },

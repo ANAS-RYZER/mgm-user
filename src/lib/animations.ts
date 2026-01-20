@@ -29,10 +29,7 @@ export const slideUpVariants: Variants = {
   exit: { opacity: 0, y: -30 },
 };
 
-export const heroTextVariants: Variants = {
-  initial: { opacity: 0, x: -50 },
-  animate: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
-};
+
 
 // Scale in variants
 export const scaleInVariants: Variants = {
@@ -97,4 +94,32 @@ export const drawerVariants: Variants = {
     transition: { type: "spring" as const, damping: 30, stiffness: 300 },
   },
   exit: { x: "100%" },
+};
+
+export const heroTextVariants: Variants = {
+  initial: { opacity: 0, x: -50 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+export const drawerLeftVariants: Variants = {
+  hidden: {
+    x: "-100%",
+    opacity: 0,
+  },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      type: "tween",
+      ease: "easeOut",
+      duration: 0.3,
+    },
+  },
+  exit: {
+    x: "-100%",
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
 };

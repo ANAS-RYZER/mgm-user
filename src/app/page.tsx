@@ -67,8 +67,8 @@ export default function HomePage() {
               </h1>
 
               <p className="text-lg mb-8">
-                Discover handcrafted jewelry where tradition meets
-                contemporary design.
+                Discover handcrafted jewelry where tradition meets contemporary
+                design.
               </p>
 
               <Link href="/catalogue">
@@ -99,7 +99,11 @@ export default function HomePage() {
               className="grid grid-cols-2 md:grid-cols-4 gap-6"
             >
               {[
-                { icon: Shield, title: "BIS Hallmark", desc: "Certified Purity" },
+                {
+                  icon: Shield,
+                  title: "BIS Hallmark",
+                  desc: "Certified Purity",
+                },
                 { icon: Award, title: "Premium Quality", desc: "Since 1985" },
               ].map((f) => (
                 <motion.div
@@ -119,63 +123,103 @@ export default function HomePage() {
         </section>
 
         {/* CATEGORIES */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <h2 className="text-center text-4xl font-bold mb-12">
-              Shop By Category
-            </h2>
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <span className="text-gold font-medium tracking-widest uppercase text-sm">
+                Browse By
+              </span>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-2">
+                Shop By Category
+              </h2>
+            </motion.div>
 
-            <Carousel className="w-[95%] mx-auto">
-              <CarouselContent>
-                {categories.map((cat) => (
-                  <CarouselItem
-                    key={cat.id}
-                    className="basis-auto pl-4"
-                  >
-                    <Link
-                      href={`/catalogue?category=${cat.id}`}
-                      className="block text-center"
+            <div className="w-full py-8">
+              <Carousel
+                opts={{
+                  align: "start",
+                  loop: true,
+                }}
+                className="w-full relative group/carousel"
+              >
+                <CarouselContent className="-ml-4 pb-4">
+                  {categories.map((category, index) => (
+                    <CarouselItem
+                      key={`${category.id}-${index}`}
+                      className="pl-4 basis-auto"
                     >
-                      <div className="relative w-52 h-52 rounded-full overflow-hidden">
-                        <Image
-                          src={cat.image}
-                          alt={cat.name}
-                          fill
-                          className="object-cover hover:scale-110 transition"
-                        />
-                      </div>
-                      <h3 className="mt-4 text-xl font-semibold">
-                        {cat.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {cat.count} Products
-                      </p>
-                    </Link>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.1 }}
+                        className="flex flex-col items-center flex-shrink-0 w-40 md:w-52 lg:w-60"
+                      >
+                        <Link
+                          href={`/catalogue?category=${category.id}`}
+                          className="group block relative overflow-hidden rounded-full w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60"
+                        >
+                          <Image
+                            src={category.image}
+                            alt={category.name}
+                            fill
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent rounded-full" />
+                        </Link>
+                        <div className="text-center mt-4">
+                          <h3 className="font-elegant text-lg md:text-xl font-semibold text-foreground">
+                            {category.name}
+                          </h3>
+                          <p className="text-muted-foreground text-sm">
+                            {category.count} Products
+                          </p>
+                        </div>
+                      </motion.div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-0 md:-left-12 opacity-0 group-hover/carousel:opacity-100 transition-opacity disabled:opacity-0 hover:bg-black hover:text-white" />
+                <CarouselNext className="right-0 md:-right-12 opacity-0 group-hover/carousel:opacity-100 transition-opacity disabled:opacity-0  hover:bg-black hover:text-white" />
+              </Carousel>
+            </div>
           </div>
         </section>
 
         {/* FEATURED PRODUCTS */}
-        <section className="py-20 bg-cream">
-          <div className="container mx-auto px-4">
-            <div className="flex justify-between items-end mb-12">
-              <h2 className="text-4xl font-bold">
-                Featured Collection
-              </h2>
-              <Link href="/catalogue" className="flex items-center gap-2">
-                View All <ArrowRight size={16} />
+       <section className="py-20 px-16 bg-cream">
+          <div className="mx-auto px-4 ">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex flex-col md:flex-row md:items-end md:justify-between mb-12"
+            >
+              <div>
+                <span className="text-gold font-medium tracking-widest uppercase text-sm">
+                  Handpicked For You
+                </span>
+                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-2">
+                  Featured Collection
+                </h2>
+              </div>
+              <Link
+                href="/catalogue"
+                className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mt-4 md:mt-0"
+              >
+                View All
+                <ArrowRight className="w-4 h-4" />
               </Link>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((p, i) => (
-                <ProductCard key={p.id} product={p} index={i} />
+              {featuredProducts.map((product, index) => (
+                <ProductCard key={product.id} product={product} index={index} />
               ))}
             </div>
           </div>
@@ -184,9 +228,7 @@ export default function HomePage() {
         {/* BEST SELLERS */}
         <section className="py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-12">
-              Best Sellers
-            </h2>
+            <h2 className="text-4xl font-bold mb-12">Best Sellers</h2>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {bestSellers.map((p, i) => (

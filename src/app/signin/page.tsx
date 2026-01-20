@@ -276,7 +276,7 @@ export default function SignInPage() {
 
       {/* Right Side Image */}
       <div className="hidden lg:block lg:w-1/2 relative">
-        <img
+        <Image
           src="/images/signin.jpg"
           alt="Elegant jewelry showcase"
           className="absolute inset-0 w-full h-full object-cover"

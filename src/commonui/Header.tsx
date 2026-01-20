@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Search, User, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,22 @@ import PriceTicker from "./PriceTicker";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+    setIsLoggedIn(!!token);
+
+    // Sync across tabs (optional but good)
+    const handleStorageChange = () => {
+      const token = sessionStorage.getItem("accessToken");
+      setIsLoggedIn(!!token);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -75,13 +91,23 @@ const Header = () => {
               <Search className="w-5 h-5" />
             </button>
 
-            <Link
-              href="/signin"
-              aria-label="Sign in"
-              className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
-            >
-              <User className="w-5 h-5" />
-            </Link>
+            {isLoggedIn ? (
+        <Link
+          href="/dashboard"
+          aria-label="User profile"
+          className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
+        >
+          <User className="w-5 h-5" />
+        </Link>
+      ) : (
+        <Link
+          href="/signin"
+          aria-label="Sign in"
+          className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
+        >
+          Login
+        </Link>
+      )}
           </div>
         </div>
       </div>
