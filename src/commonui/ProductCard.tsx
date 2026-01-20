@@ -70,8 +70,8 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             </button>
           </div>
 
-         <Image
-            src={product.image.src}
+          <Image
+            src={product.image}
             alt={product.name}
             fill
             sizes="(max-width: 768px) 50vw, 25vw"

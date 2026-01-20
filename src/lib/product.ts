@@ -1,17 +1,3 @@
-import product1 from "@/assets/product-1.jpg";
-import product2 from "@/assets/product-2.jpg";
-import product3 from "@/assets/product-3.jpg";
-import product4 from "@/assets/product-4.jpg";
-import product5 from "@/assets/product-5.jpg";
-import product6 from "@/assets/product-6.jpg";
-import product7 from "@/assets/product-7.jpg";
-import product8 from "@/assets/product-8.jpg";
-import ringCategory from "@/assets/ring-category.jpg";
-import earringCategory from "@/assets/earring-category.jpg";
-import necklaceCategory from "@/assets/necklace-category.jpg";
-import bangleCategory from "@/assets/bangle-category.jpg";
-import { StaticImageData } from "next/image";
-
 export interface StoneInfo {
   type: string;
   carat?: number;
@@ -27,8 +13,8 @@ export interface Product {
   description: string;
   price: number;
   originalPrice?: number;
-    image: StaticImageData;
-  images?: StaticImageData[];
+  image: string;
+  images?: string[];
   category: string;
   metal: string;
   weight: string;
@@ -82,7 +68,7 @@ export const categories: Category[] = [
     id: "bangles",
     name: "Bangles",
     description: "Traditional and modern bangles in gold and diamond",
-    image: "/assets/bangles.png",
+    image: "/assets/bangles.jpg",
     count: 15,
     featured: true,
   },
@@ -128,8 +114,8 @@ export const products: Product[] = [
       "Elegant gold pendant necklace featuring a brilliant cut diamond set in 22K gold with delicate chain design. Perfect for everyday elegance.",
     price: 45999,
     originalPrice: 52999,
-    image: product1,
-    images: [product1, product5],
+    image: "/assets/product-1.jpg",
+    images: ["/assets/product-1.jpg", "/assets/product-5.jpg"],
     category: "necklaces",
     metal: "22K Gold",
     weight: "8.5g",
@@ -157,8 +143,8 @@ export const products: Product[] = [
     description:
       "Stunning ruby stud earrings crafted in 22K gold with premium quality Burmese rubies. A classic piece for the discerning collector.",
     price: 32500,
-    image: product2,
-    images: [product2, product6],
+    image: "/assets/product-2.jpg",
+    images: ["/assets/product-2.jpg", "/assets/product-6.jpg"],
     category: "earrings",
     metal: "22K Gold",
     weight: "4.2g",
@@ -187,8 +173,8 @@ export const products: Product[] = [
       "Timeless solitaire engagement ring with a stunning round brilliant diamond in a classic 4-prong setting. Symbol of eternal love.",
     price: 125000,
     originalPrice: 145000,
-    image: product3,
-    images: [product3, product7],
+    image: "/assets/product-3.jpg",
+    images: ["/assets/product-3.jpg", "/assets/product-7.jpg"],
     category: "rings",
     metal: "22K Gold",
     weight: "3.8g",
@@ -217,8 +203,8 @@ export const products: Product[] = [
     description:
       "Exquisite diamond tennis bracelet featuring perfectly matched round diamonds set in gleaming 24K gold. Ultimate luxury for your wrist.",
     price: 185000,
-    image: product4,
-    images: [product4, product8],
+    image: "/assets/product-4.jpg",
+    images: ["/assets/product-4.jpg", "/assets/product-8.jpg"],
     category: "bangles",
     metal: "24K Gold",
     weight: "12.5g",
@@ -246,8 +232,8 @@ export const products: Product[] = [
       "Luxurious layered necklace set featuring natural Colombian emeralds surrounded by brilliant diamonds in 22K gold craftsmanship.",
     price: 275000,
     originalPrice: 310000,
-    image: product5,
-    images: [product5, product1],
+    image: "/assets/product-5.jpg",
+    images: ["/assets/product-5.jpg", "/assets/product-1.jpg"],
     category: "necklaces",
     metal: "22K Gold",
     weight: "45g",
@@ -283,8 +269,8 @@ export const products: Product[] = [
     description:
       "Classic hoop earrings adorned with brilliant cut diamonds, crafted in 24K gold. Perfect for both casual and formal occasions.",
     price: 48500,
-    image: product6,
-    images: [product6, product2],
+    image: "/assets/product-6.jpg",
+    images: ["/assets/product-6.jpg", "/assets/product-2.jpg"],
     category: "earrings",
     metal: "24K Gold",
     weight: "6.8g",
@@ -313,8 +299,8 @@ export const products: Product[] = [
     description:
       "Show-stopping cocktail ring featuring a large natural ruby surrounded by a halo of brilliant diamonds in 22K gold.",
     price: 165000,
-    image: product7,
-    images: [product7, product3],
+    image: "/assets/product-7.jpg",
+    images: ["/assets/product-7.jpg", "/assets/product-3.jpg"],
     category: "rings",
     metal: "22K Gold",
     weight: "8.2g",
@@ -351,8 +337,8 @@ export const products: Product[] = [
       "Elegant charm bracelet featuring intricate gold charms with diamond accents. A versatile piece that tells your unique story.",
     price: 78500,
     originalPrice: 89000,
-    image: product8,
-    images: [product8, product4],
+    image: "/assets/product-8.jpg",
+    images: ["/assets/product-8.jpg", "/assets/product-4.jpg"],
     category: "bangles",
     metal: "22K Gold",
     weight: "15.2g",

@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface MetalPrice {
@@ -17,9 +16,9 @@ const PriceTicker = () => {
     {
       name: "Gold",
       symbol: "AU",
-      price: 6234.5,
+      price: 6179.82,
       change: 12.3,
-      changePercent: 0.2,
+      changePercent: -0.93,
       unit: "10g",
     },
     {
@@ -66,22 +65,14 @@ const PriceTicker = () => {
   const tickerItems = [...prices, ...prices, ...prices]; // Triple for seamless loop
 
   return (
-    <div className="bg-gradient-mgm text-primary-foreground overflow-hidden py-3 relative">
+    <div className="bg-gradient-mgm text-primary-foreground overflow-hidden py-3 relative group">
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent pointer-events-none" />
 
-      <motion.div
-        className="flex gap-8"
-        animate={{ x: 0 }}
-        whileHover={{
-          x: [-2000, 0],
-          transition: {
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 30,
-              ease: "linear",
-            },
-          },
+      {/* CSS-based infinite scroll - pauses on hover */}
+      <div 
+        className="flex gap-8 animate-ticker group-hover:[animation-play-state:paused]"
+        style={{
+          width: "max-content",
         }}
       >
         {tickerItems.map((metal, index) => (
@@ -103,23 +94,23 @@ const PriceTicker = () => {
 
               <div
                 className={`flex items-center gap-1 text-xs ${
-                  metal.change >= 0 ? "text-green-400" : "text-red-400"
+                  metal.changePercent >= 0 ? "text-green-400" : "text-red-400"
                 }`}
               >
-                {metal.change >= 0 ? (
+                {metal.changePercent >= 0 ? (
                   <TrendingUp className="w-3 h-3" />
                 ) : (
                   <TrendingDown className="w-3 h-3" />
                 )}
                 <span>
-                  {metal.change >= 0 ? "+" : ""}
+                  {metal.changePercent >= 0 ? "+" : ""}
                   {metal.changePercent.toFixed(2)}%
                 </span>
               </div>
             </div>
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };

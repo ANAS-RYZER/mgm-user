@@ -72,11 +72,18 @@ export default function HomePage() {
               </p>
 
               <Link href="/catalogue">
-                <motion.div {...hoverScale}>
-                  <Button variant="outline" size="lg">
-                    Explore Collection
-                  </Button>
-                </motion.div>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="relative bg-gradient-to-br from-yellow-200/20 via-yellow-400/30 to-yellow-600/20 backdrop-blur-md border border-yellow-300/50 hover:border-yellow-400/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-[0.98] overflow-hidden group"
+                >
+                  <span className="relative z-10">Explore Collection</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 via-yellow-200/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 via-yellow-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/30 via-transparent to-yellow-600/30"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-yellow-300/20 opacity-60"></div>
+                  <div className="absolute inset-0 bg-gradient-to-bl from-yellow-300/20 via-transparent to-yellow-500/20"></div>
+                </Button>
               </Link>
             </motion.div>
           </div>

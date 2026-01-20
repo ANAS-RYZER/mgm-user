@@ -185,4 +185,18 @@
   .animate-slideIn {
     animation: slideIn 0.28s ease-out both;
   }
+
+  /* Price ticker animation - moves left continuously */
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.333%);
+    }
+  }
+
+  .animate-ticker {
+    animation: ticker 25s linear infinite;
+  }
 }
