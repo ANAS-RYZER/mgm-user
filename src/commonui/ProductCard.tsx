@@ -70,16 +70,14 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
             </button>
           </div>
 
-       <Image
-  src={product.image.src}
-  alt={product.name}
-  fill
-  sizes="(max-width: 768px) 50vw, 25vw"
-  className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-2xl"
-  priority={index < 2}
-/>
-
-
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            sizes="(max-width: 768px) 50vw, 25vw"
+            className="object-cover group-hover:scale-110 transition-transform duration-500 rounded-2xl"
+            priority={index < 2}
+          />
 
           {/* Hover Overlay */}
           <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/5 transition-colors duration-300" />

@@ -47,7 +47,7 @@ export default function SignInPage() {
       signup(
         { email: formData.email, password: formData.password },
         {
-          onSuccess: ({ sessionId }) => {
+          onSuccess: ({ sessionId }: { sessionId: string }) => {
             toast({
               title: "Account created successfully!",
               description: "You have signed up successfully.",
@@ -116,8 +116,9 @@ export default function SignInPage() {
                 src="/images/footer-logo.png"
                 alt="MGM MEGA GOLD MART Logo"
                 className="h-16 w-auto"
-                width={200}
+                width={180}
                 height={64}
+                priority
               />
             </Link>
           </div>

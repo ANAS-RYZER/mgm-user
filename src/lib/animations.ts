@@ -29,6 +29,11 @@ export const slideUpVariants: Variants = {
   exit: { opacity: 0, y: -30 },
 };
 
+export const heroTextVariants: Variants = {
+  initial: { opacity: 0, x: -50 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
 // Scale in variants
 export const scaleInVariants: Variants = {
   initial: { opacity: 0, scale: 0.9 },

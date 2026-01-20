@@ -49,6 +49,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
+        montserrat: ["var(--font-montserrat)", "sans-serif"],
         display: [
          '"Montserrat"', '"Helvetica Neue"', 'Arial', 'sans-serif'
         ],
