@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import AnimatedPage from "@/components/AnimatedPage";
 import { scaleInVariants } from "@/lib/animations";
 import { useLogin, useSignup } from "@/hooks/Login-flow/useLogin";
+import Image from "next/image";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -111,10 +112,12 @@ export default function SignInPage() {
         >
           <div className="flex justify-center mb-8">
             <Link href="/">
-              <img
+              <Image
                 src="/images/footer-logo.png"
                 alt="MGM MEGA GOLD MART Logo"
                 className="h-16 w-auto"
+                width={200}
+                height={64}
               />
             </Link>
           </div>
@@ -272,7 +275,7 @@ export default function SignInPage() {
 
       {/* Right Side Image */}
       <div className="hidden lg:block lg:w-1/2 relative">
-        <img
+        <Image
           src="/images/signin.jpg"
           alt="Elegant jewelry showcase"
           className="absolute inset-0 w-full h-full object-cover"
