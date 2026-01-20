@@ -69,7 +69,7 @@ export default function CataloguePage() {
             toggleCategory={toggleCategory}
             toggleMetal={toggleMetal}
             toggleCollection={toggleCollection}
-            setPriceRange={setPriceRange}
+            setPriceRange={()=>setPriceRange}
             clearFilters={clearFilters}
           />
 
@@ -88,7 +88,7 @@ export default function CataloguePage() {
                   selectedCollections={selectedCollections}
                   toggleCollection={toggleCollection}
                   priceRange={priceRange}
-                  setPriceRange={setPriceRange}
+                  setPriceRange={()=> setPriceRange}
                   maxPrice={maxProductPrice}
                   clearFilters={clearFilters}
                   activeFiltersCount={activeFiltersCount}
@@ -96,6 +96,7 @@ export default function CataloguePage() {
                 />
               </div>
             </aside>
+
 
             {/* Mobile Filter Drawer */}
             <MobileFilterDrawer
@@ -110,7 +111,7 @@ export default function CataloguePage() {
               toggleCategory={toggleCategory}
               toggleMetal={toggleMetal}
               toggleCollection={toggleCollection}
-              setPriceRange={setPriceRange}
+              setPriceRange={()=>setPriceRange}
               clearFilters={clearFilters}
             />
 

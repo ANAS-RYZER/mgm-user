@@ -46,10 +46,14 @@ export default function RequestsSection({ requests, onSelect }: Props) {
 
   return (
     <div className="space-y-4">
-         <div className="mb-6">
-            <h2 className="font-display text-2xl font-bold text-foreground mb-2">Your Requests</h2>
-            <p className="text-muted-foreground">Track the progress of your custom jewelry creations</p>
-          </div>
+      <div className="mb-6">
+        <h2 className="font-display text-2xl font-bold text-foreground mb-2">
+          Your Requests
+        </h2>
+        <p className="text-muted-foreground">
+          Track the progress of your custom jewelry creations
+        </p>
+      </div>
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid grid-cols-5">
           {["all", "pending", "reviewed", "in-progress", "completed"].map(
@@ -62,7 +66,7 @@ export default function RequestsSection({ requests, onSelect }: Props) {
                     : requests.filter((r) => r.status === status).length}
                 </Badge>
               </TabsTrigger>
-            )
+            ),
           )}
         </TabsList>
       </Tabs>
@@ -80,12 +84,14 @@ export default function RequestsSection({ requests, onSelect }: Props) {
             <Card className="hover:shadow-lg cursor-pointer">
               <CardContent className="p-0 flex flex-col sm:flex-row">
                 <div className="relative sm:w-64 h-56">
-                  <Image
-                    src={request.images[0]}
-                    alt="preview"
-                    fill
-                    className="object-cover"
-                  />
+                  {request.images[0] && (
+                    <Image
+                      src={request.images[0]}
+                      alt="preview"
+                      fill
+                      className="object-cover"
+                    />
+                  )}
                 </div>
 
                 <div className="flex-1 p-5 space-y-3">

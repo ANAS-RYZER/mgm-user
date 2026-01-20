@@ -310,7 +310,7 @@ const OurStory = () => {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
             >
-              {artisans.map((artisan, index) => (
+              {artisans.map((artisan) => (
                 <motion.div
                   key={artisan.name}
                   variants={staggerItem}
@@ -359,7 +359,7 @@ const OurStory = () => {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
             >
-              {achievements.map((achievement, index) => (
+              {achievements.map((achievement) => (
                 <motion.div
                   key={achievement.title}
                   variants={staggerItem}
@@ -441,6 +441,8 @@ const OurStory = () => {
               src="/images/story-footer.png"
               alt="Traditional Indian jewelry craftsmanship with gold necklace and accessories"
               className="w-full h-full object-cover object-center"
+              height={100}
+              width={300}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/90" />
             <div className="absolute inset-0 bg-gradient-mgm opacity-60" />
