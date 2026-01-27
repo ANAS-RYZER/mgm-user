@@ -45,7 +45,7 @@ export default function SignInPage() {
 
     if (isSignUp) {
       signup(
-        { email: formData.email, password: formData.password },
+        { email: formData.email, password: formData.password, fullName: formData.name },
         {
           onSuccess: ({ sessionId }: { sessionId: string }) => {
             toast({
@@ -73,11 +73,12 @@ export default function SignInPage() {
         },
         {
           onSuccess: () => {
+            
+            router.push(`/`);
             toast({
               title: "Welcome Back!",
               description: "You have been signed in successfully.",
             });
-            router.push("/");
           },
           onError: (error: any) => {
             toast({
@@ -108,16 +109,16 @@ export default function SignInPage() {
           variants={scaleInVariants}
           initial="initial"
           animate="animate"
-          className="w-full max-w-md"
+          className="w-full max-w-md "
         >
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-4">
             <Link href="/">
               <Image
                 src="/images/footer-logo.png"
                 alt="MGM MEGA GOLD MART Logo"
-                className="h-16 w-auto"
+                className="h-32 w-auto"
                 width={180}
-                height={64}
+                height={180}
                 priority
               />
             </Link>
@@ -158,7 +159,7 @@ export default function SignInPage() {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5  text-muted-foreground" />
                 <Input
                   id="email"
                   type="email"
@@ -175,8 +176,8 @@ export default function SignInPage() {
 
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5" />
+              <div className="relative ">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5  text-muted-foreground" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -192,10 +193,10 @@ export default function SignInPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                 >
                   {showPassword ? (
-                    <EyeOff className="w-5 h-5" />
+                    <EyeOff className="w-5 h-5 " />
                   ) : (
                     <Eye className="w-5 h-5" />
                   )}
@@ -203,7 +204,10 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <Button type="submit" disabled={isLoading} className="w-full mt-4">
+            <Button type="submit"
+              className="w-full bg-background/20 border border-primary-foreground/30 text-primary-foreground hover:bg-background/30 hover:border-primary-foreground/50 backdrop-blur-sm text-lg font-medium p-4"
+              size="lg"
+              disabled={isLoading}>
               {getButtonText()}
             </Button>
           </form>
@@ -266,7 +270,7 @@ export default function SignInPage() {
             <button
               type="button"
               onClick={() => setIsSignUp(!isSignUp)}
-              className="text-primary-foreground hover:underline font-medium"
+              className="text-primary-foreground hover:underline font-semibold"
             >
               {isSignUp ? "Sign In" : "Sign Up"}
             </button>
@@ -280,6 +284,8 @@ export default function SignInPage() {
           src="/images/signin.jpg"
           alt="Elegant jewelry showcase"
           className="absolute inset-0 w-full h-full object-cover"
+          height={100}
+          width={300}
         />
         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary/40" />
         <div className="absolute inset-0 flex items-center justify-center p-12">

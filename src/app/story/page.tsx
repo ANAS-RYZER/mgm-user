@@ -10,7 +10,6 @@ import {
   Award,
   MapPin,
   Star,
-  ChevronRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/commonui/Header";
@@ -24,107 +23,10 @@ import {
 } from "@/lib/animations";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { artisans } from "@/data/storyChapters";
+import OurStoryy from "@/components/ourStory/OurStory";
 
 const OurStory = () => {
-  const storyChapters = [
-    {
-      year: "1985",
-      title: "The Beginning",
-      subtitle: "A Dream in Zaveri Bazaar",
-      content:
-        "In the heart of Mumbai's iconic Zaveri Bazaar, our founder Mr. M. G. Menon started with a small workshop and a big dream. With just three artisans and a handful of tools, MGM Jewels began its journey of crafting excellence.",
-      image: "founding",
-      quote:
-        "Every piece of jewelry tells a story, and we wanted to create stories that would be cherished for generations.",
-    },
-    {
-      year: "1990",
-      title: "First Masterpiece",
-      subtitle: "The Royal Heritage Collection",
-      content:
-        "Our breakthrough came with the Royal Heritage Collection, inspired by traditional South Indian temple jewelry. This collection caught the attention of connoisseurs and established MGM as a name synonymous with authentic craftsmanship.",
-      image: "heritage",
-      quote:
-        "Tradition is not about preserving the ashes, but keeping the fire alive.",
-    },
-    {
-      year: "1995",
-      title: "Expansion",
-      subtitle: "Growing Beyond Boundaries",
-      content:
-        "From a small workshop to a flagship store, MGM Jewels expanded its horizons. We brought in master artisans from across India, each bringing their unique techniques and regional specialties to our workshop.",
-      image: "expansion",
-      quote:
-        "Growth is not just about size, but about the depth of our craft and the trust of our customers.",
-    },
-    {
-      year: "2000",
-      title: "Digital Revolution",
-      subtitle: "Embracing the Future",
-      content:
-        "As the new millennium dawned, MGM Jewels embraced technology while preserving tradition. We launched our first website, bringing our collections to a global audience and introducing online customization options.",
-      image: "digital",
-      quote:
-        "Technology should enhance tradition, not replace it. We use modern tools to perfect ancient techniques.",
-    },
-    {
-      year: "2010",
-      title: "Sustainable Luxury",
-      subtitle: "Ethical Craftsmanship",
-      content:
-        "We pioneered sustainable practices in the jewelry industry, introducing recycled gold, conflict-free diamonds, and fair trade practices. Our commitment to ethical luxury became our signature.",
-      image: "sustainable",
-      quote:
-        "True luxury is not just about beauty, but about responsibility towards our planet and people.",
-    },
-    {
-      year: "2020",
-      title: "New Generation",
-      subtitle: "Legacy Meets Innovation",
-      content:
-        "The third generation of the Menon family took the helm, bringing fresh perspectives while honoring our heritage. We introduced contemporary designs that appeal to modern sensibilities while maintaining traditional craftsmanship.",
-      image: "innovation",
-      quote:
-        "Innovation is not about forgetting where we came from, but about taking our heritage forward.",
-    },
-    {
-      year: "2024",
-      title: "The Future",
-      subtitle: "Crafting Tomorrow's Heirlooms",
-      content:
-        "Today, MGM Jewels stands as a bridge between tradition and tomorrow. We continue to innovate, create, and craft pieces that will become tomorrow's heirlooms, carrying forward a legacy of excellence.",
-      image: "future",
-      quote:
-        "Our story continues with every piece we create, every customer we serve, and every tradition we honor.",
-    },
-  ];
-
-  const artisans = [
-    {
-      name: "JOHN DOE",
-      specialty: "Temple Jewelry",
-      experience: "35 years",
-      story: "Learned the art from his father, who was a court jeweler",
-    },
-    {
-      name: "JOHN DOE",
-      specialty: "Kundan Work",
-      experience: "28 years",
-      story: "Revived ancient Kundan techniques with modern precision",
-    },
-    {
-      name: "JOHN DOE",
-      specialty: "Filigree",
-      experience: "32 years",
-      story: "Master of intricate wire work, creating delicate patterns",
-    },
-    {
-      name: "JOHN DOE",
-      specialty: "Stone Setting",
-      experience: "25 years",
-      story: "Expert in setting precious stones with minimal metal visibility",
-    },
-  ];
 
   const achievements = [
     {
@@ -218,72 +120,7 @@ const OurStory = () => {
 
         {/* Story Timeline */}
         <section className="py-20 bg-cream">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <span className="text-gold font-medium tracking-widest uppercase text-sm">
-                Chapters of Excellence
-              </span>
-              <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mt-2">
-                Our Story Through Time
-              </h2>
-            </motion.div>
-
-            <div className="space-y-24">
-              {storyChapters.map((chapter, index) => (
-                <motion.div
-                  key={chapter.year}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`grid md:grid-cols-2 gap-12 items-center ${
-                    index % 2 === 1 ? "md:flex-row-reverse" : ""
-                  }`}
-                >
-                  <div className={`${index % 2 === 1 ? "md:text-right" : ""}`}>
-                    <div className="mb-4">
-                      <span className="text-gold font-bold text-lg">
-                        {chapter.year}
-                      </span>
-                      <h3 className="font-display text-3xl font-bold text-foreground mt-2 mb-2">
-                        {chapter.title}
-                      </h3>
-                      <p className="text-xl text-muted-foreground mb-4">
-                        {chapter.subtitle}
-                      </p>
-                    </div>
-                    <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                      {chapter.content}
-                    </p>
-                    <blockquote className="border-l-4 border-gold pl-6 italic text-muted-foreground">
-                      {chapter.quote}
-                    </blockquote>
-                  </div>
-
-                  <div className="relative">
-                    <div className="aspect-square bg-gradient-mgm rounded-2xl shadow-2xl overflow-hidden">
-                      <div className="w-full h-full flex items-center justify-center text-primary-foreground">
-                        <div className="text-center p-8">
-                          <Sparkles className="w-16 h-16 mx-auto mb-4 text-gold" />
-                          <h4 className="font-display text-xl font-bold mb-2">
-                            {chapter.title}
-                          </h4>
-                          <p className="text-lg">{chapter.year}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gold/20 rounded-full blur-2xl"></div>
-                    <div className="absolute -top-4 -left-4 w-32 h-32 bg-gold/10 rounded-full blur-3xl"></div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          <OurStoryy />
         </section>
 
         {/* Our Artisans */}

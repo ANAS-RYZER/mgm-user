@@ -10,16 +10,53 @@ import { ArrowLeft } from "lucide-react";
 import AnimatedPage from "@/components/AnimatedPage";
 import { scaleInVariants } from "@/lib/animations";
 import { useSearchParams } from "next/navigation";
-import { useVerifyOtp } from "@/hooks/Login-flow/useLogin";
+import { useResendOtp, useVerifyOtp } from "@/hooks/Login-flow/useLogin";
+import { session } from "@/lib/session";
 
 function OtpVerificationContent() {
   const router = useRouter();
 
+  const email = session.getEmail();
+
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("sessionId");
+  const RESEND_TIME = 60;
+
+  const [timeLeft, setTimeLeft] = useState(RESEND_TIME);
+  const [canResend, setCanResend] = useState(false);
+
+  const { mutate: resendOtp, isPending: isResending } = useResendOtp();
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setCanResend(true);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
+  const handleResendOtp = () => {
+    resendOtp(undefined, {
+      onSuccess: () => {
+        setTimeLeft(RESEND_TIME);
+        setCanResend(false);
+        setOtp(Array(6).fill("")); // clear OTP inputs
+        inputsRef.current[0]?.focus();
+      },
+      onError: (err) => {
+        console.error(err);
+        // show toast error
+      },
+    });
+  };
+
+  // const searchParams = useSearchParams();
+  // const accessToken = searchParams.get("accessToken");
 
   /* -------------------- Autofocus first input -------------------- */
   useEffect(() => {
@@ -40,7 +77,10 @@ function OtpVerificationContent() {
   };
 
   /* -------------------- Handle backspace -------------------- */
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputsRef.current[index - 1]?.focus();
     }
@@ -61,39 +101,31 @@ function OtpVerificationContent() {
     });
   };
 
-    const { mutate: verifyOtp, isPending } = useVerifyOtp();
+  const { mutate: verifyOtp, isPending } = useVerifyOtp();
 
- const handleVerify = () => {
-  const enteredOtp = otp.join("");
+  const handleVerify = () => {
+    const enteredOtp = otp.join("");
 
-  if (!sessionId) {
-    console.error("Missing sessionId");
-    return;
-  }
-
-  verifyOtp(
-    {
-      otp: enteredOtp,
-      sessionId, 
-    },
-    {
-      onSuccess: () => {
-        router.push("/");
+    verifyOtp(
+      {
+        otp: enteredOtp,
       },
-      onError: (error: any) => {
-        console.error(error);
-        // show toast here
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+        onError: (error: any) => {
+          console.error(error);
+          // show toast here
+        },
       },
-    }
-  );
-};
-
+    );
+  };
 
   const isOtpIncomplete = otp.some((digit) => digit === "");
 
   return (
     <AnimatedPage className="min-h-screen flex">
-      {/* -------------------- Left Section -------------------- */}
       <div className="flex-1 flex items-center justify-center p-8 bg-gradient-mgm text-primary-foreground relative">
         {/* Back Button */}
         <button
@@ -128,7 +160,7 @@ function OtpVerificationContent() {
           <div className="mb-12">
             <h1 className="text-3xl font-bold mb-2">OTP Verification</h1>
             <p className="opacity-80">
-              Enter the 6-digit code sent to your registered email
+              Enter the 6-digit code sent to your registered email {email}
             </p>
           </div>
 
@@ -169,17 +201,27 @@ function OtpVerificationContent() {
             <p className="mt-8 text-primary-foreground/80">
               Didn&apos;t receive the code?
             </p>
-            <button
-              type="button"
-              className="text-primary-foreground hover:underline font-medium"
-            >
-              Resend
-            </button>
+            <div className="mt-4 flex flex-col items-center w-[78%]">
+              {!canResend ? (
+                <p className="text-primary-foreground/80 mt-6">
+                  Resend OTP in{" "}
+                  <span className="font-semibold">{timeLeft}s</span>
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleResendOtp}
+                  disabled={isResending}
+                  className="text-primary-foreground hover:underline font-medium disabled:opacity-50"
+                >
+                  {isResending ? "Sending..." : "Resend OTP"}
+                </button>
+              )}
+            </div>
           </div>
         </motion.div>
       </div>
 
-      {/* -------------------- Right Image Section -------------------- */}
       <div className="hidden lg:block lg:w-1/2 relative">
         <Image
           src="/images/signin.jpg"
