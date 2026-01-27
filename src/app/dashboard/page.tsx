@@ -25,7 +25,7 @@ import DashboardHome from "@/components/Dashboardd/dashboard";
 import { MyAppointments } from "@/components/appointments";
 import Image from "next/image";
 // import Wishlist from "@/components/dashboard/Wishlist";
-// import ProfileSettings from "@/components/dashboard/ProfileSettings";
+import ProfileSettings from "@/components/ProfileSettings/ProfileSettings";
 
 type TabType =
   | "home"
@@ -67,8 +67,8 @@ export default function Dashboard() {
         return <Wishlist />;
       case "appointments":
         return <MyAppointments />;
-      // case "settings":
-      //   return <ProfileSettings />;
+      case "settings":
+        return <ProfileSettings />;
       default:
         return <DashboardHome onNavigate={setActiveTab} />;
     }

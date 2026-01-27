@@ -22,22 +22,21 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
     return (
       <div className="fixed inset-0 bg-gradient-mgm z-50 flex items-center justify-center">
         <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            className="relative w-24 h-24 mx-auto mb-4"
-          >
-            <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center">
               <Image
                 src="/images/footer-logo.png"
                 alt="MGM Jewels Logo"
-                className="w-32 h-32 object-contain"
-                width={128}
-                height={128}
+                width={180}
+                height={160}
                 priority
               />
             </div>
-            <div className="absolute inset-0 rounded-full border-4 border-gold/20 border-t-gold"></div>
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            className="relative w-24 h-24 mx-auto mb-2"
+          >
+          <div className="absolute inset-0 rounded-full border-4 border-gold/20 border-t-gold"></div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
