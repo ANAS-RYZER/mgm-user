@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import usegetImageURL from "@/hooks/Upload-image/useGetImage";
 import { apiClient } from "@/lib/httpClient";
 import useGetImageURL from "@/hooks/Upload-image/useGetImage";
+import { useGetProfile } from "@/hooks/Upload-image/useGetImage";
 
 interface UserProfile {
   name: string;
@@ -35,7 +36,12 @@ const ProfileSettings = () => {
   const [selectedPreference, setSelectedPreference] = useState<string>("");
   const [imageloading, setImageLoading] = useState(false);
   const { toast } = useToast();
+
   const {getImageURL , loading } = useGetImageURL();
+  const { data: userProfileData } = useGetProfile();
+
+
+  console.log("User Profile Data from useGetProfile:", userProfileData);
 
    const id = "64b8f0f2e1b1c8a1d2f3g4h5"; // Example user ID
    useEffect(() => {
@@ -75,7 +81,8 @@ const ProfileSettings = () => {
 
       const responseS3Url = await apiClient.get(`/assets/${s3ResponseId}/url`);
       console.log("S3 URL response", responseS3Url);
-      const image = responseS3Url.data.s3Url;
+      console.log("Image URL:", responseS3Url.data.data.url);
+      const image = responseS3Url.data.data.url;
       setSelectedAvatar(image);
     }
     catch (error) {

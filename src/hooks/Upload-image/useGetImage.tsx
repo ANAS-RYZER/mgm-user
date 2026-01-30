@@ -1,4 +1,5 @@
 import { apiClient } from "@/lib/httpClient";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from 'react'
 
 interface FileData {
@@ -21,7 +22,7 @@ const useGetImageURL = () => {
         setImageURL(null)
         try {
             const response = await apiClient.post('/assets/upload-single', fileData)
-            console.log("response", response.data)
+            console.log("response", response.data);
             setImageURL(response.data.uploadUrl)
             setS3Response(response.data?.assetS3Object?._id);
             console.log(imageURL ," s3Response Imahge");
@@ -36,6 +37,18 @@ const useGetImageURL = () => {
         }
     }
     return {getImageURL, imageURL, loading, error}
+}
+
+export const useGetProfile=() => {
+    return useQuery({
+        queryKey: ['getProfile'],
+        queryFn: async () => {
+            const response = await apiClient.get('/auth');
+            console.log("Get Profile Response:", response.data);
+            return response.data;
+        }
+        
+    })
 }
 
 export default useGetImageURL;

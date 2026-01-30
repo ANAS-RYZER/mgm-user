@@ -22,26 +22,27 @@ const ProfilePicture = ({
       onAvatarChange(file);
     }
   };
-    
+
   return (
     <>
       <Card className="h-full border-border/50 hover:shadow-lg transition-all duration-300 cursor-pointer overflow-hidden flex flex-col">
         <CardContent className="p-4 text-center">
-          <div className="relative w-28 h-28 mx-auto mb-3">
-            <div className="w-full h-full rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+          <div className="relative w-28 h-28 mx-auto mb-5">
+            <div className="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden ">
               {avatar ? (
                 <Image
                   src={avatar}
-                  alt="Profile"
-                  fill
-                  className="object-cover"
-                  height={100}
-                  width={300}
+                  alt="avatar"
+                  width={128}
+                  height={128}
+                  className="w-32 h-32 rounded-full object-cover"
+                  priority
                 />
               ) : (
                 <User className="w-16 h-16 text-primary" />
               )}
             </div>
+
             <label className="absolute bottom-0 right-0 p-2 bg-primary rounded-full cursor-pointer hover:bg-primary/90 transition-all duration-300 hover:scale-110">
               <Camera className="w-4 h-4 text-primary-foreground" />
               <input

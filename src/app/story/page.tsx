@@ -75,7 +75,7 @@ const OurStory = () => {
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-foreground/95 via-foreground/85 to-foreground/75" />
-            <div className="absolute inset-0 bg-gradient-mgm opacity-70" />
+            <div className="absolute inset-0 bg-gradient-mgm opacity-20" />
           </div>
 
           <div className="relative container mx-auto px-4 h-full flex items-center">
@@ -106,8 +106,8 @@ const OurStory = () => {
                     className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-600 text-foreground shadow-lg hover:shadow-xl border border-yellow-200/60 hover:border-yellow-300/80 transition-all duration-300 transform hover:scale-105 overflow-hidden group"
                   >
                     <span className="relative z-10">Begin Your Journey</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 via-yellow-200/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 via-yellow-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent  via-yellow-200/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-transparent  via-yellow-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-yellow-200/30 via-transparent to-yellow-600/30"></div>
                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-yellow-300/20 opacity-60"></div>
                     <div className="absolute inset-0 bg-gradient-to-bl from-yellow-300/20 via-transparent to-yellow-500/20"></div>

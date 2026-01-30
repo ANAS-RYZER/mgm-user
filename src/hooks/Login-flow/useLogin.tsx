@@ -47,19 +47,6 @@ export const useSignup = () =>
   });
 
 
-
-// export const useMe = (options?: UseMeOptions) => {
-//   return useQuery({
-//     queryKey: ["me"],
-//     queryFn: async () => {
-//       const res = await apiClient.get("/auth/me");
-//       return res.data.user;
-//     },
-//     enabled: options?.enabled ?? true,
-//     retry: false,
-//   });
-// };
-
 export const refreshToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
   if (!refreshToken) throw new Error("No refresh token");
