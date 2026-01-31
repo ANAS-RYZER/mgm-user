@@ -1,22 +1,15 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Gem } from "lucide-react";
-import { products, formatPrice } from "@/lib/products";
+import { Product, formatPrice, StoneInfo } from "@/lib/products";
 import { useParams } from "next/dist/client/components/navigation";
 import ProductCard from "@/commonui/ProductCard";
 
-function StoneDetails() {
+function StoneDetails({product}: {product: Product}) {
   const params = useParams();
   const id = params.id as string;
-  const product = products.find((p) => p.id === id);
+  console.log(product , "product"   )
 
-if (!product) {
-  return (
-    <div className="text-center py-10 text-red-500">
-      Product not found
-    </div>
-  );
-}
 
   
   return (
@@ -38,7 +31,7 @@ if (!product) {
 
         {product.stones && product.stones.length > 0 ? (
           <div className="space-y-4">
-            {product.stones.map((stone, stoneIndex) => (
+            {product.stones?.map((stone: StoneInfo, stoneIndex: number) => (
               <motion.div
                 key={stoneIndex}
                 initial={{ opacity: 0, scale: 0.95 }}

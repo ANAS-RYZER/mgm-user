@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { products } from "@/lib/products";
+import type { Product } from "@/lib/products";
 
 export const METALS = ["24K Gold", "22K Gold"];
 
@@ -11,13 +11,18 @@ export const COLLECTIONS = [
   { id: "diamond", label: "Diamond Collection" },
 ];
 
-export function useCatalogueFilters() {
+export function useCatalogueFilters(products: Product[]) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const maxProductPrice = Math.max(...products.map((p) => p.price), 300000);
+  const maxProductPrice = useMemo(
+    () =>
+      products.length > 0
+        ? Math.max(...products.map((p) => p.price), 300000)
+        : 300000,
+    [products]
+  );
 
-  const [searchQuery, setSearchQuery] = useState("");
   const [priceRange, setPriceRange] = useState<[number, number]>([
   0,
   maxProductPrice ?? 0,
@@ -34,19 +39,9 @@ export function useCatalogueFilters() {
 
   const productsPerPage = 12;
 
-  // Filter and sort products
+  // Filter and sort products (search is done by backend API)
   const filteredProducts = useMemo(() => {
     let result = [...products];
-
-    // Search filter
-    if (searchQuery) {
-      result = result.filter(
-        (p) =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
 
     // Filter by category
     if (selectedCategories.length > 0) {
@@ -96,7 +91,7 @@ export function useCatalogueFilters() {
     }
 
     return result;
-  }, [searchQuery, selectedCategories, selectedMetals, selectedCollections, priceRange, sortBy]);
+  }, [products, selectedCategories, selectedMetals, selectedCollections, priceRange, sortBy]);
 
   // Pagination
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
@@ -136,7 +131,6 @@ export function useCatalogueFilters() {
     setSelectedMetals([]);
     setSelectedCollections([]);
     setPriceRange([0, maxProductPrice]);
-    setSearchQuery("");
     setCurrentPage(1);
     router.push("/catalogue");
   };
@@ -149,8 +143,6 @@ export function useCatalogueFilters() {
 
   return {
     // State
-    searchQuery,
-    setSearchQuery,
     priceRange,
     setPriceRange,
     selectedCategories,

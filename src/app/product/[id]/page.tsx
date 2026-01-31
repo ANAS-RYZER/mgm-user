@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/commonui/Header";
 import Footer from "@/commonui/Footer";
 import BookAppointmentModal from "@/commonui/BookAppointmentModal";
-import { products } from "@/lib/products";
 import { useToast } from "@/hooks/use-toast";
 import { useWishlist } from "@/lib/use-wishlist";
 import AnimatedPage from "@/components/AnimatedPage";
@@ -17,6 +16,12 @@ import ProductDetails from "@/components/product/ProductDetails";
 import ProductInfoTabs from "@/components/product/ProductInfoTabs";
 import RelatedProducts from "@/components/product/RelatedProducts";
 import ProductImageLightbox from "@/components/product/ProductImageLightbox";
+import type { Product } from "@/lib/products";
+import { useProductById } from "@/hooks/products/useProductById";
+import { useGetAllProduct } from "@/hooks/products/useGetAllProduct";
+
+/** Hash string ID to number for wishlist (useWishlist stores number[]). */
+
 
 export default function ProductDetailsPage() {
   const params = useParams();
@@ -27,10 +32,15 @@ export default function ProductDetailsPage() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const wishlist = useWishlist();
 
-  const product = products.find((p) => p.id === id);
-  const relatedProducts = products
-    .filter((p) => p.category === product?.category && p.id !== id)
-    .slice(0, 4);
+  const { product, isLoading: productLoading, error: productError, refetch } = useProductById(id);
+  const { products: allProducts, isLoading: allLoading } = useGetAllProduct();
+
+  const relatedProducts = useMemo(() => {
+    if (!product || !id) return [];
+    return allProducts
+      .filter((p: Product) => p.category === product.category && p.id !== id)
+      .slice(0, 4);
+  }, [product, id, allProducts]);
 
   const images = product?.images || (product?.image ? [product.image] : []);
   const discount = product?.originalPrice
@@ -52,6 +62,37 @@ export default function ProductDetailsPage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [isLightboxOpen, images.length]);
 
+  if (productLoading) {
+    return (
+      <div className="min-h-screen bg-background font-montserrat">
+        <Header />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="font-montserrat text-lg text-muted-foreground">Loading product…</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (productError) {
+    return (
+      <div className="min-h-screen bg-background font-montserrat">
+        <Header />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <h1 className="font-montserrat text-2xl font-semibold mb-4 tracking-tight">
+            Could not load product
+          </h1>
+          <p className="text-muted-foreground mb-4">{productError.message}</p>
+          <Button onClick={() => refetch()}>Try again</Button>
+          <Link href="/catalogue" className="ml-3 inline-block">
+            <Button variant="outline">Browse Collection</Button>
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="min-h-screen bg-background font-montserrat">
@@ -69,17 +110,7 @@ export default function ProductDetailsPage() {
     );
   }
 
-  const handleAddToWishlist = () => {
-    const idNum = Number(product.id);
-    wishlist.toggle(idNum);
-    const now = wishlist.isIn(idNum);
-    toast({
-      title: now ? "Added to Wishlist" : "Removed from Wishlist",
-      description: now
-        ? `${product.name} has been added to your wishlist.`
-        : `${product.name} has been removed from your wishlist.`,
-    });
-  };
+ 
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -113,8 +144,6 @@ export default function ProductDetailsPage() {
                 discount={discount}
                 selectedImageIndex={selectedImageIndex}
                 onSelectImageIndex={setSelectedImageIndex}
-                isInWishlist={wishlist.isIn(Number(product.id))}
-                onWishlistClick={handleAddToWishlist}
                 onShareClick={handleShare}
                 onImageClick={() => setIsLightboxOpen(true)}
               />
@@ -131,22 +160,20 @@ export default function ProductDetailsPage() {
                 weight={product.weight}
                 purity={product.purity}
                 makingCharges={product.makingCharges}
-                isInWishlist={wishlist.isIn(Number(product.id))}
                 onBookAppointment={() => setIsAppointmentModalOpen(true)}
-                onWishlistClick={handleAddToWishlist}
               />
             </div>
 
             {/* Detailed Information Tabs */}
-            <ProductInfoTabs />
+            <ProductInfoTabs product={product as Product} />
           </div>
         </section>
 
         {/* Related Products */}
-        <RelatedProducts 
+        {/* <RelatedProducts 
           products={relatedProducts}
           category={product.category}
-        />
+        /> */}
       </main>
 
       {/* Lightbox */}

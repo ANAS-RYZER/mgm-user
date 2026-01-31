@@ -12,8 +12,6 @@ interface ProductGalleryProps {
   discount: number;
   selectedImageIndex: number;
   onSelectImageIndex: (index: number | ((prev: number) => number)) => void;
-  isInWishlist: boolean;
-  onWishlistClick: () => void;
   onShareClick: () => void;
   onImageClick: () => void;
 }
@@ -26,8 +24,6 @@ export default function ProductGallery({
   discount,
   selectedImageIndex,
   onSelectImageIndex,
-  isInWishlist,
-  onWishlistClick,
   onShareClick,
   onImageClick,
 }: ProductGalleryProps) {
@@ -132,13 +128,10 @@ export default function ProductGallery({
         {/* Actions overlay */}
         <div className="absolute top-4 right-4 flex flex-col gap-2">
           <button
-            onClick={onWishlistClick}
-            className={`p-3 bg-background/95 rounded-full hover:bg-background transition-all shadow-lg hover:scale-110 group ${isInWishlist ? "ring-2 ring-amber-200" : ""}`}
+            className="p-3 bg-background/95 rounded-full hover:bg-background transition-all shadow-lg hover:scale-110"
             aria-label="Add to wishlist"
           >
-            <Heart
-              className={`w-5 h-5 transition-colors ${isInWishlist ? "text-red-500 fill-red-500" : "group-hover:text-primary"}`}
-            />
+            <Heart className="w-5 h-5" />
           </button>
           <button
             onClick={onShareClick}

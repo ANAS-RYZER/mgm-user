@@ -1,20 +1,10 @@
 import React from 'react'
 import { motion } from "framer-motion";
 import { Scale } from 'lucide-react';
+import { Product } from '@/lib/product';
+function GoldDetails({product}: {product: Product}) {
+  console.log(product , "product"   )
 
-import { products } from "@/data/products"; 
-import { useParams } from 'next/dist/client/components/navigation';
-function GoldDetails() {
-    const params = useParams();
-  const id = params.id as string;
-  const product = products.find((p) => p.id === id);
-  if (!product) {
-  return (
-    <div className="text-center py-10 text-red-500">
-      Product not found
-    </div>
-  );
-}
   return (
     <div>
        <div className="max-w-4xl mx-auto bg-cream rounded-3xl p-6">
@@ -30,12 +20,11 @@ function GoldDetails() {
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                           {[
-                            { label: "Karatage", value: product.karatage },
-                            { label: "Gold Weight", value: product.goldWeight || product.weight },
-                            { label: "Gross Weight", value: product.weight },
-                            { label: "Purity", value: product.purity },
-                            { label: "Making Charges", value: product.makingCharges || "12%" },
-                            { label: "Metal", value: product.metal },
+                            { label: "Karatage", value: product.goldSpecs.karat },
+                            { label: "Gold Weight", value: product.goldSpecs.goldWeight  },
+                            { label: "Purity", value: product.goldSpecs.purity },
+                            { label: "Making Charges", value: product.goldSpecs.makingCharges || "12%" },
+                            { label: "Gross Weight", value: product.goldSpecs.grossWeight },
                           ].map((spec, index) => (
                             <motion.div
                               key={index}

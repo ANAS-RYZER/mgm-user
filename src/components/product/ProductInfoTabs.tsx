@@ -5,8 +5,9 @@ import { slideUpVariants } from "@/lib/animations";
 import CareGuide from "@/components/CareGuide";
 import StoneDetails from "@/components/StoneDetails";
 import GoldDetails from "@/components/GoldDetails";
+import { Product } from "@/lib/product";
 
-export default function ProductInfoTabs() {
+export default function ProductInfoTabs({product}: {product:Product}) {
   return (
     <motion.div
       variants={slideUpVariants}
@@ -58,7 +59,7 @@ export default function ProductInfoTabs() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           >
-            <GoldDetails />
+            <GoldDetails product={product} />
           </motion.div>
         </TabsContent>
 
@@ -68,7 +69,7 @@ export default function ProductInfoTabs() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           >
-            <StoneDetails />
+            <StoneDetails product={product} />
           </motion.div>
         </TabsContent>
 
