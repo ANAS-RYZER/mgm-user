@@ -3,46 +3,50 @@
 import { useState } from "react";
 import Header from "@/commonui/Header";
 import Footer from "@/commonui/Footer";
-import FilterSidebar from "@/commonui/FilterSidebar";
 import AnimatedPage from "@/commonui/AnimatedPage";
-import { categories, formatPrice } from "@/lib/products";
+import FilterSidebar from "@/commonui/FilterSidebar";
 
-import { useCatalogueFilters, METALS, COLLECTIONS } from "./hooks/useCatalogueFilters";
+import { useCatalogue } from "../../hooks/products/useCatalogue";
 import {
   CatalogueHero,
   CatalogueToolbar,
-  MobileFilterDrawer,
   ProductGrid,
   Pagination,
   EmptyState,
-} from "./components";
+} from "../../components/catalogue";
 
 export default function CataloguePage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const {
+    products,
+    isLoading,
+    error,
+    refetch,
+    currentPage,
+    setCurrentPage,
+    totalPages,
     searchQuery,
     setSearchQuery,
-    priceRange,
-    setPriceRange,
-    selectedCategories,
-    selectedMetals,
-    selectedCollections,
     sortBy,
     setSortBy,
     viewMode,
-    setViewMode,
-    currentPage,
-    setCurrentPage,
-    maxProductPrice,
-    paginatedProducts,
-    totalPages,
-    activeFiltersCount,
+    categories,
+    selectedCategories,
     toggleCategory,
+    metals,
+    selectedMetals,
     toggleMetal,
+    collections,
+    selectedCollections,
     toggleCollection,
+    priceRange,
+    setPriceRange,
+    maxProductPrice,
     clearFilters,
-  } = useCatalogueFilters();
+    activeFiltersCount,
+    formatPrice,
+  } = useCatalogue();
 
   return (
     <AnimatedPage className="min-h-screen bg-background">
@@ -57,38 +61,26 @@ export default function CataloguePage() {
             setSearchQuery={setSearchQuery}
             sortBy={sortBy}
             setSortBy={setSortBy}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
             activeFiltersCount={activeFiltersCount}
             onOpenFilters={() => setIsFilterOpen(true)}
-            selectedCategories={selectedCategories}
-            selectedMetals={selectedMetals}
-            selectedCollections={selectedCollections}
-            priceRange={priceRange}
-            maxProductPrice={maxProductPrice}
-            toggleCategory={toggleCategory}
-            toggleMetal={toggleMetal}
-            toggleCollection={toggleCollection}
-            setPriceRange={()=>setPriceRange}
             clearFilters={clearFilters}
           />
 
           <div className="flex gap-8">
-            {/* Desktop Sidebar */}
             <aside className="hidden lg:block w-72 flex-shrink-0">
               <div className="sticky top-20">
                 <FilterSidebar
                   categories={categories}
                   selectedCategories={selectedCategories}
                   toggleCategory={toggleCategory}
-                  metals={METALS}
+                  metals={metals}
                   selectedMetals={selectedMetals}
                   toggleMetal={toggleMetal}
-                  collections={COLLECTIONS}
+                  collections={collections}
                   selectedCollections={selectedCollections}
                   toggleCollection={toggleCollection}
                   priceRange={priceRange}
-                  setPriceRange={()=> setPriceRange}
+                  setPriceRange={(v) => setPriceRange(v as [number, number])}
                   maxPrice={maxProductPrice}
                   clearFilters={clearFilters}
                   activeFiltersCount={activeFiltersCount}
@@ -97,29 +89,25 @@ export default function CataloguePage() {
               </div>
             </aside>
 
-
-            {/* Mobile Filter Drawer */}
-            <MobileFilterDrawer
-              isOpen={isFilterOpen}
-              onClose={() => setIsFilterOpen(false)}
-              selectedCategories={selectedCategories}
-              selectedMetals={selectedMetals}
-              selectedCollections={selectedCollections}
-              priceRange={priceRange}
-              maxProductPrice={maxProductPrice}
-              activeFiltersCount={activeFiltersCount}
-              toggleCategory={toggleCategory}
-              toggleMetal={toggleMetal}
-              toggleCollection={toggleCollection}
-              setPriceRange={()=>setPriceRange}
-              clearFilters={clearFilters}
-            />
-
-            {/* Products Section */}
             <div className="flex-1 min-w-0">
-              {paginatedProducts.length > 0 ? (
+              {isLoading ? (
+                <div className="py-12 text-center text-muted-foreground">
+                  Loading products…
+                </div>
+              ) : error ? (
+                <div className="py-12 text-center">
+                  <p className="text-destructive mb-2">Failed to load products.</p>
+                  <button
+                    type="button"
+                    onClick={() => refetch()}
+                    className="text-primary underline"
+                  >
+                    Try again
+                  </button>
+                </div>
+              ) : products.length > 0 ? (
                 <>
-                  <ProductGrid products={paginatedProducts} viewMode={viewMode} />
+                  <ProductGrid products={products} viewMode={viewMode} />
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}

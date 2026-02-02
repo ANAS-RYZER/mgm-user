@@ -46,8 +46,11 @@ export const auth = {
 };
 
 export const apiClient = axios.create({
-  baseURL: "http://localhost:5050",
-  headers: { "Content-Type": "application/json" },
+  baseURL: "https://mgm-backend.vercel.app",
+      // baseURL  : "http://localhost:5050" ,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 apiClient.interceptors.request.use((config) => {

@@ -15,9 +15,7 @@ interface ProductDetailsProps {
   weight?: string;
   purity: string;
   makingCharges?: string;
-  isInWishlist: boolean;
   onBookAppointment: () => void;
-  onWishlistClick: () => void;
 }
 
 export default function ProductDetails({
@@ -31,9 +29,7 @@ export default function ProductDetails({
   weight,
   purity,
   makingCharges,
-  isInWishlist,
-  onBookAppointment,
-  onWishlistClick,
+    onBookAppointment,
 }: ProductDetailsProps) {
   return (
     <motion.div
@@ -114,15 +110,11 @@ export default function ProductDetails({
           Book an Appointment
         </Button>
         <Button
-          variant={isInWishlist ? "default" : "outline"}
           size="lg"
-          onClick={onWishlistClick}
           className="w-full"
         >
-          <Heart
-            className={`w-5 h-5 ${isInWishlist ? "text-red-500 fill-red-500" : ""}`}
-          />
-          {isInWishlist ? "Saved" : "Add to Wishlist"}
+          <Heart className="w-5 h-5" />
+          Add to Wishlist
         </Button>
       </div> 
 
