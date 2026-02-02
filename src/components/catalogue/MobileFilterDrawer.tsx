@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import FilterSidebar from "@/commonui/FilterSidebar";
 import { categories, formatPrice } from "@/lib/products";
 import { drawerLeftVariants } from "@/lib/animations";
-import { METALS, COLLECTIONS } from "../hooks/useCatalogueFilters";
+import { METALS, COLLECTIONS } from "@/hooks/products/useCatalogueFilters";
 
 interface MobileFilterDrawerProps {
   isOpen: boolean;

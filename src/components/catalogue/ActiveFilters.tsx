@@ -2,8 +2,8 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { COLLECTIONS } from "@/hooks/products/useCatalogueFilters";
 import { categories, formatPrice } from "@/lib/products";
-import { COLLECTIONS } from "../hooks/useCatalogueFilters";
 
 interface ActiveFiltersProps {
   selectedCategories: string[];
