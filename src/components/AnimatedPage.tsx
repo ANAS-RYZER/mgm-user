@@ -22,12 +22,12 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
     return (
       <div className="fixed inset-0 bg-gradient-mgm z-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute mb-8 inset-0 flex items-center justify-center">
               <Image
                 src="/images/footer-logo.png"
                 alt="MGM Jewels Logo"
-                width={180}
-                height={160}
+                width={300}
+                height={300}
                 priority
               />
             </div>

@@ -11,12 +11,11 @@ import AnimatedPage from "@/components/AnimatedPage";
 import { scaleInVariants } from "@/lib/animations";
 import { useSearchParams } from "next/navigation";
 import { useResendOtp, useVerifyOtp } from "@/hooks/Login-flow/useLogin";
-import { session } from "@/lib/session";
+import { auth } from "@/lib/httpClient";
 
 function OtpVerificationContent() {
   const router = useRouter();
-
-  const email = session.getEmail();
+  const email = auth.getEmail();
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -48,7 +47,7 @@ function OtpVerificationContent() {
         setOtp(Array(6).fill("")); // clear OTP inputs
         inputsRef.current[0]?.focus();
       },
-      onError: (err) => {
+      onError: (err: any) => {
         console.error(err);
         // show toast error
       },
@@ -147,9 +146,9 @@ function OtpVerificationContent() {
           <div className="flex justify-center mb-8 w-[78%]">
             <Link href="/">
               <Image
-                src="/images/footer-logo.png"
+                src="/mgm-white-gold.svg"
                 alt="MGM Mega Gold Mart Logo"
-                width={180}
+                width={120}
                 height={64}
                 priority
               />
@@ -190,7 +189,7 @@ function OtpVerificationContent() {
           <button
             onClick={handleVerify}
             disabled={isOtpIncomplete}
-            className="w-[78%] py-3 rounded-lg bg-white/20 hover:bg-white/30 transition font-semibold
+            className="w-[78%] py-3 rounded-lg bg-gold hover:bg-gold/80 transition font-semibold text-primary
                        disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Verify

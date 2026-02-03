@@ -15,13 +15,15 @@ import { scaleInVariants } from "@/lib/animations";
 import { useLogin, useSignup } from "@/hooks/Login-flow/useLogin";
 import Image from "next/image";
 
+import { RefIdDialog } from "./RefIdDialog";
+
 export default function SignInPage() {
   const router = useRouter();
   const { toast } = useToast();
 
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [refIdPopupOpen, setRefIdPopupOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,72 +31,113 @@ export default function SignInPage() {
     password: "",
   });
 
+  const { mutate: login, isPending: loginPending } = useLogin();
+  const { mutate: signup, isPending: signupPending } = useSignup();
+  const isLoading = loginPending || signupPending;
+
   const getButtonText = () => {
     if (isLoading) return "Please wait...";
     return isSignUp ? "Create Account" : "Sign In";
   };
 
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
-
-  const { mutate: login } = useLogin();
-  const { mutate: signup } = useSignup();
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (isSignUp) {
-      signup(
-        { email: formData.email, password: formData.password, fullName: formData.name },
-        {
-          onSuccess: ({ sessionId }: { sessionId: string }) => {
-            toast({
-              title: "Account created successfully!",
-              description: "You have signed up successfully.",
-            });
-           router.push(`/otp?sessionId=${sessionId}`);
-          },
-          onError: (error: any) => {
-            toast({
-              title: "Signup failed",
-              description:
-                error.response?.data?.message ||
-                "An error occurred during signup.",
-              variant: "destructive",
-            });
-          },
-        }
-      );
-    } else {
-      login(
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          onSuccess: () => {
-            
-            router.push(`/`);
-            toast({
-              title: "Welcome Back!",
-              description: "You have been signed in successfully.",
-            });
-          },
-          onError: (error: any) => {
-            toast({
-              title: "Login failed",
-              description:
-                error?.response?.data?.message || "Something went wrong",
-              variant: "destructive",
-            });
-          },
-        }
-      );
+      if (!formData.name.trim()) {
+        toast({
+          title: "Signup failed",
+          description: "Please enter your full name.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!formData.email.trim()) {
+        toast({
+          title: "Signup failed",
+          description: "Please enter your email.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!formData.password || formData.password.length < 6) {
+        toast({
+          title: "Signup failed",
+          description: "Password must be at least 6 characters.",
+          variant: "destructive",
+        });
+        return;
+      }
+      setRefIdPopupOpen(true);
+      return;
     }
+
+    login(
+      {
+        email: formData.email,
+        password: formData.password,
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+          toast({
+            title: "Welcome Back!",
+            description: "You have been signed in successfully.",
+          });
+        },
+        onError: (error: unknown) => {
+          const msg =
+            (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
+            "Something went wrong";
+          toast({
+            title: "Login failed",
+            description: msg,
+            variant: "destructive",
+          });
+        },
+      }
+    );
+  };
+
+  const handleCreateAccountFromPopup = (refId: string | undefined) => {
+    signup(
+      {
+        fullName: formData.name,
+        email: formData.email,
+        password: formData.password,
+        ...(refId ? { refId } : {}),
+      },
+      {
+        onSuccess: () => {
+          setRefIdPopupOpen(false);
+          toast({
+            title: "Account created successfully!",
+            description: "You have signed up successfully.",
+          });
+          router.push("/otp");
+        },
+        onError: (error: unknown) => {
+          const msg =
+            (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
+            "An error occurred during signup.";
+          toast({
+            title: "Signup failed",
+            description: msg,
+            variant: "destructive",
+          });
+        },
+      }
+    );
   };
 
   return (
     <AnimatedPage className="min-h-screen flex">
+      <RefIdDialog
+        open={refIdPopupOpen}
+        onOpenChange={setRefIdPopupOpen}
+        onCreateAccount={handleCreateAccountFromPopup}
+        isLoading={signupPending}
+      />
       <div className="flex-1 flex items-center justify-center p-8 bg-gradient-mgm text-primary-foreground relative">
         <button
           type="button"
@@ -111,10 +154,10 @@ export default function SignInPage() {
           animate="animate"
           className="w-full max-w-md "
         >
-          <div className="flex justify-center mb-4">
-            <Link href="/">
+          <div className="w-full flex justify-center mb-4">
+            <Link href="/" className="flex justify-center">
               <Image
-                src="/images/footer-logo.png"
+                src="/mgm-white-gold.svg"
                 alt="MGM MEGA GOLD MART Logo"
                 className="h-32 w-auto"
                 width={180}
@@ -205,7 +248,7 @@ export default function SignInPage() {
             </div>
 
             <Button type="submit"
-              className="w-full bg-background/20 border border-primary-foreground/30 text-primary-foreground hover:bg-background/30 hover:border-primary-foreground/50 backdrop-blur-sm text-lg font-medium p-4"
+              className="w-full bg-gold hover:bg-gold/80 text-primary font-semibold text-lg"
               size="lg"
               disabled={isLoading}>
               {getButtonText()}

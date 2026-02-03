@@ -26,6 +26,7 @@ import { MyAppointments } from "@/components/appointments";
 import Image from "next/image";
 // import Wishlist from "@/components/dashboard/Wishlist";
 import ProfileSettings from "@/components/ProfileSettings/ProfileSettings";
+import { auth } from "@/lib/httpClient";
 
 type TabType =
   | "home"
@@ -39,14 +40,10 @@ export default function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
 
-    const handleSignOut = () => {
-    // Clear session storage tokens
-    sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
-
-    // Redirect to home page
+  const handleSignOut = () => {
+    auth.clear();
     router.push("/");
-    router.refresh(); // important → forces header to re-render
+    router.refresh();
   };
 
   const menuItems = [
@@ -81,7 +78,7 @@ export default function Dashboard() {
         <div className="flex items-center justify-between p-4">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/images/footer-logo.png"
+              src="/mgm-white-gold.svg"
               alt="MGM MEGA GOLD MART Logo"
               className="h-8 w-auto"
               height={100}
@@ -154,11 +151,10 @@ export default function Dashboard() {
                   setSidebarOpen(false);
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                ${
-                  activeTab === item.id
+                ${activeTab === item.id
                     ? "bg-primary-foreground text-primary"
                     : "opacity-80 hover:bg-primary-foreground/20 hover:opacity-100"
-                }`}
+                  }`}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="font-medium">{item.label}</span>

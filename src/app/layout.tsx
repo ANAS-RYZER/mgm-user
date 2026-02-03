@@ -13,10 +13,12 @@ const montserrat = Montserrat({
 });
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import NetworkStatus from "@/components/NetworkStatus";
-
 export const metadata: Metadata = {
   title: "MGM Mega Gold Mart",
   description: "MGM Mega Gold Mart",
+  icons: {
+    icon: "/mgm-white-gold.svg",
+  },
 };
 
 function LoadingFallback(): JSX.Element {

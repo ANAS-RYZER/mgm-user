@@ -1,4 +1,5 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -14,53 +15,48 @@ const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800); // Show loader for 800ms
+    }, 800); // loader duration
 
     return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-gradient-mgm z-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="absolute inset-0 fixed-0 flex items-center justify-center">
-              <Image
-                src="/images/footer-logo.png"
-                alt="MGM Jewels Logo"
-                width={128}
-                height={128}
-                priority
-              />
-            </div>
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            className="relative w-24 h-24 mx-auto mb-4"
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-mgm">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="flex flex-col items-center gap-4"
+        >
+          {/* Logo */}
+          <Image
+            src="/mgm-white-gold.svg"
+            alt="MGM Jewels Logo"
+            width={140}
+            height={140}
+            priority
+          />
+
+          {/* Loading text */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-sm tracking-wider text-primary-foreground/70"
           >
-            <div className="absolute inset-0 rounded-full border-4 border-gold/20 border-t-gold"></div>
-          </motion.div>
-          <motion.div
-            {...({
-              initial: { opacity: 0 },
-              animate: { opacity: 1 },
-              transition: { delay: 0.5, duration: 0.5 },
-            } as any)}
-            className="text-primary-foreground/70 text-sm"
-          >
-            Crafting Excellence
-          </motion.div>
-        </div>
+            Crafting Excellence...
+          </motion.p>
+        </motion.div>
       </div>
     );
   }
 
   return (
     <motion.div
-      {...({
-        initial: { opacity: 0 },
-        animate: { opacity: 1 },
-        transition: { duration: 0.5, ease: "easeOut" },
-      } as any)}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
       className={className}
     >
       {children}
