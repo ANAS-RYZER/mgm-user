@@ -42,7 +42,7 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-20">
           {/* Mobile Menu Button */}
           <button
             className="lg:hidden p-2"
