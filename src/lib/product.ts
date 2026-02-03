@@ -46,7 +46,9 @@ export interface Category {
   featured: boolean;
 }
 
+export const categories: Category[] = [];
 
+export const products: Product[] = [];
 
 export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat("en-IN", {
