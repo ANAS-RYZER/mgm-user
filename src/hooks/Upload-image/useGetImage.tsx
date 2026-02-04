@@ -39,16 +39,6 @@ const useGetImageURL = () => {
     return {getImageURL, imageURL, loading, error}
 }
 
-export const useGetProfile=() => {
-    return useQuery({
-        queryKey: ['getProfile'],
-        queryFn: async () => {
-            const response = await apiClient.get('/auth');
-            console.log("Get Profile Response:", response.data);
-            return response.data;
-        }
-        
-    })
-}
+
 
 export default useGetImageURL;
