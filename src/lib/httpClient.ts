@@ -122,7 +122,8 @@ import axios from "axios";
 
 // Create an Axios instance
 export const api = axios.create({
-  baseURL: "http://localhost:5050/",
+  // baseURL: "http://localhost:5050/",
+  baseURL: "https://mgm-backend.vercel.app/",
   headers: {
     "Content-Type": "application/json",
   },
