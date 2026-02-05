@@ -58,13 +58,10 @@ const Header = () => {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/images/footer-logo.png"
+            <img
+              src="/images/mgm.svg"
               alt="MGM Mega Gold Mart"
-              width={200}
-              height={80}
-              priority
-              className="h-auto w-auto"
+              className="h-16 w-auto max-w-[200px] object-contain"
             />
           </Link>
 

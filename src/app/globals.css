@@ -70,6 +70,10 @@
       #150a0e 100%
     );
 
+    /* Auth (signin/signup) surfaces – dark, consistent with gradient */
+    --auth-card-bg: hsl(330, 26%, 14%);
+    --auth-input-bg: hsl(330, 22%, 18%);
+
     /* Sidebar */
     --sidebar-background: 40 33% 98%;
     --sidebar-foreground: 20 14% 15%;
@@ -199,4 +203,16 @@
   .animate-ticker {
     animation: ticker 25s linear infinite;
   }
+}
+
+/* Auth form inputs: force dark background (overrides base + browser autofill) */
+.auth-input {
+  background-color: var(--auth-input-bg) !important;
+}
+.auth-input::-webkit-autofill,
+.auth-input::-webkit-autofill:hover,
+.auth-input::-webkit-autofill:focus {
+  -webkit-text-fill-color: hsl(40 30% 97%);
+  -webkit-box-shadow: 0 0 0 1000px var(--auth-input-bg) inset !important;
+  box-shadow: 0 0 0 1000px var(--auth-input-bg) inset !important;
 }

@@ -12,11 +12,9 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <Link href="/" className="inline-block mb-6">
-              <Image
-                src="/images/footer-logo.png"
+              <img
+                src="/images/mgm.svg"
                 alt="MGM Mega Gold Mart Logo"
-                width={200}
-                height={80}
                 className="h-20 w-auto"
               />
             </Link>

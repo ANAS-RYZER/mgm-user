@@ -1,23 +1,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 interface AnimatedPageProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
+  isLoading?: boolean;
 }
 
-const AnimatedPage = ({ children, className = "" }: AnimatedPageProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800); // Show loader for 800ms
-
-    return () => clearTimeout(timer);
-  }, []);
-
+const AnimatedPage = ({ children, className = "", isLoading = false }: AnimatedPageProps) => {
   if (isLoading) {
     return (
       <div className="fixed inset-0 bg-gradient-mgm z-50 flex items-center justify-center">

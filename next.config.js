@@ -28,6 +28,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "ryzer-v2.s3.ap-south-1.amazonaws.com",
+        pathname: "/users/**",
+      },
+      {
+        protocol: "https",
         hostname: "storage.googleapis.com",
         pathname: "/mgm_dev/product/**",
       },

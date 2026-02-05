@@ -34,9 +34,7 @@ const FilterSidebar: React.FC<Props> = ({
   metals,
   selectedMetals,
   toggleMetal,
-  collections,
-  selectedCollections,
-  toggleCollection,
+
   priceRange,
   setPriceRange,
   maxPrice = 300000,
@@ -69,7 +67,7 @@ const FilterSidebar: React.FC<Props> = ({
                 onCheckedChange={() => toggleCategory(category.id)}
                 className="rounded-md border-primary/30 data-[state=checked]:bg-gradient-mgm data-[state=checked]:border-primary"
               />
-              <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors flex-1">
+              <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors flex-1 uppercase">
                 {category.name}
               </span>
               <Badge 
@@ -105,7 +103,7 @@ const FilterSidebar: React.FC<Props> = ({
                 className="rounded-md border-gold/30 data-[state=checked]:bg-gold data-[state=checked]:border-gold data-[state=checked]:text-foreground"
               />
               <span className="text-sm font-medium text-foreground group-hover:text-gold-dark transition-colors">
-                {metal}
+                {metal.toUpperCase()}
               </span>
               <div className="ml-auto w-2 h-2 rounded-full bg-gold opacity-60 group-hover:opacity-100 group-hover:scale-125 transition-all duration-200" />
             </label>
@@ -113,34 +111,7 @@ const FilterSidebar: React.FC<Props> = ({
         </div>
       </div>
 
-      <Separator className="border-border/40 my-8" />
 
-      {/* Collections */}
-      <div className="space-y-5 mb-8">
-        <div className="flex items-center gap-2 mb-4">
-          <Sparkles className="w-4 h-4 text-primary" />
-          <h4 className="text-sm font-serif font-bold tracking-wide text-foreground uppercase">
-            Special Collections
-          </h4>
-        </div>
-        <div className="space-y-3 pl-1">
-          {collections.map((collection) => (
-            <label 
-              key={collection.id} 
-              className="flex items-center gap-3 cursor-pointer group py-2 px-3 rounded-lg hover:bg-primary/5 transition-all duration-200"
-            >
-              <Checkbox
-                checked={selectedCollections.includes(collection.id)}
-                onCheckedChange={() => toggleCollection(collection.id)}
-                className="rounded-md border-primary/30 data-[state=checked]:bg-gradient-mgm data-[state=checked]:border-primary"
-              />
-              <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-                {collection.label}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
 
       <Separator className="border-border/40 my-8" />
 
@@ -148,7 +119,7 @@ const FilterSidebar: React.FC<Props> = ({
       <div className="space-y-6">
         <div className="flex items-center gap-2 mb-4">
           <IndianRupee className="w-4 h-4 text-primary" />
-          <h4 className="text-sm font-serif font-bold tracking-wide text-foreground uppercase">
+          <h4 className="text-sm font-bold tracking-wide text-foreground uppercase">
             Price Range
           </h4>
         </div>
@@ -173,11 +144,12 @@ const FilterSidebar: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* Slider with Enhanced Styling */}
+        {/* Slider with Enhanced Styling (two thumbs: min + max) */}
         <div className="px-1 py-4">
           <Slider 
-            value={priceRange} 
-            onValueChange={setPriceRange} 
+            value={[priceRange[0] ?? 0, priceRange[1] ?? maxPrice]} 
+            onValueChange={(v) => setPriceRange(v as [number, number])} 
+            min={0}
             max={maxPrice} 
             step={5000} 
             className="mb-2" 
