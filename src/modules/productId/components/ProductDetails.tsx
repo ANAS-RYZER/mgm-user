@@ -11,7 +11,7 @@ interface ProductDetailsProps {
   onAfterWishlistToggle?: () => void;
   name: string;
   price: number;
-  originalPrice?: number;
+  originalPrice: number;
   description: string;
   karatage?: string;
   certification?: string;
@@ -26,7 +26,6 @@ export default function ProductDetails({
   isWishlisted,
   onAfterWishlistToggle,
   name,
-  price,
   originalPrice,
   description,
   karatage,
@@ -66,13 +65,9 @@ export default function ProductDetails({
 
         <div className="flex items-baseline gap-4">
           <span className="text-3xl lg:text-4xl font-bold text-primary tracking-tight">
-            {formatPrice(price)}
-          </span>
-          {originalPrice && (
-            <span className="text-xl text-muted-foreground line-through">
               {formatPrice(originalPrice)}
-            </span>
-          )}
+          </span>
+       
         </div>
 
         <p className="text-muted-foreground leading-relaxed text-lg">
@@ -94,7 +89,7 @@ export default function ProductDetails({
             <Award className="w-5 h-5 text-gold" />
           </div>
           <p className="text-xs text-muted-foreground">Purity</p>
-          <p className="font-semibold text-sm">{purity}</p>
+          <p className="font-semibold text-sm">916 Hall Marked</p>
         </div>
         <div className="text-center">
           <div className="w-12 h-12 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-2">
