@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Header from "@/commonui/Header";
 import Footer from "@/commonui/Footer";
 import AnimatedPage from "@/components/AnimatedPage";
 import FilterSidebar from "@/commonui/FilterSidebar";
 
-import { useCatalogue } from "../schema/useCatalogue";
 import {
   CatalogueHero,
 } from "@/modules/catalogue/components/CatalogueHero";
@@ -14,41 +18,167 @@ import {
   CatalogueToolbar,
 } from "@/modules/catalogue/components/CatalogueToolbar";
 import { ProductGrid } from "@/modules/catalogue/components/ProductGrid";
-import { Pagination } from "@/modules/catalogue/components/Pagination";
 import { EmptyState } from "@/modules/catalogue/components/EmptyState";
+import { useDebounce } from "@/hooks/useDebounce";
+import { getProductsUserAll } from "@/modules/catalogue/hooks/useGetAllProduct";
+import { mapApiProductToProduct } from "@/modules/productId/lib/mapProduct";
+import type { Product } from "@/lib/products";
+import { formatPrice } from "@/lib/products";
+import {
+  METALS,
+  COLLECTIONS,
+} from "@/modules/productId/hooks/useCatalogueFilters";
+
+const SEARCH_DEBOUNCE_MS = 400;
+const DEFAULT_MAX_PRICE = 300000;
+
+function normalizeMetalToPurity(metal: string): string {
+  const match = metal.match(/(\d{2})\s*k/i);
+  if (match) {
+    return `${match[1]}K`;
+  }
+  const numberMatch = metal.match(/(\d{2})/);
+  return numberMatch ? `${numberMatch[1]}K` : metal;
+}
 
 export default function Catalogue() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const {
-    products,
-    isLoading,
-    error,
-    refetch,
-    currentPage,
-    setCurrentPage,
-    totalPages,
-    searchQuery,
-    setSearchQuery,
-    sortBy,
-    setSortBy,
-    viewMode,
-    categories,
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearch = useDebounce(searchQuery, SEARCH_DEBOUNCE_MS);
+
+  const [sortBy, setSortBy] = useState("featured");
+  const [viewMode] = useState<"grid" | "list">("grid");
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedMetals, setSelectedMetals] = useState<string[]>([]);
+  const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    0,
+    DEFAULT_MAX_PRICE,
+  ]);
+  const [maxProductPrice] = useState(DEFAULT_MAX_PRICE);
+
+  const activeFiltersCount =
+    selectedCategories.length +
+    selectedMetals.length +
+    selectedCollections.length +
+    (priceRange[0] > 0 || priceRange[1] < maxProductPrice ? 1 : 0);
+
+  const clearFilters = useCallback(() => {
+    setSelectedCategories([]);
+    setSelectedMetals([]);
+    setSelectedCollections([]);
+    setPriceRange([0, maxProductPrice]);
+    setSearchQuery("");
+  }, [maxProductPrice]);
+
+  const categories = useMemo(() => {
+    const countByCategory = new Map<string, number>();
+    for (const p of products) {
+      const c = p.category?.trim() || "Uncategorized";
+      countByCategory.set(c, (countByCategory.get(c) ?? 0) + 1);
+    }
+    return Array.from(countByCategory.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([id, count]) => ({
+        id,
+        name: id,
+        count,
+      }));
+  }, [products]);
+
+  const toggleCategory = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const toggleMetal = (metal: string) => {
+    setSelectedMetals((prev) =>
+      prev.includes(metal) ? prev.filter((m) => m !== metal) : [...prev, metal]
+    );
+  };
+
+  const toggleCollection = (collection: string) => {
+    setSelectedCollections((prev) =>
+      prev.includes(collection)
+        ? prev.filter((c) => c !== collection)
+        : [...prev, collection]
+    );
+  };
+
+  const fetchProducts = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const params = {
+        search: debouncedSearch.trim() || undefined,
+        category: selectedCategories[0],
+        minPrice: priceRange[0] || undefined,
+        maxPrice: priceRange[1] || undefined,
+        purity: selectedMetals.length
+          ? selectedMetals.map(normalizeMetalToPurity).join(",")
+          : undefined,
+      };
+
+      const res = await getProductsUserAll(params);
+      if (!res) {
+        setProducts([]);
+        setIsLoading(false);
+        return;
+      }
+      let mapped = res.data.map(mapApiProductToProduct);
+
+
+      switch (sortBy) {
+        case "price-low":
+          mapped.sort((a, b) => a.price - b.price);
+          break;
+        case "price-high":
+          mapped.sort((a, b) => b.price - a.price);
+          break;
+        case "newest":
+          mapped = mapped
+            .filter((p) => p.isNew)
+            .concat(mapped.filter((p) => !p.isNew));
+          break;
+        case "rating":
+          mapped.sort(
+            (a, b) => ((b as any).rating || 0) - ((a as any).rating || 0)
+          );
+          break;
+        default:
+          mapped = mapped
+            .filter((p) => p.isBestSeller)
+            .concat(mapped.filter((p) => !p.isBestSeller));
+      }
+
+      setProducts(mapped);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error(String(err)));
+      setProducts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [
+    debouncedSearch,
     selectedCategories,
-    toggleCategory,
-    metals,
     selectedMetals,
-    toggleMetal,
-    collections,
     selectedCollections,
-    toggleCollection,
     priceRange,
-    setPriceRange,
-    maxProductPrice,
-    clearFilters,
-    activeFiltersCount,
-    formatPrice,
-  } = useCatalogue();
+    sortBy,
+  ]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <AnimatedPage isLoading={isLoading} className="min-h-screen bg-background">
@@ -75,10 +205,10 @@ export default function Catalogue() {
                   categories={categories}
                   selectedCategories={selectedCategories}
                   toggleCategory={toggleCategory}
-                  metals={metals}
+                  metals={METALS}
                   selectedMetals={selectedMetals}
                   toggleMetal={toggleMetal}
-                  collections={collections}
+                  collections={COLLECTIONS}
                   selectedCollections={selectedCollections}
                   toggleCollection={toggleCollection}
                   priceRange={priceRange}
@@ -93,31 +223,29 @@ export default function Catalogue() {
 
             <div className="flex-1 min-w-0">
               {isLoading ? (
-                <AnimatedPage isLoading={true} className="min-h-screen bg-background">
+                <AnimatedPage
+                  isLoading={true}
+                  className="min-h-screen bg-background"
+                >
                   <div className="py-12 text-center text-muted-foreground">
                     Loading products…
                   </div>
                 </AnimatedPage>
               ) : error ? (
                 <div className="py-12 text-center">
-                  <p className="text-destructive mb-2">Failed to load products.</p>
+                  <p className="text-destructive mb-2">
+                    Failed to load products.
+                  </p>
                   <button
                     type="button"
-                    onClick={() => refetch()}
+                    onClick={() => fetchProducts()}
                     className="text-primary underline"
                   >
                     Try again
                   </button>
                 </div>
               ) : products.length > 0 ? (
-                <>
-                  <ProductGrid products={products} viewMode={viewMode} />
-                  <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                  />
-                </>
+                <ProductGrid products={products} viewMode={viewMode} />
               ) : (
                 <EmptyState
                   searchQuery={searchQuery}

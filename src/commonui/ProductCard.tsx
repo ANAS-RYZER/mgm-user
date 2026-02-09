@@ -52,11 +52,11 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 Best Seller
               </span>
             )}
-            {discount > 0 && (
+            {/* {discount > 0 && (
               <span className="bg-destructive text-destructive-foreground text-xs px-3 py-1 rounded-full font-medium">
                 {discount}% OFF
               </span>
-            )}
+            )} */}
           </div>
 
           {/* Actions */}
@@ -91,13 +91,10 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           </h3>
           <div className="flex items-center gap-2">
             <span className="font-display text-lg font-semibold text-foreground">
-              {formatPrice(product.price)}
+              {formatPrice(product.originalPrice)}
+
             </span>
-            {product.originalPrice && (
-              <span className="text-sm text-muted-foreground line-through">
-                {formatPrice(product.originalPrice)}
-              </span>
-            )}
+           
           </div>
         </div>
       </Link>
