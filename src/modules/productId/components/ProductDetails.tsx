@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { scaleInVariants } from "@/lib/animations";
 import { formatPrice } from "@/lib/products";
 import { useToggleWishlist } from "../hooks/useWishList";
+import {useRouter} from "next/navigation"
 
 interface ProductDetailsProps {
   productId: string;
@@ -11,7 +12,7 @@ interface ProductDetailsProps {
   onAfterWishlistToggle?: () => void;
   name: string;
   price: number;
-  originalPrice?: number;
+  originalPrice: number;
   description: string;
   karatage?: string;
   certification?: string;
@@ -26,17 +27,24 @@ export default function ProductDetails({
   isWishlisted,
   onAfterWishlistToggle,
   name,
-  price,
   originalPrice,
   description,
   karatage,
   certification,
   goldWeight,
   weight,
-  purity,
   makingCharges,
+  purity,
 }: ProductDetailsProps) {
   const { mutate: toggleWishlist } = useToggleWishlist();
+  const router = useRouter();
+
+
+  const bookAppointment = (id: string) => {
+    sessionStorage.setItem("productId", id);
+     router.push("/bookappoitment")
+  };
+
   return (
     <motion.div
       variants={scaleInVariants}
@@ -60,28 +68,21 @@ export default function ProductDetails({
           )}
         </div>
 
-        <h1 className="font-montserrat text-3xl lg:text-4xl font-semibold text-foreground leading-tight tracking-tight">
+        <h1 className="font-montserrat text-3xl lg:text-4xl font-semibold">
           {name}
         </h1>
 
         <div className="flex items-baseline gap-4">
-          <span className="text-3xl lg:text-4xl font-bold text-primary tracking-tight">
-            {formatPrice(price)}
+          <span className="text-3xl lg:text-4xl font-bold text-primary">
+            {formatPrice(originalPrice)}
           </span>
-          {originalPrice && (
-            <span className="text-xl text-muted-foreground line-through">
-              {formatPrice(originalPrice)}
-            </span>
-          )}
         </div>
 
-        <p className="text-muted-foreground leading-relaxed text-lg">
-          {description}
-        </p>
+        <p className="text-muted-foreground text-lg">{description}</p>
       </div>
 
       {/* Quick Specs */}
-      <div className="grid grid-cols-3 gap-4 py-6 border-y border-border">
+      <div className="grid grid-cols-3 gap-4 py-6 border-y">
         <div className="text-center">
           <div className="w-12 h-12 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-2">
             <Scale className="w-5 h-5 text-gold" />
@@ -89,6 +90,7 @@ export default function ProductDetails({
           <p className="text-xs text-muted-foreground">Gold Weight</p>
           <p className="font-semibold text-sm">{goldWeight || weight}</p>
         </div>
+
         <div className="text-center">
           <div className="w-12 h-12 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-2">
             <Award className="w-5 h-5 text-gold" />
@@ -96,6 +98,7 @@ export default function ProductDetails({
           <p className="text-xs text-muted-foreground">Purity</p>
           <p className="font-semibold text-sm">{purity}</p>
         </div>
+
         <div className="text-center">
           <div className="w-12 h-12 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-2">
             <Gem className="w-5 h-5 text-gold" />
@@ -108,17 +111,18 @@ export default function ProductDetails({
       {/* CTA Buttons */}
       <div className="space-y-3">
         <Button
-          // onClick={onBookAppointment}
           size="lg"
           className="w-full text-lg py-6"
+          onClick={() => bookAppointment(productId)}
         >
           <Calendar className="w-5 h-5" />
           Book an Appointment
         </Button>
+
         <Button
           size="lg"
           variant={isWishlisted ? "secondary" : "default"}
-          className="w-full cursor-pointer transition-all group"
+          className="w-full group"
           onClick={() =>
             toggleWishlist(productId, {
               onSuccess: () => onAfterWishlistToggle?.(),
@@ -126,26 +130,22 @@ export default function ProductDetails({
           }
         >
           <Heart
-            className={`w-5 h-5 transition-colors ${
-              isWishlisted ? "fill-red-500 text-red-500" : "group-hover:text-red-500 group-hover:fill-current"
+            className={`w-5 h-5 ${
+              isWishlisted
+                ? "fill-red-500 text-red-500"
+                : "group-hover:text-red-500 group-hover:fill-current"
             }`}
           />
           {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
         </Button>
-
       </div>
 
-      {/* Trust Badges */}
+      {/* Trust Badge */}
       <div className="grid grid-cols-3 gap-3">
-        {[{ icon: Shield, text: "BIS Hallmarked" }].map((item, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center gap-1 p-3 bg-cream rounded-xl text-center"
-          >
-            <item.icon className="w-5 h-5 text-gold" />
-            <span className="text-xs font-medium">{item.text}</span>
-          </div>
-        ))}
+        <div className="flex flex-col items-center gap-1 p-3 bg-cream rounded-xl">
+          <Shield className="w-5 h-5 text-gold" />
+          <span className="text-xs font-medium">BIS Hallmarked</span>
+        </div>
       </div>
     </motion.div>
   );

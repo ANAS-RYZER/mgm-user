@@ -59,7 +59,9 @@ export interface GetProductsUserAllResponse {
 }
 
 export interface GetProductsUserAllParams {
-  page?: number;
-  limit?: number;
   search?: string;
+  category?: string;
+  purity?: string;
+  minPrice?: number;
+  maxPrice?: number;
 }

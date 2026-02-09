@@ -20,7 +20,7 @@ function GoldDetails({product}: {product: Product}) {
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                           {[
-                            { label: "Karatage", value: product.goldSpecs.karat },
+                            { label: "Karat", value: product.goldSpecs.karat },
                             { label: "Gold Weight", value: product.goldSpecs.goldWeight  },
                             { label: "Purity", value: product.goldSpecs.purity },
                             { label: "Making Charges", value: product.goldSpecs.makingCharges || "12%" },
