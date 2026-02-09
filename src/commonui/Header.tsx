@@ -38,7 +38,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-gradient-mgm text-primary-foreground backdrop-blur-md">
       {/* Live Price Ticker */}
-      <PriceTicker />
+      {/* <PriceTicker /> */}
 
       {/* Main Header */}
       <div className="container mx-auto px-4">
@@ -71,7 +71,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-body tracking-wide"
+                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors  tracking-wide"
               >
                 {link.name}
               </Link>

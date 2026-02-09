@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Montserrat } from "next/font/google";
+import { Montserrat, Outfit } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -10,6 +10,12 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const poppins = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins',
 });
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import NetworkStatus from "@/components/NetworkStatus";
@@ -38,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <html lang="en" className={montserrat.variable}>
+    <html lang="en" className={` ${poppins.className}`}>
       <body>
         <ReactQueryProvider>
           <NetworkStatus />

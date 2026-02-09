@@ -18,7 +18,7 @@ const ShopByCategory = () => {
         <span className="text-gold font-medium tracking-widest uppercase text-sm">
           Browse By
         </span>
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-2">
+        <h2 className=" text-3xl md:text-4xl font-semibold text-foreground mt-2">
           Shop By Category
         </h2>
       </motion.div>
@@ -57,7 +57,7 @@ const ShopByCategory = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-foreground/70 via-foreground/20 to-transparent rounded-full" />
                   </Link>
                   <div className="text-center mt-4">
-                    <h3 className="font-elegant text-lg md:text-xl font-semibold text-foreground">
+                    <h3 className=" text-lg md:text-xl font-semibold text-foreground">
                       {category.name}
                     </h3>
                     <p className="text-muted-foreground text-sm">
