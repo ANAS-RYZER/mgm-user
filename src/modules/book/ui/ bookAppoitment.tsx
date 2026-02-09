@@ -11,6 +11,8 @@ import { CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Header from "@/commonui/Header";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/toaster";
+import { useAppointmentProducts } from "@/lib/use-appointment-products";
 
 /* ----------------------------- Helpers ----------------------------- */
 
@@ -43,11 +45,14 @@ export default function BookAppointmentPage() {
   const dates = useMemo(() => generateDates(14), []);
 
   /* ---------- Handlers ---------- */
+  const appointment = useAppointmentProducts();
+
   const handleConfirm = () => {
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
       setIsConfirmed(true);
+      appointment.clear();
     }, 1500);
   };
 
@@ -150,7 +155,7 @@ export default function BookAppointmentPage() {
         </div>
 
         {/* CTA */}
-        <div className="sticky bottom-0 mt-10 bg-background/80 backdrop-blur border-t border-border">
+        <div className="sticky bottom-0 mt-10 bg-background/80 backdrop-blur border-t border-border z-20">
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-end">
             <Button size="lg" className="px-10 py-6 text-base font-semibold">
               Confirm Appointment

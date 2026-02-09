@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "appointment_products";
+const STORAGE_TYPE =
+  typeof window !== "undefined" ? window.sessionStorage : null;
 
 let memory: string[] = [];
 const listeners: Array<(ids: string[]) => void> = [];
@@ -12,9 +14,9 @@ function notify() {
 }
 
 function loadFromStorage() {
-  if (typeof window === "undefined") return;
+  if (!STORAGE_TYPE) return;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = STORAGE_TYPE.getItem(STORAGE_KEY);
     memory = raw ? JSON.parse(raw) : [];
   } catch {
     memory = [];
@@ -22,9 +24,9 @@ function loadFromStorage() {
 }
 
 function saveToStorage() {
-  if (typeof window === "undefined") return;
+  if (!STORAGE_TYPE) return;
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
+    STORAGE_TYPE.setItem(STORAGE_KEY, JSON.stringify(memory));
   } catch {}
 }
 
@@ -54,6 +56,12 @@ export function isInAppointment(id: string) {
   return memory.includes(id);
 }
 
+export function clearAppointment() {
+  memory = [];
+  saveToStorage();
+  notify();
+}
+
 /* ---------- Hook ---------- */
 
 export function useAppointmentProducts() {
@@ -78,5 +86,6 @@ export function useAppointmentProducts() {
     remove: removeFromAppointment,
     toggle: toggleAppointmentProduct,
     isIn: (id: string) => memory.includes(id),
+    clear: clearAppointment,
   };
 }

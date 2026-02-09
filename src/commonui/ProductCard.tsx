@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Plus, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: Product;
@@ -16,6 +17,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
+  const router = useRouter();
   const discount = product.originalPrice
     ? Math.round(
         ((product.originalPrice - product.price) / product.originalPrice) * 100,
@@ -25,6 +27,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const wishlist = useWishlist();
   const appointment = useAppointmentProducts();
   const isInAppt = appointment.isIn(product.id);
+
+  const handleAppointmentClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    appointment.toggle(product.id);
+    router.push("/bookappoitment");
+  };
 
   const WishlistButton = ({ productId }: { productId: string | number }) => (
     <button
@@ -81,11 +90,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                   ? "bg-[#c9a84c] text-[#2a1a1a]"
                   : "bg-background/90 hover:bg-background text-foreground",
               )}
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                appointment.toggle(product.id);
-              }}
+              onClick={handleAppointmentClick}
               aria-label={
                 isInAppt ? "Remove from appointment" : "Add to appointment"
               }

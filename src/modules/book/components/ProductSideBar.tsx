@@ -9,43 +9,43 @@ import { mapApiProductToProduct } from "@/modules/productId/lib/mapProduct";
 import type { Product } from "@/lib/products";
 import Link from "next/link";
 
-const sampleProducts = [
-  {
-    id: 1,
-    name: "Triangular Top Earrings with Red Gem & Chain Fringe",
-    price: "71,758",
-    purity: "Gold 22K",
-    image: "/images/earrings-1.jpg",
-  },
-  {
-    id: 2,
-    name: "Triangular Top Earrings with Red Gem & Chain Fringe",
-    price: "71,758",
-    purity: "Gold 22K",
-    image: "/images/earrings-1.jpg",
-  },
-  {
-    id: 3,
-    name: "Triangular Top Earrings with Red Gem & Chain Fringe",
-    price: "71,758",
-    purity: "Gold 22K",
-    image: "/images/earrings-1.jpg",
-  },
-  {
-    id: 4,
-    name: "Triangular Top Earrings with Red Gem & Chain Fringe",
-    price: "71,758",
-    purity: "Gold 22K",
-    image: "/images/earrings-1.jpg",
-  },
-  {
-    id: 5,
-    name: "Triangular Top Earrings with Red Gem & Chain Fringe",
-    price: "71,758",
-    purity: "Gold 22K",
-    image: "/images/earrings-1.jpg",
-  },
-];
+// const sampleProducts = [
+//   {
+//     id: 1,
+//     name: "Triangular Top Earrings with Red Gem & Chain Fringe",
+//     price: "71,758",
+//     purity: "Gold 22K",
+//     image: "/images/earrings-1.jpg",
+//   },
+//   {
+//     id: 2,
+//     name: "Triangular Top Earrings with Red Gem & Chain Fringe",
+//     price: "71,758",
+//     purity: "Gold 22K",
+//     image: "/images/earrings-1.jpg",
+//   },
+//   {
+//     id: 3,
+//     name: "Triangular Top Earrings with Red Gem & Chain Fringe",
+//     price: "71,758",
+//     purity: "Gold 22K",
+//     image: "/images/earrings-1.jpg",
+//   },
+//   {
+//     id: 4,
+//     name: "Triangular Top Earrings with Red Gem & Chain Fringe",
+//     price: "71,758",
+//     purity: "Gold 22K",
+//     image: "/images/earrings-1.jpg",
+//   },
+//   {
+//     id: 5,
+//     name: "Triangular Top Earrings with Red Gem & Chain Fringe",
+//     price: "71,758",
+//     purity: "Gold 22K",
+//     image: "/images/earrings-1.jpg",
+//   },
+// ];
 
 export function ProductSidebar() {
   const { ids, remove } = useAppointmentProducts();
@@ -112,7 +112,7 @@ export function ProductSidebar() {
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="object-cover transition-transform duration-300"
                   />
                 </div>
 
