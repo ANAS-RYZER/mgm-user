@@ -9,7 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 interface ProductCardProps {
   product: Product;
   index?: number;
@@ -23,7 +23,23 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       )
     : 0;
 
+  const searchParams = useSearchParams();
+  const isAppointmentMode = searchParams.get("appointment") === "true";
+  const appointmentProducts = useAppointmentProducts();
+  const isAlreadyAdded = appointmentProducts.isIn(String(product.id));
+
   const wishlist = useWishlist();
+
+  const handleMainAction = () => {
+    if (isAppointmentMode) {
+      if (!isAlreadyAdded) {
+        appointmentProducts.add(String(product.id));
+      }
+      router.push("/bookappoitment");
+    } else {
+      router.push(`product/${product.id}`);
+    }
+  };
 
   const WishlistButton = ({ productId }: { productId: string | number }) => (
     <Button
@@ -128,9 +144,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
         </div>
         <Button
           className="w-full bg-gold hover:bg-gold/70  shadow-lg rounded-sm mt-5 "
-          onClick={() => router.push(`product/${product.id}`)}
+          onClick={handleMainAction}
         >
-          Quick View
+          {isAppointmentMode
+            ? isAlreadyAdded
+              ? "Added"
+              : "Add Product"
+            : "Quick View"}
         </Button>
       </div>
       {/* </Link> */}

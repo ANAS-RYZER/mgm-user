@@ -145,7 +145,7 @@ export function ProductSidebar() {
           className="w-full border-dashed border-[#c9a84c]/50 text-[#c9a84c] 
                      hover:bg-[#c9a84c]/10 hover:border-[#c9a84c] transition-all"
         >
-          <Link href="/catalogue">
+          <Link href="/catalogue?appointment=true">
             <Plus className="w-4 h-4 mr-2" />
             Add More
           </Link>
