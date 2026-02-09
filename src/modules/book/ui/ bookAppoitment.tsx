@@ -111,7 +111,7 @@ export default function BookAppointmentPage() {
       <Header />
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-8">
-        <h1 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-8">Book an Appointment</h1>
+        <h1 className="text-2xl md:text-3xl  font-semibold text-foreground mb-8">Book an Appointment</h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Booking Form */}

@@ -52,7 +52,7 @@ export default function HomePage() {
                 New Collection 2024
               </span>
 
-              <h1 className="font-elegant text-4xl md:text-6xl font-bold mb-6">
+              <h1 className=" text-4xl md:text-6xl font-bold mb-6">
                 Timeless Elegance,
                 <br />
                 <span className="text-gold-light">Crafted in Gold</span>
@@ -94,7 +94,7 @@ export default function HomePage() {
                 <span className="text-gold font-medium tracking-widest uppercase text-sm">
                   Handpicked For You
                 </span>
-                <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-2">
+                <h2 className=" text-3xl md:text-4xl font-semibold text-foreground mt-2">
                   Featured Collection
                 </h2>
               </div>
@@ -118,7 +118,7 @@ export default function HomePage() {
         {/* BEST SELLERS */}
         <section className="py-20">
           <div className="container mx-auto px-4">
-            <h2 className="text-4xl font-bold mb-12">Best Sellers</h2>
+            <h2 className=" text-4xl font-semibold mb-12">Best Sellers</h2>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {bestSellers.map((p, i) => (
