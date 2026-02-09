@@ -1,22 +1,13 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "@/commonui/Header";
 import Footer from "@/commonui/Footer";
 import AnimatedPage from "@/components/AnimatedPage";
 import FilterSidebar from "@/commonui/FilterSidebar";
 
-import {
-  CatalogueHero,
-} from "@/modules/catalogue/components/CatalogueHero";
-import {
-  CatalogueToolbar,
-} from "@/modules/catalogue/components/CatalogueToolbar";
+import { CatalogueHero } from "@/modules/catalogue/components/CatalogueHero";
+import { CatalogueToolbar } from "@/modules/catalogue/components/CatalogueToolbar";
 import { ProductGrid } from "@/modules/catalogue/components/ProductGrid";
 import { EmptyState } from "@/modules/catalogue/components/EmptyState";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -96,13 +87,13 @@ export default function Catalogue() {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category]
+        : [...prev, category],
     );
   };
 
   const toggleMetal = (metal: string) => {
     setSelectedMetals((prev) =>
-      prev.includes(metal) ? prev.filter((m) => m !== metal) : [...prev, metal]
+      prev.includes(metal) ? prev.filter((m) => m !== metal) : [...prev, metal],
     );
   };
 
@@ -110,7 +101,7 @@ export default function Catalogue() {
     setSelectedCollections((prev) =>
       prev.includes(collection)
         ? prev.filter((c) => c !== collection)
-        : [...prev, collection]
+        : [...prev, collection],
     );
   };
 
@@ -136,7 +127,6 @@ export default function Catalogue() {
       }
       let mapped = res.data.map(mapApiProductToProduct);
 
-
       switch (sortBy) {
         case "price-low":
           mapped.sort((a, b) => a.price - b.price);
@@ -151,7 +141,7 @@ export default function Catalogue() {
           break;
         case "rating":
           mapped.sort(
-            (a, b) => ((b as any).rating || 0) - ((a as any).rating || 0)
+            (a, b) => ((b as any).rating || 0) - ((a as any).rating || 0),
           );
           break;
         default:

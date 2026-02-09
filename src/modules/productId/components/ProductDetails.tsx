@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { scaleInVariants } from "@/lib/animations";
 import { formatPrice } from "@/lib/products";
 import { useToggleWishlist } from "../hooks/useWishList";
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation";
+import { useAppointmentProducts } from "@/lib/use-appointment-products";
 
 interface ProductDetailsProps {
   productId: string;
@@ -37,12 +38,12 @@ export default function ProductDetails({
   purity,
 }: ProductDetailsProps) {
   const { mutate: toggleWishlist } = useToggleWishlist();
+  const { add } = useAppointmentProducts();
   const router = useRouter();
 
-
   const bookAppointment = (id: string) => {
-    sessionStorage.setItem("productId", id);
-     router.push("/bookappoitment")
+    add(id);
+    router.push("/bookappoitment");
   };
 
   return (
