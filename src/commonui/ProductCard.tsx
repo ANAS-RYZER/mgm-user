@@ -4,8 +4,12 @@ import { motion } from "framer-motion";
 import { Product, formatPrice } from "@/lib/product";
 import { cardVariants, hoverLift } from "@/lib/animations";
 import { useWishlist } from "@/lib/use-wishlist";
+import { useAppointmentProducts } from "@/lib/use-appointment-products";
 import Link from "next/link";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Plus, Check } from "lucide-react";
+
 interface ProductCardProps {
   product: Product;
   index?: number;
@@ -13,15 +17,23 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100,
+      )
     : 0;
 
   const wishlist = useWishlist();
+  const appointment = useAppointmentProducts();
+  const isInAppt = appointment.isIn(product.id);
 
   const WishlistButton = ({ productId }: { productId: string | number }) => (
     <button
-      onClick={(e) => { e.stopPropagation(); e.preventDefault(); wishlist.toggle(Number(productId)); }}
-      className={`p-2 rounded-full transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)] ${wishlist.isIn(Number(productId)) ? 'bg-destructive text-white' : 'bg-background/90 hover:bg-background'}`}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        wishlist.toggle(productId.toString());
+      }}
+      className={`p-2 rounded-full transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)] ${wishlist.isIn(productId.toString()) ? "bg-destructive text-white" : "bg-background/90 hover:bg-background"}`}
       aria-label="Toggle wishlist"
     >
       <Heart className="w-4 h-4" />
@@ -30,7 +42,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
   return (
     <motion.div
-            variants={cardVariants}
+      variants={cardVariants}
       initial="initial"
       animate="animate"
       exit="exit"
@@ -63,11 +75,35 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <WishlistButton productId={product.id} />
             <button
+              className={cn(
+                "p-2 rounded-full transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)]",
+                isInAppt
+                  ? "bg-[#c9a84c] text-[#2a1a1a]"
+                  : "bg-background/90 hover:bg-background text-foreground",
+              )}
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                appointment.toggle(product.id);
+              }}
+              aria-label={
+                isInAppt ? "Remove from appointment" : "Add to appointment"
+              }
+            >
+              {isInAppt ? (
+                <Check className="w-4 h-4" />
+              ) : (
+                <Plus className="w-4 h-4" />
+              )}
+            </button>
+            <Link
+              href="/bookappoitment"
               className="p-2 bg-background/90 rounded-full hover:bg-background transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
-              aria-label="Add to cart"
+              aria-label="View appointment"
+              onClick={(e) => e.stopPropagation()}
             >
               <ShoppingBag className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
 
           <Image
@@ -92,9 +128,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           <div className="flex items-center gap-2">
             <span className="font-display text-lg font-semibold text-foreground">
               {formatPrice(product.originalPrice)}
-
             </span>
-           
           </div>
         </div>
       </Link>

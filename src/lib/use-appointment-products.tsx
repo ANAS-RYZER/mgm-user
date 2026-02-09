@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "wishlist";
+const STORAGE_KEY = "appointment_products";
 
 let memory: string[] = [];
 const listeners: Array<(ids: string[]) => void> = [];
@@ -12,6 +12,7 @@ function notify() {
 }
 
 function loadFromStorage() {
+  if (typeof window === "undefined") return;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     memory = raw ? JSON.parse(raw) : [];
@@ -21,6 +22,7 @@ function loadFromStorage() {
 }
 
 function saveToStorage() {
+  if (typeof window === "undefined") return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(memory));
   } catch {}
@@ -28,7 +30,7 @@ function saveToStorage() {
 
 /* ---------- Public API ---------- */
 
-export function addToWishlist(id: string) {
+export function addToAppointment(id: string) {
   if (!memory.includes(id)) {
     memory = [id, ...memory];
     saveToStorage();
@@ -36,7 +38,7 @@ export function addToWishlist(id: string) {
   }
 }
 
-export function removeFromWishlist(id: string) {
+export function removeFromAppointment(id: string) {
   if (memory.includes(id)) {
     memory = memory.filter((i) => i !== id);
     saveToStorage();
@@ -44,17 +46,17 @@ export function removeFromWishlist(id: string) {
   }
 }
 
-export function toggleWishlist(id: string) {
-  memory.includes(id) ? removeFromWishlist(id) : addToWishlist(id);
+export function toggleAppointmentProduct(id: string) {
+  memory.includes(id) ? removeFromAppointment(id) : addToAppointment(id);
 }
 
-export function isInWishlist(id: string) {
+export function isInAppointment(id: string) {
   return memory.includes(id);
 }
 
 /* ---------- Hook ---------- */
 
-export function useWishlist() {
+export function useAppointmentProducts() {
   const [ids, setIds] = useState<string[]>([]);
 
   useEffect(() => {
@@ -72,9 +74,9 @@ export function useWishlist() {
 
   return {
     ids,
-    add: addToWishlist,
-    remove: removeFromWishlist,
-    toggle: toggleWishlist,
+    add: addToAppointment,
+    remove: removeFromAppointment,
+    toggle: toggleAppointmentProduct,
     isIn: (id: string) => memory.includes(id),
   };
 }

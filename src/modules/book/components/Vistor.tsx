@@ -1,27 +1,30 @@
-"use client"
+"use client";
 
-import { cn } from "@/lib/utils"
-import { Monitor, Store, Home } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { Monitor, Store, Home } from "lucide-react";
 
 const visitTypes = [
   { id: "virtual", label: "Virtual", icon: Monitor },
   { id: "store", label: "Store Visit", icon: Store },
   { id: "home", label: "Home Visit", icon: Home },
-] as const
+] as const;
 
-export type VisitType = (typeof visitTypes)[number]["id"]
+export type VisitType = (typeof visitTypes)[number]["id"];
 
 interface VisitTypeSelectorProps {
-  selected: VisitType
-  onSelect: (type: VisitType) => void
+  selected: VisitType;
+  onSelect: (type: VisitType) => void;
 }
 
-export function VisitTypeSelector({ selected, onSelect }: VisitTypeSelectorProps) {
+export function VisitTypeSelector({
+  selected,
+  onSelect,
+}: VisitTypeSelectorProps) {
   return (
     <div className="flex gap-0 rounded-lg overflow-hidden border border-border">
       {visitTypes.map((type) => {
-        const Icon = type.icon
-        const isSelected = selected === type.id
+        const Icon = type.icon;
+        const isSelected = selected === type.id;
         return (
           <button
             key={type.id}
@@ -37,8 +40,8 @@ export function VisitTypeSelector({ selected, onSelect }: VisitTypeSelectorProps
             <Icon className="w-4 h-4" />
             {type.label}
           </button>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
