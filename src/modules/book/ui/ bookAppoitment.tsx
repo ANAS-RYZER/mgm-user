@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateSelector } from "../components/DateAndTime";
 import {
   TimeSlotSelector,
@@ -15,7 +15,7 @@ import { useGetAppointmentSlots } from "../hooks/useGetAllLog";
 import { useCreateAppointment } from "../hooks/useCreateAppointment";
 import { useToast } from "@/hooks/use-toast";
 import Lottie from "lottie-react";
-import sucess from "../../../../public/lottie/sucess.json"
+import sucess from "../../../../public/lottie/sucess.json";
 /* ----------------------------- Helpers ----------------------------- */
 
 function generateDates(count: number) {
@@ -42,18 +42,31 @@ export default function BookAppointmentPage() {
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   /* ---------- Derived ---------- */
   const dates = useMemo(() => generateDates(14), []);
-  
-  
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("accessToken");
+    setIsLoggedIn(!!token);
+
+    // Sync across tabs (optional but good)
+    const handleStorageChange = () => {
+      const token = sessionStorage.getItem("accessToken");
+      setIsLoggedIn(!!token);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   // Convert selectedDate index to YYYY-MM-DD format
   const selectedDateString = useMemo(() => {
     if (selectedDate === null) return null;
     const dateObj = dates[selectedDate]?.fullDate;
     if (!dateObj) return null;
-    return dateObj.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    return dateObj.toISOString().split("T")[0]; // Format: YYYY-MM-DD
   }, [selectedDate, dates]);
 
   const { data: slots } = useGetAppointmentSlots({
@@ -70,7 +83,7 @@ export default function BookAppointmentPage() {
   const selectedSlotCode = useMemo(() => {
     if (!selectedPeriod || !slots) return null;
     const selectedSlot = slots.find(
-      (slot: any) => slot.slotCode.toLowerCase() === selectedPeriod
+      (slot: any) => slot.slotCode.toLowerCase() === selectedPeriod,
     );
     return selectedSlot?.slotCode || null;
   }, [selectedPeriod, slots]);
@@ -93,7 +106,6 @@ export default function BookAppointmentPage() {
       });
       return;
     }
-
 
     setIsSubmitting(true);
 
@@ -140,8 +152,7 @@ export default function BookAppointmentPage() {
         <main className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="bg-card border rounded-2xl p-8 md:p-12 max-w-lg w-full text-center">
             <div className="w-44 h-44 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Lottie animationData={sucess} loop={true} />
-
+              <Lottie animationData={sucess} loop={true} />
             </div>
 
             <h2 className="text-2xl font-serif font-bold mb-2">
@@ -186,7 +197,9 @@ export default function BookAppointmentPage() {
       <Header />
 
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-8">
-        <h1 className="text-2xl md:text-3xl  font-semibold text-foreground mb-8">Book an Appointment</h1>
+        <h1 className="text-2xl md:text-3xl  font-semibold text-foreground mb-8">
+          Book an Appointment
+        </h1>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left */}
@@ -203,7 +216,7 @@ export default function BookAppointmentPage() {
                     dates={dates}
                     selectedDate={selectedDate}
                     onSelect={setSelectedDate}
-                    slot = {slots}
+                    slot={slots}
                   />
                 </div>
 
@@ -214,7 +227,7 @@ export default function BookAppointmentPage() {
                   <TimeSlotSelector
                     selectedPeriod={selectedPeriod}
                     onPeriodSelect={setSelectedPeriod}
-                    slots = {slots}
+                    slots={slots}
                   />
                 </div>
               </div>
@@ -230,14 +243,27 @@ export default function BookAppointmentPage() {
         {/* CTA */}
         <div className="sticky bottom-0 mt-10 bg-background/80 backdrop-blur border-t border-border z-20">
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-end">
-            <Button 
-              size="lg" 
-              className="px-10 py-6 text-base font-semibold" 
-              onClick={handleConfirm}
-              disabled={isSubmitting || createAppointment.isPending}
-            >
-              {isSubmitting || createAppointment.isPending ? "Creating..." : "Confirm Appointment"}
-            </Button>
+            {isLoggedIn ? (
+              <Button
+                size="lg"
+                className="px-10 py-6 text-base font-semibold"
+                onClick={handleConfirm}
+                disabled={isSubmitting || createAppointment.isPending}
+              >
+                {isSubmitting || createAppointment.isPending
+                  ? "Creating..."
+                  : "Confirm Appointment"}
+              </Button>
+            ) : (
+              <Button
+                size="lg"
+                className="px-10 py-6 text-base font-semibold"
+                onClick={handleConfirm}
+                disabled={!isLoggedIn}
+              >
+                Please Login to Confirm
+              </Button>
+            )}
           </div>
         </div>
       </main>

@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import PriceTicker from "./PriceTicker";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -27,7 +29,6 @@ const Header = () => {
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
-
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -57,12 +58,15 @@ const Header = () => {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <img
-              src="/images/mgm.svg"
-              alt="MGM Mega Gold Mart"
-              className="h-16 w-auto max-w-[200px] object-contain"
-            />
+          <Link href="/" className="flex items-center gap-2 p-2">
+            <div className="relative h-16 w-16">
+              <Image
+                src="/images/mgm.svg"
+                alt="MGM Mega Gold Mart"
+                className="absolute object-contain"
+                fill
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -89,22 +93,22 @@ const Header = () => {
             </button>
 
             {isLoggedIn ? (
-        <Link
-          href="/dashboard"
-          aria-label="User profile"
-          className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
-        >
-          <User className="w-5 h-5" />
-        </Link>
-      ) : (
-        <Link
-          href="/signin"
-          aria-label="Sign in"
-          className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
-        >
-          Login
-        </Link>
-      )}
+              <button
+                onClick={() => router.push("/dashboard")}
+                aria-label="User profile"
+                className=" p-2 text-primary-foreground/90 hover:text-primary-foreground  bg-white/10 hover:border-1 border-gray-300/10 rounded"
+              >
+                <User  className="w-5 h-5"  />
+              </button>
+            ) : (
+              <Button
+                aria-label="Sign in"
+                onClick={() => router.push("/signin")}
+                className="py-2 px-4 text-primary-foreground/90 hover:text-primary-foreground hover:border border-black/20 bg-white/10"
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </div>
