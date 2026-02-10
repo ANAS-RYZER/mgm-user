@@ -12,14 +12,17 @@ interface DateSelectorProps {
   dates: DateItem[];
   selectedDate: number | null;
   onSelect: (index: number) => void;
+  slot : any
 }
 
 export function DateSelector({
   dates,
   selectedDate,
   onSelect,
+  slot
 }: DateSelectorProps) {
   const todayString = new Date().toDateString();
+  console.log(slot , "date and slot")
 
   return (
     <div className="grid grid-cols-7 gap-2 overflow-x-auto pb-2">

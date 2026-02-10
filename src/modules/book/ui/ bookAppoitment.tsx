@@ -7,13 +7,15 @@ import {
   type TimeSlotPeriod,
 } from "../components/TimeSelector";
 import { ProductSidebar } from "../components/ProductSideBar";
-import { CalendarDays } from "lucide-react";
-import { cn } from "@/lib/utils";
+
 import Header from "@/commonui/Header";
 import { Button } from "@/components/ui/button";
-import { Toaster } from "@/components/ui/toaster";
 import { useAppointmentProducts } from "@/lib/use-appointment-products";
-
+import { useGetAppointmentSlots } from "../hooks/useGetAllLog";
+import { useCreateAppointment } from "../hooks/useCreateAppointment";
+import { useToast } from "@/hooks/use-toast";
+import Lottie from "lottie-react";
+import sucess from "../../../../public/lottie/sucess.json"
 /* ----------------------------- Helpers ----------------------------- */
 
 function generateDates(count: number) {
@@ -43,17 +45,87 @@ export default function BookAppointmentPage() {
 
   /* ---------- Derived ---------- */
   const dates = useMemo(() => generateDates(14), []);
+  
+  
+
+  // Convert selectedDate index to YYYY-MM-DD format
+  const selectedDateString = useMemo(() => {
+    if (selectedDate === null) return null;
+    const dateObj = dates[selectedDate]?.fullDate;
+    if (!dateObj) return null;
+    return dateObj.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+  }, [selectedDate, dates]);
+
+  const { data: slots } = useGetAppointmentSlots({
+    date: selectedDateString || "",
+    enabled: selectedDateString !== null,
+  });
 
   /* ---------- Handlers ---------- */
   const appointment = useAppointmentProducts();
+  const createAppointment = useCreateAppointment();
+  const { toast } = useToast();
 
-  const handleConfirm = () => {
+  // Find the selected slot's slotCode from the API slots
+  const selectedSlotCode = useMemo(() => {
+    if (!selectedPeriod || !slots) return null;
+    const selectedSlot = slots.find(
+      (slot: any) => slot.slotCode.toLowerCase() === selectedPeriod
+    );
+    return selectedSlot?.slotCode || null;
+  }, [selectedPeriod, slots]);
+
+  const handleConfirm = async () => {
+    // Validation
+    if (!selectedDateString) {
+      toast({
+        title: "Date required",
+        description: "Please select a date for your appointment",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!selectedSlotCode) {
+      toast({
+        title: "Time slot required",
+        description: "Please select a time slot for your appointment",
+        variant: "destructive",
+      });
+      return;
+    }
+
+
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    try {
+      await createAppointment.mutateAsync({
+        date: selectedDateString,
+        slotCode: selectedSlotCode as "MORNING" | "EVENING" | "NIGHT",
+        productIds: appointment.ids,
+      });
+
+      // Success
       setIsSubmitting(false);
       setIsConfirmed(true);
       appointment.clear();
-    }, 1500);
+      toast({
+        title: "Appointment created",
+        description: "Your appointment has been successfully booked",
+      });
+    } catch (error: any) {
+      // Error handling
+      console.error("Failed to create appointment:", error);
+      setIsSubmitting(false);
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to create appointment. Please try again.";
+      toast({
+        title: "Appointment failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
   };
 
   /* ---------------- Confirmation Screen ---------------- */
@@ -67,8 +139,9 @@ export default function BookAppointmentPage() {
 
         <main className="flex-1 flex items-center justify-center px-4 py-16">
           <div className="bg-card border rounded-2xl p-8 md:p-12 max-w-lg w-full text-center">
-            <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CalendarDays className="w-8 h-8 text-emerald-600" />
+            <div className="w-44 h-44 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Lottie animationData={sucess} loop={true} />
+
             </div>
 
             <h2 className="text-2xl font-serif font-bold mb-2">
@@ -130,6 +203,7 @@ export default function BookAppointmentPage() {
                     dates={dates}
                     selectedDate={selectedDate}
                     onSelect={setSelectedDate}
+                    slot = {slots}
                   />
                 </div>
 
@@ -140,6 +214,7 @@ export default function BookAppointmentPage() {
                   <TimeSlotSelector
                     selectedPeriod={selectedPeriod}
                     onPeriodSelect={setSelectedPeriod}
+                    slots = {slots}
                   />
                 </div>
               </div>
@@ -155,8 +230,13 @@ export default function BookAppointmentPage() {
         {/* CTA */}
         <div className="sticky bottom-0 mt-10 bg-background/80 backdrop-blur border-t border-border z-20">
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-end">
-            <Button size="lg" className="px-10 py-6 text-base font-semibold">
-              Confirm Appointment
+            <Button 
+              size="lg" 
+              className="px-10 py-6 text-base font-semibold" 
+              onClick={handleConfirm}
+              disabled={isSubmitting || createAppointment.isPending}
+            >
+              {isSubmitting || createAppointment.isPending ? "Creating..." : "Confirm Appointment"}
             </Button>
           </div>
         </div>

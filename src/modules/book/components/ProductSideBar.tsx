@@ -127,7 +127,7 @@ export function ProductSidebar() {
                   </p>
 
                   <p className="text-sm font-bold text-[#c9a84c] mt-1">
-                    ₹{product.price.toLocaleString()}
+                    ₹{product.originalPrice || "00"}
                   </p>
                 </div>
               </div>
