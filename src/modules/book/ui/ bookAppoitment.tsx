@@ -64,6 +64,7 @@ export default function BookAppointmentPage() {
   /* ---------- Handlers ---------- */
   const appointment = useAppointmentProducts();
   const createAppointment = useCreateAppointment();
+  const id = sessionStorage.getItem("no")
   const { toast } = useToast();
 
   // Find the selected slot's slotCode from the API slots
@@ -102,6 +103,7 @@ export default function BookAppointmentPage() {
         date: selectedDateString,
         slotCode: selectedSlotCode as "MORNING" | "EVENING" | "NIGHT",
         productIds: appointment.ids,
+        referralCode: id ?? "",
       });
 
       // Success
