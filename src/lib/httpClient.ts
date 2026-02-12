@@ -7,6 +7,7 @@ const KEY = {
   token: "token",
   email: "email",
   sessionId: "sessionId",
+  no: "no",
 } as const;
 
 const isBrowser = () => typeof window !== "undefined";
@@ -18,12 +19,13 @@ export const auth = {
   getEmail: () => (isBrowser() ? sessionStorage.getItem(KEY.email) : null),
   getSessionId: () => (isBrowser() ? sessionStorage.getItem(KEY.sessionId) : null), 
 
-  setAuth: (data: { accessToken: string; refreshToken: string; email?: string; sessionId?: string }) => {
+  setAuth: (data: { accessToken: string; refreshToken: string; email?: string; sessionId?: string | null; no?: string | null }) => {
     if (!isBrowser()) return;
     sessionStorage.setItem(KEY.accessToken, data.accessToken);
     sessionStorage.setItem(KEY.refreshToken, data.refreshToken);
     if (data.sessionId) sessionStorage.setItem(KEY.sessionId, data.sessionId);
     if (data.email) sessionStorage.setItem(KEY.email, data.email);
+    if (data.no) sessionStorage.setItem(KEY.no, data.no);
     console.log("data", data);
   },
 

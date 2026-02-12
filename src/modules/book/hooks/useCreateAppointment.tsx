@@ -5,6 +5,7 @@ export interface CreateAppointmentPayload {
   date: string; // Format: YYYY-MM-DD
   slotCode: "MORNING" | "EVENING" | "NIGHT";
   productIds: string[];
+  referralCode: string;
 }
 
 export interface CreateAppointmentResponse {
