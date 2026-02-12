@@ -9,20 +9,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import PriceTicker from "./PriceTicker";
 import { useRouter } from "next/navigation";
+import useGetMe from "@/hooks/useGetMe";
+import { getSessionItem, setSessionItem } from "@/lib/sessionStorage";
 
 const Header = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: me, isFetching } = useGetMe(isLoggedIn);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("accessToken");
+    const token = getSessionItem("accessToken");
+    setIsLoggedIn(!!token);
+
     setIsLoggedIn(!!token);
 
     // Sync across tabs (optional but good)
     const handleStorageChange = () => {
-      const token = sessionStorage.getItem("accessToken");
+      const token = getSessionItem("accessToken");
       setIsLoggedIn(!!token);
     };
 
@@ -30,6 +35,13 @@ const Header = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
+  console.log("me", me, isFetching);
+  useEffect(() => {
+    if (isLoggedIn && !isFetching && !me) {
+      setSessionItem("no", me?.referralCode);
+    }
+    // Token exists but fetching is done and no user data, so likely invalid token
+  }, [isLoggedIn, isFetching, me]);
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Collections", href: "/catalogue" },
@@ -98,7 +110,7 @@ const Header = () => {
                 aria-label="User profile"
                 className=" p-2 text-primary-foreground/90 hover:text-primary-foreground  bg-white/10 hover:border-1 border-gray-300/10 rounded"
               >
-                <User  className="w-5 h-5"  />
+                <User className="w-5 h-5" />
               </button>
             ) : (
               <Button

@@ -16,6 +16,7 @@ import { useCreateAppointment } from "../hooks/useCreateAppointment";
 import { useToast } from "@/hooks/use-toast";
 import Lottie from "lottie-react";
 import sucess from "../../../../public/lottie/sucess.json";
+import { getSessionItem } from "@/lib/sessionStorage";
 /* ----------------------------- Helpers ----------------------------- */
 
 function generateDates(count: number) {
@@ -48,12 +49,12 @@ export default function BookAppointmentPage() {
   const dates = useMemo(() => generateDates(14), []);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("accessToken");
+    const token = getSessionItem("accessToken");
     setIsLoggedIn(!!token);
 
     // Sync across tabs (optional but good)
     const handleStorageChange = () => {
-      const token = sessionStorage.getItem("accessToken");
+      const token = getSessionItem("accessToken");
       setIsLoggedIn(!!token);
     };
 
@@ -73,11 +74,12 @@ export default function BookAppointmentPage() {
     date: selectedDateString || "",
     enabled: selectedDateString !== null,
   });
+  console.log("Available slots for selected date:", slots);
 
   /* ---------- Handlers ---------- */
   const appointment = useAppointmentProducts();
   const createAppointment = useCreateAppointment();
-  const id = sessionStorage.getItem("no")
+  const id = getSessionItem("no");
   const { toast } = useToast();
 
   // Find the selected slot's slotCode from the API slots

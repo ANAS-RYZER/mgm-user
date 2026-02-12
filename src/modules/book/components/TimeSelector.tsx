@@ -30,18 +30,33 @@ export type TimeSlotPeriod = (typeof timeSlots)[number]["id"];
 
 function mapSlots(apiSlots: any[]) {
   return apiSlots.map((slot) => {
-    const slotId = slot.slotCode.toLowerCase(); // MORNING → morning
+    const slotId = slot.slotCode.toLowerCase();
     const timeSlotTemplate = timeSlots.find((ts) => ts.id === slotId);
-    
+
+    const availabilityRatio = slot.availableCount / slot.maxBookings;
+
+    let status: "high" | "medium" | "low" | "full";
+
+    if (!slot.isAvailable || slot.availableCount === 0) {
+      status = "full";
+    } else if (availabilityRatio > 0.6) {
+      status = "high";
+    } else if (availabilityRatio > 0.3) {
+      status = "medium";
+    } else {
+      status = "low";
+    }
+
     return {
       id: slotId,
       label: slot.slotCode.charAt(0) + slot.slotCode.slice(1).toLowerCase(),
       range: slot.time,
-      icon: timeSlotTemplate?.icon || Sun, // Fallback to Sun if not found
+      icon: timeSlotTemplate?.icon || Sun,
       maxBookings: slot.maxBookings,
       bookedCount: slot.bookedCount,
       availableCount: slot.availableCount,
       isAvailable: slot.isAvailable && slot.availableCount > 0,
+      status,
     };
   });
 }
@@ -49,7 +64,7 @@ function mapSlots(apiSlots: any[]) {
 interface TimeSlotSelectorProps {
   selectedPeriod: TimeSlotPeriod | null;
   onPeriodSelect: (period: TimeSlotPeriod) => void;
-  slots : any
+  slots: any;
 }
 
 export function TimeSlotSelector({
@@ -57,7 +72,6 @@ export function TimeSlotSelector({
   onPeriodSelect,
   slots,
 }: TimeSlotSelectorProps) {
-
   const mappedSlots = useMemo(() => mapSlots(slots || []), [slots]);
 
   return (
@@ -70,12 +84,12 @@ export function TimeSlotSelector({
             label: slot.label,
             range: slot.range,
             icon: slot.icon,
-            
           }}
           data={slot}
+          status={slot.status}
           isSelected={selectedPeriod === slot.id}
           disabled={!slot.isAvailable}
-          onSelect={() => onPeriodSelect(slot.id)}   
+          onSelect={() => onPeriodSelect(slot.id)}
         />
       ))}
     </div>
