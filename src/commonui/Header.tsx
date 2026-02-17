@@ -37,7 +37,7 @@ const Header = () => {
 
   useEffect(() => {
     if (isLoggedIn && !isFetching && me) {
-      setSessionItem("no", me?.referralCode);
+      setSessionItem("no", me?.refId);
     }
     // Token exists but fetching is done and no user data, so likely invalid token
   }, [isLoggedIn, isFetching, me]);
