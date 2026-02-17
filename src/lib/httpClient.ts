@@ -26,7 +26,6 @@ export const auth = {
     if (data.sessionId) sessionStorage.setItem(KEY.sessionId, data.sessionId);
     if (data.email) sessionStorage.setItem(KEY.email, data.email);
     if (data.no) sessionStorage.setItem(KEY.no, data.no);
-    console.log("data", data);
   },
 
   setSignupSession: (data: { token: string; email: string }) => {
@@ -199,13 +198,11 @@ api.interceptors.response.use(
           const refreshToken = sessionStorage.getItem("refreshToken") 
           const sessionId = sessionStorage.getItem("sessionId")
           if (!refreshToken) {
-            console.log("No refresh token found. Redirecting to login.");
-            console.error("refresh token not found", refreshToken);
-            // return handleLogout();
+          
+            return handleLogout();
           }
 
           const data = await refreshAccessToken( refreshToken as string  ,sessionId as string );
-         console.log(data , "data")
 
           // Store in the same location it was retrieved from
           const storage = sessionStorage.getItem("refreshToken") ? sessionStorage : localStorage;

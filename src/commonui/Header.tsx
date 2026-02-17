@@ -35,9 +35,8 @@ const Header = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  console.log("me", me, isFetching);
   useEffect(() => {
-    if (isLoggedIn && !isFetching && !me) {
+    if (isLoggedIn && !isFetching && me) {
       setSessionItem("no", me?.referralCode);
     }
     // Token exists but fetching is done and no user data, so likely invalid token

@@ -14,6 +14,7 @@ import { scaleInVariants } from "@/lib/animations";
 import { auth } from "@/lib/httpClient";
 import { useResendOtp } from "@/modules/otp/hooks/resendOtp";
 import { useVerifyOtp } from "@/modules/otp/hooks/verifyOtp";
+import { setSessionItem } from "@/lib/sessionStorage";
 
 const RESEND_COOLDOWN = 60;
 
@@ -50,11 +51,20 @@ function OtpVerificationContent() {
         setCanResend(false);
         setOtp(Array(6).fill(""));
         inputsRef.current[0]?.focus();
-        toast({ title: "Code sent", description: "A new verification code has been sent to your email." });
+        toast({
+          title: "Code sent",
+          description: "A new verification code has been sent to your email.",
+        });
       },
       onError: (err: unknown) => {
-        const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message ?? "Failed to resend code.";
-        toast({ title: "Resend failed", description: msg, variant: "destructive" });
+        const msg =
+          (err as { response?: { data?: { message?: string } } })?.response
+            ?.data?.message ?? "Failed to resend code.";
+        toast({
+          title: "Resend failed",
+          description: msg,
+          variant: "destructive",
+        });
       },
     });
   };
@@ -85,7 +95,10 @@ function OtpVerificationContent() {
     const pastedData = e.clipboardData.getData("text").slice(0, 6);
     if (!/^\d+$/.test(pastedData)) return;
     const digits = pastedData.split("");
-    const newOtp = [...digits, ...Array(6 - digits.length).fill("")] as string[];
+    const newOtp = [
+      ...digits,
+      ...Array(6 - digits.length).fill(""),
+    ] as string[];
     setOtp(newOtp);
     const focusIndex = Math.min(digits.length, 6) - 1;
     setTimeout(() => inputsRef.current[focusIndex]?.focus(), 0);
@@ -96,22 +109,36 @@ function OtpVerificationContent() {
     verifyOtp(
       { otp: enteredOtp },
       {
-        onSuccess: () => {
-          toast({ title: "Verified", description: "You have been signed in successfully." });
+        onSuccess: (res) => {
+          toast({
+            title: "Verified",
+            description: "You have been signed in successfully.",
+          });
+          setSessionItem("sessionId", res?.sessionId || ""); // Store new sessionId if provided
+
           router.push("/");
         },
         onError: (err: unknown) => {
-          const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message ?? "Invalid or expired code.";
-          toast({ title: "Verification failed", description: msg, variant: "destructive" });
+          const msg =
+            (err as { response?: { data?: { message?: string } } })?.response
+              ?.data?.message ?? "Invalid or expired code.";
+          toast({
+            title: "Verification failed",
+            description: msg,
+            variant: "destructive",
+          });
         },
-      }
+      },
     );
   };
 
   const isOtpIncomplete = otp.some((d) => d === "");
 
   return (
-    <AnimatedPage className="min-h-screen flex" isLoading={isPending || isResending}>
+    <AnimatedPage
+      className="min-h-screen flex"
+      isLoading={isPending || isResending}
+    >
       <div className="flex-1 flex items-center justify-center p-8 bg-gradient-mgm text-primary-foreground relative">
         <Button
           type="button"
@@ -180,7 +207,9 @@ function OtpVerificationContent() {
           </Button>
 
           <div className="mt-8 flex flex-col items-center w-[78%] gap-2">
-            <p className="text-primary-foreground/80">Didn&apos;t receive the code?</p>
+            <p className="text-primary-foreground/80">
+              Didn&apos;t receive the code?
+            </p>
             {!canResend ? (
               <p className="text-primary-foreground/80">
                 Resend OTP in <span className="font-semibold">{timeLeft}s</span>
@@ -233,9 +262,7 @@ export default function OtpVerification() {
   return (
     <Suspense
       fallback={
-        <AnimatedPage className="min-h-screen flex items-center justify-center" >
-         
-        </AnimatedPage>
+        <AnimatedPage className="min-h-screen flex items-center justify-center"></AnimatedPage>
       }
     >
       <OtpVerificationContent />

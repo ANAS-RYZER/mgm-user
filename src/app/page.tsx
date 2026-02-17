@@ -108,7 +108,7 @@ export default function HomePage() {
             </motion.div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product, index) => (
+              {featuredProducts?.map((product, index) => (
                 <ProductCard key={product.id} product={product} index={index} />
               ))}
             </div>

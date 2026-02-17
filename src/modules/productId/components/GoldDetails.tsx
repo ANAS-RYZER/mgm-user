@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Scale } from 'lucide-react';
 import { Product } from '@/lib/product';
 function GoldDetails({product}: {product: Product}) {
-  console.log(product , "product"   )
 
   return (
     <div>

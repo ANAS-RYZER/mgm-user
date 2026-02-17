@@ -74,7 +74,6 @@ export default function BookAppointmentPage() {
     date: selectedDateString || "",
     enabled: selectedDateString !== null,
   });
-  console.log("Available slots for selected date:", slots);
 
   /* ---------- Handlers ---------- */
   const appointment = useAppointmentProducts();

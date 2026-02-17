@@ -1,10 +1,12 @@
 // utils/sessionStorage.ts
 
 export const setSessionItem = (key: string, value: any) => {
-  if (typeof window === "undefined") return; // SSR safety
+  if (typeof window === "undefined") return;
 
   try {
-    const serialized = JSON.stringify(value);
+    const serialized =
+      typeof value === "string" ? value : JSON.stringify(value);
+
     sessionStorage.setItem(key, serialized);
   } catch (error) {
     console.error("SessionStorage set error:", error);

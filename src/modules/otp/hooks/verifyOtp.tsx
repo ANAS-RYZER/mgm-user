@@ -10,7 +10,7 @@ export const useVerifyOtp = () =>
       const token = auth.getToken();
       if (!token) throw new Error("No verification token");
       const { data } = await apiClient.post("/auth/verify-otp", { token, otp: payload.otp });
-      return data as { accessToken: string; refreshToken: string };
+      return data as { accessToken: string; refreshToken: string,sessionId?: string };
     },
     onSuccess: (data) => {
       auth.setAuth({ accessToken: data.accessToken, refreshToken: data.refreshToken });

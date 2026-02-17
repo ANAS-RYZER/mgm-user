@@ -34,7 +34,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "storage.googleapis.com",
-        pathname: "/mgm_dev/product/**",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "example.com",
+        pathname: "/**",
       },
     ],
   },

@@ -24,9 +24,7 @@ export function DashboardSidebar({
   onSignOut,
   profile,
   }: DashboardSidebarProps) {
-  console.log(profile , "profile in dashboard sidebar  ");
   const profileData = profile as any;
-  console.log(profileData , "profile data in dashboard sidebar  ");
   return (
     <motion.aside
       className={`fixed top-0 left-0 h-full w-72 bg-gradient-mgm text-primary-foreground border-r border-border/20 z-50

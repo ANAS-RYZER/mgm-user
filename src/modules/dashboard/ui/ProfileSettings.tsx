@@ -62,10 +62,8 @@ const ProfileSettings = ({ profile }: { profile: any }) => {
       };
       
       const uploadUrl = await getImageURL(fileData);
-      console.log("uploadUrl", uploadUrl);
       const uploadUrlLink = uploadUrl.data.uploadUrl;
       const s3ResponseId = uploadUrl.data.assetS3Object?._id;
-      console.log("S3 Response ID", uploadUrlLink);
       const response = await fetch(uploadUrlLink, {
         method: 'PUT',
         body: file,
@@ -73,11 +71,8 @@ const ProfileSettings = ({ profile }: { profile: any }) => {
           'Content-Type': file.type,
         },
       });
-      console.log("Upload response", response);
 
       const responseS3Url = await apiClient.get(`/assets/${s3ResponseId}/url`);
-      console.log("S3 URL response", responseS3Url);
-      console.log("Image URL:", responseS3Url.data.data.url);
       const image = responseS3Url.data.data.url;
       setSelectedAvatar(image);
     }

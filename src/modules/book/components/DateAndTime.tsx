@@ -22,7 +22,6 @@ export function DateSelector({
   slot
 }: DateSelectorProps) {
   const todayString = new Date().toDateString();
-  console.log(slot , "date and slot")
 
   return (
     <div className="grid grid-cols-7 gap-2 overflow-x-auto pb-2">
