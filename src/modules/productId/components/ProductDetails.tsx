@@ -79,7 +79,7 @@ export default function ProductDetails({
           </span>
         </div>
 
-        <p className="text-muted-foreground text-lg">{description}</p>
+        <p className="text-muted-foreground text-lg truncate">{description}</p>
       </div>
 
       {/* Quick Specs */}
@@ -151,3 +151,4 @@ export default function ProductDetails({
     </motion.div>
   );
 }
+

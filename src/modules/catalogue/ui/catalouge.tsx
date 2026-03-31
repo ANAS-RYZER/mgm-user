@@ -19,6 +19,8 @@ import {
   METALS,
   COLLECTIONS,
 } from "@/modules/productId/hooks/useCatalogueFilters";
+import { useSearchParams } from "next/navigation";
+import MGMLoader from "@/components/MGMLoader";
 
 const SEARCH_DEBOUNCE_MS = 400;
 const DEFAULT_MAX_PRICE = 300000;
@@ -33,8 +35,9 @@ function normalizeMetalToPurity(metal: string): string {
 }
 
 export default function Catalogue() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const category = useSearchParams().get("category") || "";
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -45,7 +48,9 @@ export default function Catalogue() {
   const [sortBy, setSortBy] = useState("featured");
   const [viewMode] = useState<"grid" | "list">("grid");
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([
+    category,
+  ]);
   const [selectedMetals, setSelectedMetals] = useState<string[]>([]);
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -171,7 +176,7 @@ export default function Catalogue() {
   }, [fetchProducts]);
 
   return (
-    <AnimatedPage isLoading={isLoading} className="min-h-screen bg-background">
+    <AnimatedPage isLoading={false} className="min-h-screen bg-background">
       <Header />
 
       <main className="pb-20">
@@ -213,14 +218,9 @@ export default function Catalogue() {
 
             <div className="flex-1 min-w-0">
               {isLoading ? (
-                <AnimatedPage
-                  isLoading={true}
-                  className="min-h-screen bg-background"
-                >
-                  <div className="py-12 text-center text-muted-foreground">
-                    Loading products…
-                  </div>
-                </AnimatedPage>
+                <div>
+                  <MGMLoader />
+                </div>
               ) : error ? (
                 <div className="py-12 text-center">
                   <p className="text-destructive mb-2">
