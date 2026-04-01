@@ -8,19 +8,26 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import PriceTicker from "./PriceTicker";
+import { useRouter } from "next/navigation";
+import useGetMe from "@/hooks/useGetMe";
+import { getSessionItem, setSessionItem } from "@/lib/sessionStorage";
 
 const Header = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: me, isFetching } = useGetMe(isLoggedIn);
 
   useEffect(() => {
-    const token = sessionStorage.getItem("accessToken");
+    const token = getSessionItem("accessToken");
+    setIsLoggedIn(!!token);
+
     setIsLoggedIn(!!token);
 
     // Sync across tabs (optional but good)
     const handleStorageChange = () => {
-      const token = sessionStorage.getItem("accessToken");
+      const token = getSessionItem("accessToken");
       setIsLoggedIn(!!token);
     };
 
@@ -28,7 +35,12 @@ const Header = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-
+  useEffect(() => {
+    if (isLoggedIn && !isFetching && me) {
+      setSessionItem("no", me?.refId);
+    }
+    // Token exists but fetching is done and no user data, so likely invalid token
+  }, [isLoggedIn, isFetching, me]);
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Collections", href: "/catalogue" },
@@ -38,7 +50,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 bg-gradient-mgm text-primary-foreground backdrop-blur-md">
       {/* Live Price Ticker */}
-      <PriceTicker />
+      {/* <PriceTicker /> */}
 
       {/* Main Header */}
       <div className="container mx-auto px-4">
@@ -57,12 +69,15 @@ const Header = () => {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <img
-              src="/images/mgm.svg"
-              alt="MGM Mega Gold Mart"
-              className="h-16 w-auto max-w-[200px] object-contain"
-            />
+          <Link href="/" className="flex items-center gap-2 p-2">
+            <div className="relative h-16 w-16">
+              <Image
+                src="/images/mgm.svg"
+                alt="MGM Mega Gold Mart"
+                className="absolute object-contain"
+                fill
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -71,7 +86,7 @@ const Header = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors font-body tracking-wide"
+                className="text-primary-foreground/90 hover:text-primary-foreground transition-colors  tracking-wide"
               >
                 {link.name}
               </Link>
@@ -89,22 +104,22 @@ const Header = () => {
             </button>
 
             {isLoggedIn ? (
-        <Link
-          href="/dashboard"
-          aria-label="User profile"
-          className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
-        >
-          <User className="w-5 h-5" />
-        </Link>
-      ) : (
-        <Link
-          href="/signin"
-          aria-label="Sign in"
-          className="p-2 text-primary-foreground/90 hover:text-primary-foreground"
-        >
-          Login
-        </Link>
-      )}
+              <button
+                onClick={() => router.push("/dashboard")}
+                aria-label="User profile"
+                className=" p-2 text-primary-foreground/90 hover:text-primary-foreground  bg-white/10 hover:border-1 border-gray-300/10 rounded"
+              >
+                <User className="w-5 h-5" />
+              </button>
+            ) : (
+              <Button
+                aria-label="Sign in"
+                onClick={() => router.push("/signin")}
+                className="py-2 px-4 text-primary-foreground/90 hover:text-primary-foreground hover:border border-black/20 bg-white/10"
+              >
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </div>

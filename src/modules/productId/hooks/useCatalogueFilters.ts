@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import type { Product } from "@/lib/products";
 
-export const METALS = ["24K Gold", "22K Gold"];
+export const METALS = ["24K", "22K"];
 
 export const COLLECTIONS = [
   { id: "lightweight", label: "Lightweight Jewellery" },

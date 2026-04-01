@@ -29,32 +29,32 @@ const Wishlist = ({ profile: _profile }: { profile: any }) => {
   }, []);
 
   // Use actual catalogue products for wishlist demonstration
-  const mockWishlistItems = products
-    .filter((product) => defaultWishlistIds.includes(product.id))
-    .map((product) => ({
-      ...product,
-      price: formatPrice(product.price),
-      originalPrice: product.originalPrice ? formatPrice(product.originalPrice) : undefined,
-    }));
+  // const mockWishlistItems = products
+  //   .filter((product) => defaultWishlistIds.includes(product.id))
+  //   .map((product) => ({
+  //     ...product,
+  //     price: formatPrice(product.price),
+  //     originalPrice: product.originalPrice ? formatPrice(product.originalPrice) : undefined,
+  //   }));
 
-  const wishlistItems = mockWishlistItems; // Always show mock data for demonstration
+  // const wishlistItems = mockWishlistItems; // Always show mock data for demonstration
 
   const removeFromWishlist = (productId: string | number) => {
     setItemToRemove(Number(productId));
     setShowRemoveDialog(true);
   };
 
-  const confirmRemove = () => {
-    if (itemToRemove !== null) {
-      remove(itemToRemove);
-      toast({
-        title: "Removed from wishlist",
-        description: "Item has been removed from your wishlist",
-      });
-      setShowRemoveDialog(false);
-      setItemToRemove(null);
-    }
-  };
+  // const confirmRemove = () => {
+  //   if (itemToRemove !== null) {
+  //     remove(itemToRemove as string);
+  //     toast({
+  //       title: "Removed from wishlist",
+  //       description: "Item has been removed from your wishlist",
+  //     });
+  //     setShowRemoveDialog(false);
+  //     setItemToRemove(null);
+  //   }
+  // };
 
   const viewProductDetails = (product: any) => {
     setSelectedProduct(product);
@@ -67,11 +67,11 @@ const Wishlist = ({ profile: _profile }: { profile: any }) => {
       <div className="bg-gradient-mgm rounded-xl p-4 text-primary-foreground shadow-lg">
         <h1 className="font-display text-2xl font-bold mb-1">My Wishlist</h1>
         <p className="text-primary-foreground/90 text-sm">
-          {wishlistItems.length} items saved for later
+          {/* {wishlistItems.length} items saved for later */}
         </p>
       </div>
 
-      {wishlistItems.length === 0 ? (
+      {/* {wishlistItems.length === 0 ? (
         <Card className="border-border/50 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
           <CardContent className="p-8 text-center">
             <Heart className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
@@ -155,7 +155,7 @@ const Wishlist = ({ profile: _profile }: { profile: any }) => {
             </motion.div>
           ))}
         </div>
-      )}
+      )} */}
 
       {/* Remove Confirmation Dialog */}
       {showRemoveDialog && (
@@ -187,7 +187,7 @@ const Wishlist = ({ profile: _profile }: { profile: any }) => {
                 </Button>
                 <Button
                   variant="destructive"
-                  onClick={confirmRemove}
+                  // onClick={confirmRemove}
                 >
                   Remove Item
                 </Button>

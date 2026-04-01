@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Scale } from 'lucide-react';
 import { Product } from '@/lib/product';
 function GoldDetails({product}: {product: Product}) {
-  console.log(product , "product"   )
 
   return (
     <div>
@@ -20,7 +19,7 @@ function GoldDetails({product}: {product: Product}) {
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                           {[
-                            { label: "Karatage", value: product.goldSpecs.karat },
+                            { label: "Karat", value: product.goldSpecs.karat },
                             { label: "Gold Weight", value: product.goldSpecs.goldWeight  },
                             { label: "Purity", value: product.goldSpecs.purity },
                             { label: "Making Charges", value: product.goldSpecs.makingCharges || "12%" },

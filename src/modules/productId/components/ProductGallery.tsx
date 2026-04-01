@@ -118,11 +118,11 @@ export default function ProductGallery({
               <Sparkles className="w-3 h-3" /> Best Seller
             </span>
           )}
-          {discount > 0 && (
+          {/* {discount > 0 && (
             <span className="bg-destructive text-destructive-foreground text-xs px-4 py-1.5 rounded-full font-semibold shadow-md">
               {discount}% OFF
             </span>
-          )}
+          )} */}
         </div>
 
         {/* Actions overlay */}

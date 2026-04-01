@@ -23,7 +23,7 @@ const feature = () => {
           { icon : Gem, title: "Polishing & Steaming", desc: "Polishing & Steaming" },
           { icon : Wrench, title: "Jewellery Repair", desc: "Jewellery Repair" },
           ,
-        ].map((f : any ) => (
+        ]?.map((f : any ) => (
           <>
           <motion.div
             key={f.title}

@@ -53,7 +53,7 @@ export default function SignInPage() {
               <Image src="/mgm-white-gold.svg" alt="MGM" className="h-28 w-auto" width={160} height={160} priority />
             </Link>
           </div>
-          <h1 className="text-3xl font-bold mb-1.5 tracking-tight">Welcome Back</h1>
+          <h1 className="text-3xl font-semibold mb-1.5 tracking-tight">Welcome Back</h1>
           <p className="text-primary-foreground/80 text-sm mb-8">Sign in to access your account and orders</p>
 
           <div className="rounded-2xl border border-primary-foreground/15 shadow-xl shadow-black/20 px-6 py-8 sm:px-8 bg-[var(--auth-card-bg)]">
@@ -70,7 +70,7 @@ export default function SignInPage() {
                     placeholder="you@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="auth-input h-12 pl-11 pr-4 rounded-xl border-primary-foreground/25 text-primary-foreground font-semibold placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"
+                    className="auth-input h-12 pl-11 pr-4 rounded-xl border-primary-foreground/25 text-primary-foreground  placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"
                     required
                   />
                 </div>

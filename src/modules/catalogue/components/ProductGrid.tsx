@@ -29,15 +29,15 @@ export function ProductGrid({ products, viewMode }: ProductGridProps) {
           className="group"
         >
           {viewMode === "grid" ? (
-            <div className="relative transform transition-all duration-300 hover:scale-105 hover:-translate-y-2">
+            <div className="relative transform transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 gap-2">
               <ProductCard product={product} index={index} />
               {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none" />
+              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none" />
               <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <Button className="w-full bg-gold hover:bg-gold-dark text-foreground shadow-lg">
+                <Button className="w-full bg-gold hover:bg-gold-dark text-foreground shadow-lg" onClick={()=> `product/${product.id}`}>
                   Quick View
                 </Button>
-              </div>
+              </div> */}
             </div>
           ) : (
             <ProductListItem product={product} />

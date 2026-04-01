@@ -26,11 +26,11 @@ export function CatalogueHero() {
           <span className="inline-block text-gold font-body tracking-widest uppercase text-sm mb-4">
             Traditional South Indian Collection
           </span>
-          <h1 className="font-elegant text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
+          <h1 className=" text-4xl md:text-5xl lg:text-6xl font-semibold text-primary-foreground mb-6 leading-tight">
             Heritage Jewelry
             <span className="block text-gold-light">Timeless Craftsmanship</span>
           </h1>
-          <p className="text-primary-foreground/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-primary-foreground/90 text-md md:text-md max-w-2xl mx-auto leading-relaxed">
             Discover our exquisite collection of traditional South Indian
             jewelry, featuring intricate designs inspired by centuries of
             cultural heritage and craftsmanship.

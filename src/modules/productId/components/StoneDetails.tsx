@@ -47,6 +47,20 @@ function StoneDetails({product}: {product: Product}) {
                 </h4>
 
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                {stone.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25, duration: 0.2 }}
+                    >
+                      <p className="text-xs text-slate-400 mb-1 font-semibold uppercase">
+                        Name
+                      </p>
+                      <p className="font-bold text-base text-slate-900">
+                        {stone.name}
+                      </p>
+                    </motion.div>
+                  )}
                   {stone.carat && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
@@ -103,6 +117,7 @@ function StoneDetails({product}: {product: Product}) {
                       </p>
                     </motion.div>
                   )}
+                 
                   {stone.color && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}

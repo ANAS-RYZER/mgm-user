@@ -4,7 +4,6 @@ import { Sparkles, Heart, Calendar, ArrowRight, TrendingUp } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { products } from "@/data/products";
 import Image from "next/image";
 
 interface DashboardHomeProps {
@@ -14,7 +13,6 @@ interface DashboardHomeProps {
 
 const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) => {
 
-  const featuredProducts = products.slice(0, 4);
 
   const quickActions = [
     {
@@ -120,7 +118,7 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
           </Link>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* //  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {featuredProducts.map((product, index) => (
               <motion.div
                 key={product.id}
@@ -146,7 +144,7 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
                 </Link>
               </motion.div>
             ))}
-          </div>
+          </div> */}
         </CardContent>
       </Card>
     </div>

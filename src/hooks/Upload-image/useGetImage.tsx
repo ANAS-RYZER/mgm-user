@@ -22,11 +22,8 @@ const useGetImageURL = () => {
         setImageURL(null)
         try {
             const response = await apiClient.post('/assets/upload-single', fileData)
-            console.log("response", response.data);
             setImageURL(response.data.uploadUrl)
             setS3Response(response.data?.assetS3Object?._id);
-            console.log(imageURL ," s3Response Imahge");
-            console.log("fileData in useGetImageURL", s3Response);
             return response.data;
 
         } catch (error) {

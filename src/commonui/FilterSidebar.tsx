@@ -35,18 +35,16 @@ const FilterSidebar: React.FC<Props> = ({
   selectedMetals,
   toggleMetal,
 
-  priceRange,
   setPriceRange,
   maxPrice = 300000,
   clearFilters,
   activeFiltersCount = 0,
-  formatPrice = (n: number) => `₹${n.toLocaleString()}`,
 }) => {
   return (
     <div 
       role="region" 
       aria-labelledby="filters-heading" 
-      className="rounded-2xl border border-border/40 bg-gradient-to-br from-cream/90 to-background/95 backdrop-blur-sm p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300"
+      className="rounded-xl border border-border/40 bg-gradient-to-br from-cream/90 to-background/95 backdrop-blur-sm p-8 overflow-y-auto transition-shadow duration-300"
     >
       {/* Categories */}
       <div className="space-y-5 mb-8">
@@ -124,38 +122,7 @@ const FilterSidebar: React.FC<Props> = ({
           </h4>
         </div>
         
-        {/* Price Display Cards */}
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          <div className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 hover:border-primary/50 transition-colors duration-200">
-            <p className="text-xs text-muted-foreground mb-1 font-medium uppercase tracking-wide">
-              Minimum
-            </p>
-            <p className="text-base font-bold text-primary">
-              {formatPrice(priceRange[0] ?? 0)}
-            </p>
-          </div>
-          <div className="bg-background/80 backdrop-blur-sm border border-border/50 rounded-xl p-4 hover:border-primary/50 transition-colors duration-200">
-            <p className="text-xs text-muted-foreground mb-1 font-medium uppercase tracking-wide">
-              Maximum
-            </p>
-            <p className="text-base font-bold text-primary">
-              {formatPrice(priceRange[1] ?? 0)}
-            </p>
-          </div>
-        </div>
 
-        {/* Slider with Enhanced Styling (two thumbs: min + max) */}
-        <div className="px-1 py-4">
-          <Slider 
-            value={[priceRange[0] ?? 0, priceRange[1] ?? maxPrice]} 
-            onValueChange={(v) => setPriceRange(v as [number, number])} 
-            min={0}
-            max={maxPrice} 
-            step={5000} 
-            className="mb-2" 
-            aria-label="Price range"
-          />
-        </div>
 
         {/* Quick Price Buttons */}
         <div className="grid grid-cols-2 gap-2">
@@ -163,7 +130,7 @@ const FilterSidebar: React.FC<Props> = ({
             variant="outline"
             size="sm"
             onClick={() => setPriceRange([0, 50000])}
-            className="border-border/40 hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 text-xs h-9"
+            className=" border-border/40  hover:bg-primary/5 hover:border-primary/50 transition-all duration-200 text-xs h-9"
           >
             Under ₹50k
           </Button>

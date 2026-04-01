@@ -10,7 +10,7 @@ interface AnimatedPageProps {
 const AnimatedPage = ({ children, className = "", isLoading = false }: AnimatedPageProps) => {
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-gradient-mgm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-gradient-mgm  z-50 flex items-center justify-center">
         <div className="text-center">
           <div className="absolute mb-8 inset-0 flex items-center justify-center">
               <Image
