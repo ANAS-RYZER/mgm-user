@@ -19,7 +19,6 @@ export function DateSelector({
   dates,
   selectedDate,
   onSelect,
-  slot
 }: DateSelectorProps) {
   const todayString = new Date().toDateString();
 

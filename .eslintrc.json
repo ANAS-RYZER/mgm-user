@@ -2,6 +2,7 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "@next/next/no-img-element": "off",
+    "react/jsx-key": "error",
     "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "ignoreRestSiblings": true }]
   }
 }

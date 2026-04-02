@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
-import { products, formatPrice, Product } from "@/data/products";
+import { Product } from "@/data/products";
 import Image from "next/image";
 
 const defaultWishlistIds = ["1", "2", "3", "4", "5"];
