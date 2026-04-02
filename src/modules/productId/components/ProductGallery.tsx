@@ -21,7 +21,6 @@ export default function ProductGallery({
   productName,
   isNew,
   isBestSeller,
-  discount,
   selectedImageIndex,
   onSelectImageIndex,
   onShareClick,

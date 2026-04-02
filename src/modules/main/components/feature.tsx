@@ -1,7 +1,6 @@
 import { staggerContainer, staggerItem } from '@/lib/animations';
 import { motion } from 'framer-motion';
 import { Award, Gem, Shield, Wrench } from 'lucide-react';
-import React from 'react'
 
 const feature = () => {
   return (
@@ -20,11 +19,9 @@ const feature = () => {
             desc: "Certified Purity",
           },
           { icon: Award, title: "Premium Quality", desc: "Since 1985" },
-          { icon : Gem, title: "Polishing & Steaming", desc: "Polishing & Steaming" },
-          { icon : Wrench, title: "Jewellery Repair", desc: "Jewellery Repair" },
-          ,
-        ]?.map((f : any ) => (
-          <>
+          { icon: Gem, title: "Polishing & Steaming", desc: "Polishing & Steaming" },
+          { icon: Wrench, title: "Jewellery Repair", desc: "Jewellery Repair" },
+        ].map((f: any) => (
           <motion.div
             key={f.title}
             variants={staggerItem}
@@ -36,7 +33,6 @@ const feature = () => {
               <p className="text-sm text-muted-foreground">{f.desc}</p>
             </div>
           </motion.div>
-          </>
         ))}
       </motion.div>
     </div>

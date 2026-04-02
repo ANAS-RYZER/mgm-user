@@ -14,15 +14,19 @@ export function mapApiProductToProduct(api: ApiProduct): Product {
     color: typeof s.color === "object" && s.color?.value ? s.color.value : undefined,
   }));
 
-  const price = api.discountedPrice && api.discountedPrice > 0 ? api.discountedPrice : api.mrpPrice;
-  const hasDiscount = Boolean(api.discountedPrice && api.discountedPrice > 0);
+  const discountedPrice =
+    api.discountedPrice && api.discountedPrice > 0 ? api.discountedPrice : undefined;
+
+  // `Product.originalPrice` is required (number), so ensure we never return `undefined`.
+  const originalPrice = api.mrpPrice ?? discountedPrice ?? 0;
+  const price = discountedPrice ?? originalPrice;
 
   return {
     id: api._id,
     name: api.name,
     description: api.description ?? "",
     price,
-    originalPrice: hasDiscount ? api.mrpPrice : undefined,
+    originalPrice: Number(originalPrice),
     image: image ?? "",
     images: images.length ? images : undefined,
     category: api.categories ?? "",
