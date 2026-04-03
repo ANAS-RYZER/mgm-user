@@ -1,7 +1,7 @@
 "use client";
 
+import { Suspense } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import ProductCard from "@/commonui/ProductCard";
 import ProductListItem from "./ProductListItem";
 import { Product } from "@/lib/products";
@@ -30,14 +30,13 @@ export function ProductGrid({ products, viewMode }: ProductGridProps) {
         >
           {viewMode === "grid" ? (
             <div className="relative transform transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 gap-2">
-              <ProductCard product={product} index={index} />
-              {/* Hover Overlay */}
-              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none" />
-              <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                <Button className="w-full bg-gold hover:bg-gold-dark text-foreground shadow-lg" onClick={()=> `product/${product.id}`}>
-                  Quick View
-                </Button>
-              </div> */}
+              <Suspense
+                fallback={
+                  <div className="border border-black/10 rounded-xl shadow-sm p-2 h-[420px] animate-pulse bg-muted/40" />
+                }
+              >
+                <ProductCard product={product} index={index} />
+              </Suspense>
             </div>
           ) : (
             <ProductListItem product={product} />

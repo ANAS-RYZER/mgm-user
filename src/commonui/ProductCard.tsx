@@ -15,13 +15,15 @@ interface ProductCardProps {
   index?: number;
 }
 
+const PLACEHOLDER_IMAGE = "/placeholder.svg";
+
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const router = useRouter();
-  const discount = product.originalPrice
-    ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100,
-      )
-    : 0;
+
+  const imageSrc =
+    typeof product.image === "string" && product.image.trim() !== ""
+      ? product.image
+      : PLACEHOLDER_IMAGE;
 
   const searchParams = useSearchParams();
   const isAppointmentMode = searchParams.get("appointment") === "true";
@@ -79,26 +81,13 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
               Best Seller
             </span>
           )}
-          {/* {discount > 0 && (
-              <span className="bg-destructive text-destructive-foreground text-xs px-3 py-1 rounded-full font-medium">
-                {discount}% OFF
-              </span>
-            )} */}
+      
         </div>
 
-        {/* Actions */}
-        {/* <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <WishlistButton productId={product.id} />
-          <button
-            className="p-2 bg-background/90 rounded-full hover:bg-background transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
-            aria-label="Add to cart"
-          >
-            <ShoppingBag className="w-4 h-4" />
-          </button>
-        </div> */}
+    
 
         <Image
-          src={product.image}
+          src={imageSrc}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"

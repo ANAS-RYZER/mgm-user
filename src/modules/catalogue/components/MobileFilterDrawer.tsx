@@ -4,13 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import FilterSidebar from "@/commonui/FilterSidebar";
-import { categories, formatPrice } from "@/lib/products";
+import { formatPrice } from "@/lib/products";
 import { drawerLeftVariants } from "@/lib/animations";
 import { METALS, COLLECTIONS } from "@/modules/productId/hooks/useCatalogueFilters";
 
 interface MobileFilterDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  categories: { id: string; name: string; count?: number }[];
   selectedCategories: string[];
   selectedMetals: string[];
   selectedCollections: string[];
@@ -27,6 +28,7 @@ interface MobileFilterDrawerProps {
 export default function MobileFilterDrawer({
   isOpen,
   onClose,
+  categories,
   selectedCategories,
   selectedMetals,
   selectedCollections,

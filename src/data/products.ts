@@ -1,15 +1,4 @@
-import product1 from "@/assets/product-1.jpg";
-import product2 from "@/assets/product-2.jpg";
-import product3 from "@/assets/product-3.jpg";
-import product4 from "@/assets/product-4.jpg";
-import product5 from "@/assets/product-5.jpg";
-import product6 from "@/assets/product-6.jpg";
-import product7 from "@/assets/product-7.jpg";
-import product8 from "@/assets/product-8.jpg";
-import ringCategory from "@/assets/ring-category.jpg";
-import earringCategory from "@/assets/earring-category.jpg";
-import necklaceCategory from "@/assets/necklace-category.jpg";
-import bangleCategory from "@/assets/bangle-category.jpg";
+
 import { StaticImageData } from "next/dist/shared/lib/image-external";
 
 export interface StoneInfo {
@@ -49,7 +38,6 @@ export interface Category {
   name: string;
   description: string;
   image: string;
-  count: number;
   featured: boolean;
 }
 
@@ -59,7 +47,6 @@ export const categories: Category[] = [
     name: "Rings",
     description: "Exquisite rings from traditional to contemporary designs",
     image: "/assets/ring.png",
-    count: 24,
     featured: true,
   },
   {
@@ -67,7 +54,6 @@ export const categories: Category[] = [
     name: "Necklaces",
     description: "Elegant necklaces and chains for every occasion",
     image: "/assets/necklace.png",
-    count: 18,
     featured: true,
   },
   {
@@ -75,7 +61,6 @@ export const categories: Category[] = [
     name: "Earrings",
     description: "Beautiful earrings from studs to dangling designs",
     image: "/assets/earring.png",
-    count: 32,
     featured: true,
   },
   {
@@ -83,7 +68,6 @@ export const categories: Category[] = [
     name: "Bangles",
     description: "Traditional and modern bangles in gold and diamond",
     image: "/assets/bangles.png",
-    count: 15,
     featured: true,
   },
   {
@@ -91,7 +75,6 @@ export const categories: Category[] = [
     name: "Pendants",
     description: "Intricate pendants and lockets with precious stones",
     image: "/assets/pedanats.png",
-    count: 20,
     featured: false,
   },
   {
@@ -99,7 +82,6 @@ export const categories: Category[] = [
     name: "Bracelets",
     description: "Stylish bracelets for everyday and special occasions",
     image: "/assets/barclet.png",
-    count: 12,
     featured: false,
   },
   {
@@ -107,7 +89,6 @@ export const categories: Category[] = [
     name: "Mangalsutras",
     description: "Traditional mangalsutras with modern designs",
     image: "/assets/manglasutra.png",
-    count: 8,
     featured: false,
   },
   {
@@ -115,7 +96,6 @@ export const categories: Category[] = [
     name: "Chains",
     description: "Gold chains in various thicknesses and styles",
     image: "/assets/chain.png",
-    count: 16,
     featured: false,
   },
 ];

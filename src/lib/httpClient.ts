@@ -121,10 +121,14 @@ export const auth = {
 
 import axios from "axios";
 
+const defaultApiBase = "https://mgm-backend.vercel.app";
+const resolvedBaseUrl = (
+  process.env.NEXT_PUBLIC_API_URL ?? defaultApiBase
+).replace(/\/?$/, "") + "/";
+
 // Create an Axios instance
 export const api = axios.create({
-  // baseURL: "http://localhost:5050/",
-  baseURL: "https://mgm-backend.vercel.app/",
+  baseURL: resolvedBaseUrl,
   headers: {
     "Content-Type": "application/json",
   },

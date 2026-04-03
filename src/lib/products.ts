@@ -47,74 +47,7 @@ export interface Category {
   featured: boolean;
 }
 
-export const categories: Category[] = [
-  {
-    id: "rings",
-    name: "Rings",
-    description: "Exquisite rings from traditional to contemporary designs",
-    image: "/assets/ring.png",
-    count: 24,
-    featured: true,
-  },
-  {
-    id: "necklaces",
-    name: "Necklaces",
-    description: "Elegant necklaces and chains for every occasion",
-    image: "/assets/necklace.png",
-    count: 18,
-    featured: true,
-  },
-  {
-    id: "earrings",
-    name: "Earrings",
-    description: "Beautiful earrings from studs to dangling designs",
-    image: "/assets/earring.png",
-    count: 32,
-    featured: true,
-  },
-  {
-    id: "bangles",
-    name: "Bangles",
-    description: "Traditional and modern bangles in gold and diamond",
-    image: "/assets/bangles.jpg",
-    count: 15,
-    featured: true,
-  },
-  {
-    id: "pendants",
-    name: "Pendants",
-    description: "Intricate pendants and lockets with precious stones",
-    image: "/assets/pedanats.png",
-    count: 20,
-    featured: false,
-  },
-  {
-    id: "bracelets",
-    name: "Bracelets",
-    description: "Stylish bracelets for everyday and special occasions",
-    image: "/assets/barclet.png",
-    count: 12,
-    featured: false,
-  },
-  {
-    id: "mangalsutras",
-    name: "Mangalsutras",
-    description: "Traditional mangalsutras with modern designs",
-    image: "/assets/manglasutra.png",
-    count: 8,
-    featured: false,
-  },
-  {
-    id: "chains",
-    name: "Chains",
-    description: "Gold chains in various thicknesses and styles",
-    image: "/assets/chain.png",
-    count: 16,
-    featured: false,
-  },
-];
-
-
+export const categories: Category[] = [];
 
 export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat("en-IN", {

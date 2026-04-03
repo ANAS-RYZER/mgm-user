@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Carousel,
   CarouselContent,
@@ -8,10 +10,12 @@ import {
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { categories } from "@/lib/products";
+import { categories } from "@/data/products";
 import React from "react";
 
 const ShopByCategory = () => {
+  if (categories.length === 0) return null;
+
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-1">
@@ -33,7 +37,7 @@ const ShopByCategory = () => {
           <Carousel
             opts={{
               align: "start",
-              loop: true,
+              loop: categories.length > 1,
             }}
             className="w-[84%] relative group/carousel"
           >
@@ -66,9 +70,7 @@ const ShopByCategory = () => {
                       <h3 className=" text-lg md:text-xl font-semibold text-foreground">
                         {category.name}
                       </h3>
-                      <p className="text-muted-foreground text-sm">
-                        {category.count} Products
-                      </p>
+                     
                     </div>
                   </motion.div>
                 </CarouselItem>

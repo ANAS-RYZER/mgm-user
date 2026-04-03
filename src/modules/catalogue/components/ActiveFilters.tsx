@@ -3,9 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { COLLECTIONS } from "@/modules/productId/hooks/useCatalogueFilters";
-import { categories, formatPrice } from "@/lib/products";
+import { formatPrice } from "@/lib/products";
 
 interface ActiveFiltersProps {
+  categories: { id: string; name: string; count?: number }[];
   selectedCategories: string[];
   selectedMetals: string[];
   selectedCollections: string[];
@@ -19,6 +20,7 @@ interface ActiveFiltersProps {
 }
 
 export default function ActiveFilters({
+  categories,
   selectedCategories,
   selectedMetals,
   selectedCollections,
@@ -52,7 +54,7 @@ export default function ActiveFilters({
             variant="secondary"
             className="gap-1 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors"
           >
-            {categories.find((c) => c.id === cat)?.name}
+            {categories.find((c) => c.id === cat)?.name ?? cat}
             <button
               onClick={() => toggleCategory(cat)}
               className="ml-1 hover:text-destructive transition-colors"

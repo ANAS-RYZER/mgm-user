@@ -1,9 +1,15 @@
 import type { Product, StoneInfo } from "@/lib/products";
 import type { ApiProduct } from "@/modules/productId/schema/products.types";
 
+const PLACEHOLDER_IMAGE = "/placeholder.svg";
+
 export function mapApiProductToProduct(api: ApiProduct): Product {
-  const image =
+  const rawImage =
     api.image ?? (api.gallery?.length ? api.gallery[0] : "");
+  const image =
+    typeof rawImage === "string" && rawImage.trim() !== ""
+      ? rawImage
+      : PLACEHOLDER_IMAGE;
   const images = api.gallery?.length ? api.gallery : (api.image ? [api.image] : []);
 
   const stones: StoneInfo[] = (api.stoneSpecs ?? []).map((s) => ({
@@ -27,7 +33,7 @@ export function mapApiProductToProduct(api: ApiProduct): Product {
     description: api.description ?? "",
     price,
     originalPrice: Number(originalPrice),
-    image: image ?? "",
+    image,
     images: images.length ? images : undefined,
     category: api.categories ?? "",
     metal: api.goldSpecs?.metal
