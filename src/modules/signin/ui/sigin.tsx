@@ -67,7 +67,7 @@ export default function SignInPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="auth-input h-12 pl-11 pr-4 rounded-xl border-primary-foreground/25 text-primary-foreground  placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"
@@ -84,7 +84,7 @@ export default function SignInPage() {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="auth-input h-12 pl-11 pr-12 rounded-xl border-primary-foreground/25 text-primary-foreground font-semibold placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"

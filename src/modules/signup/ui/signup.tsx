@@ -43,10 +43,11 @@ export default function SignUpPage() {
       {
         onSuccess: () => {
           setRefOpen(false);
-          toast({ title: "Account created!", description: "Signed up successfully." });
           router.push("/otp");
+          toast({ title: "Account created!", description: "Signed up successfully." });
         },
         onError: (err: unknown) => {
+          setRefOpen(false);
           const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message || "Signup failed";
           toast({ title: "Signup failed", description: msg, variant: "destructive" });
         },
@@ -82,7 +83,7 @@ export default function SignUpPage() {
                   <Input
                     id="name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="Enter your Full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="auth-input h-12 pl-11 pr-4 rounded-xl border-primary-foreground/25 text-primary-foreground font-semibold placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"
@@ -99,7 +100,7 @@ export default function SignUpPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="Enter your Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="auth-input h-12 pl-11 pr-4 rounded-xl border-primary-foreground/25 text-primary-foreground font-semibold placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"
@@ -116,7 +117,7 @@ export default function SignUpPage() {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="At least 6 characters"
+                    placeholder="Enter your Password (at least 6 characters)"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="auth-input h-12 pl-11 pr-12 rounded-xl border-primary-foreground/25 text-primary-foreground font-semibold placeholder:font-normal placeholder:text-primary-foreground/45 focus-visible:ring-2 focus-visible:ring-primary-foreground/30 focus-visible:border-primary-foreground/40 transition-colors"
