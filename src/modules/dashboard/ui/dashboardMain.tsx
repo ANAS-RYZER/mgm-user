@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { useGetDashboard } from "../hooks/useGetDashboard";
+import AnimatedPage from "@/components/AnimatedPage";
 
 interface DashboardHomeProps {
   onNavigate: (tab: "home" | "custom-request" | "wishlist" | "appointments" | "settings") => void;
@@ -13,15 +15,11 @@ interface DashboardHomeProps {
 
 const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) => {
 
+  const { data: dashboard , isFetching, isError } = useGetDashboard();
+  console.log(dashboard?.data , "dashboard");
+
 
   const quickActions = [
-    // {
-    //   title: "Custom Jewelry Request",
-    //   description: "Upload your design and get it crafted",
-    //   icon: Sparkles,
-    //   color: "bg-gradient-mgm/10 text-primary-foreground",
-    //   action: () => onNavigate("custom-request"),
-    // },
     {
       title: "My Wishlist",
       description: "View your saved items",
@@ -38,6 +36,9 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
     },
   ];
 
+  if (isFetching) return (
+    <AnimatedPage isLoading={true} />
+);
   return (
     <div className="p-6 lg:p-8 space-y-8">
       {/* Welcome Section */}
@@ -79,12 +80,11 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {[
-          { label: "Wishlist Items", value: "4", icon: Heart },
-          { label: "Appointments", value: "3", icon: Calendar },
-          { label: "Custom Requests", value: "3", icon: Sparkles },
-          { label: "Store Visits", value: "12", icon: TrendingUp },
+          { label: "Wishlist Items", value: dashboard?.data?.wishlistCount || 0, icon: Heart },
+          { label: "Appointments", value: dashboard?.data?.totalAppointments || 0, icon: Calendar },
+          { label: "Store Visits", value: dashboard?.data?.storeVisitCount || 0, icon: TrendingUp },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -107,46 +107,6 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
         ))}
       </div>
 
-      {/* Featured Products */}
-      {/* <Card className="border-border/50">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="font-display text-xl">Featured Collection</CardTitle>
-          <Link href="/catalogue">
-            <Button variant="ghost" size="sm" className="gap-2">
-              View All <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-        </CardHeader>
-        <CardContent> */}
-        {/* //  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {featuredProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Link href={`/product/${product.id}`}>
-                  <div className="group relative overflow-hidden rounded-xl">
-                    <div className="aspect-square overflow-hidden">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 left-0 right-0 p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white text-sm font-medium truncate">{product.name}</p>
-                      <p className="text-white/80 text-xs">{product.price}</p>
-                    </div>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div> */}
-        {/* </CardContent>
-      </Card> */}
     </div>
   );
 };
