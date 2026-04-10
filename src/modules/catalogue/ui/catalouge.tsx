@@ -48,9 +48,9 @@ export default function Catalogue() {
   const [sortBy, setSortBy] = useState("featured");
   const [viewMode] = useState<"grid" | "list">("grid");
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    category,
-  ]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
+    category ? [category] : [],
+  );
   const [selectedMetals, setSelectedMetals] = useState<string[]>([]);
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([
