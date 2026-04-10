@@ -110,13 +110,13 @@ function OtpVerificationContent() {
       { otp: enteredOtp },
       {
         onSuccess: (res) => {
+          router.push("/");
           toast({
             title: "Verified",
             description: "You have been signed in successfully.",
           });
           setSessionItem("sessionId", res?.sessionId || ""); // Store new sessionId if provided
 
-          router.push("/");
         },
         onError: (err: unknown) => {
           const msg =

@@ -15,13 +15,13 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
 
 
   const quickActions = [
-    {
-      title: "Custom Jewelry Request",
-      description: "Upload your design and get it crafted",
-      icon: Sparkles,
-      color: "bg-gradient-mgm/10 text-primary-foreground",
-      action: () => onNavigate("custom-request"),
-    },
+    // {
+    //   title: "Custom Jewelry Request",
+    //   description: "Upload your design and get it crafted",
+    //   icon: Sparkles,
+    //   color: "bg-gradient-mgm/10 text-primary-foreground",
+    //   action: () => onNavigate("custom-request"),
+    // },
     {
       title: "My Wishlist",
       description: "View your saved items",
@@ -108,7 +108,7 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
       </div>
 
       {/* Featured Products */}
-      <Card className="border-border/50">
+      {/* <Card className="border-border/50">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="font-display text-xl">Featured Collection</CardTitle>
           <Link href="/catalogue">
@@ -117,7 +117,7 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
             </Button>
           </Link>
         </CardHeader>
-        <CardContent>
+        <CardContent> */}
         {/* //  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {featuredProducts.map((product, index) => (
               <motion.div
@@ -145,8 +145,8 @@ const DashboardHome = ({ onNavigate, profile: _profile }: DashboardHomeProps) =>
               </motion.div>
             ))}
           </div> */}
-        </CardContent>
-      </Card>
+        {/* </CardContent>
+      </Card> */}
     </div>
   );
 };

@@ -187,10 +187,17 @@ api.interceptors.response.use(
     }
 
     const { status } = error.response;
+    const requestUrl = String(originalRequest?.url ?? "").toLowerCase();
+    const isAuthFlowRequest =
+      requestUrl.includes("/auth/login") ||
+      requestUrl.includes("/auth/signup") ||
+      requestUrl.includes("/auth/signin") ||
+      requestUrl.includes("/auth/forgot") ||
+      requestUrl.includes("/auth/reset");
     const isRefreshRequest =
       originalRequest?.url?.includes?.("refresh") ?? originalRequest?.skipAuthRetry === true;
 
-    if ((status === 401 || status === 403) && !isRefreshRequest) {
+    if ((status === 401 || status === 403) && !isRefreshRequest && !isAuthFlowRequest) {
       console.warn("Unauthorized request: Attempting to refresh token.");
 
       try {
@@ -228,7 +235,7 @@ const handleLogout = () => {
     sessionStorage.removeItem("refreshToken");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    window.location.href = "/login";
+    window.location.href = "/signin";
   }
   return Promise.reject({ message: "Session expired. Redirecting to login." });
 };

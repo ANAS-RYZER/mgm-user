@@ -55,6 +55,7 @@ const ProfileForm = ({ profile, onChange, onSave, isLoading }: ProfileFormProps)
                 value={profile.email}
                 onChange={(e) => onChange("email", e.target.value)}
                 className="pl-10"
+                disabled
               />
             </div>
           </div>
