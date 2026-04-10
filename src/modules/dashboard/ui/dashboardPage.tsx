@@ -10,6 +10,7 @@ import { useDashboardNav } from "../hooks/useDashboardNav";
 import { DashboardLayout } from "../components/dashboard/DashboardLayout";
 import type { DashboardTabId } from "../schema/types";
 import { useGetProfile } from "../hooks/useGetProfile";
+import AnimatedPage from "@/components/AnimatedPage";
 
 const DASHBOARD_CONTENT: Record<
   DashboardTabId,
@@ -32,11 +33,15 @@ export default function DashboardPage() {
     handleSignOut,
     router,
   } = useDashboardNav("home");
-  const { data: profile } = useGetProfile();
+  const { data: profile , isFetching, isError } = useGetProfile();
   const content = useMemo(
     () => DASHBOARD_CONTENT[activeTab]({ onNavigate: setActiveTab, profile }),
     [activeTab, setActiveTab, profile]
   );
+  if (isFetching) return (
+    <AnimatedPage isLoading={true} />
+  );
+
 
   return (
     <DashboardLayout
