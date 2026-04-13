@@ -1,34 +1,49 @@
 "use client";
-import { Calendar, Heart, Plus, Share, ShoppingBag } from "lucide-react";
+import {
+  Calendar,
+  Heart,
+  Loader,
+  Plus,
+  Share,
+  ShoppingBag,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { Product, formatPrice } from "@/lib/product";
 import { cardVariants, hoverLift } from "@/lib/animations";
-import { useWishlist } from "@/lib/use-wishlist";
 import { useAppointmentProducts } from "@/lib/use-appointment-products";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useToggleWishlist } from "@/modules/catalogue/hooks/useToggleWishlist";
 interface ProductCardProps {
   product: Product;
   index?: number;
 }
 
+const PLACEHOLDER_IMAGE = "/placeholder.svg";
+
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const router = useRouter();
-  const discount = product.originalPrice
-    ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100,
-      )
-    : 0;
+  const {
+    mutate: toggleWishlist,
+    isPending: isTogglingWishlist,
+    error,
+    isError,
+  } = useToggleWishlist();
+
+  const imageSrc =
+    typeof product.image === "string" && product.image.trim() !== ""
+      ? product.image
+      : PLACEHOLDER_IMAGE;
 
   const searchParams = useSearchParams();
   const isAppointmentMode = searchParams.get("appointment") === "true";
   const appointmentProducts = useAppointmentProducts();
   const isAlreadyAdded = appointmentProducts.isIn(String(product.id));
 
-  const wishlist = useWishlist();
+  // const wishlist = useWishlist();
 
   const handleMainAction = () => {
     if (isAppointmentMode) {
@@ -40,18 +55,39 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
       router.push(`product/${product.id}`);
     }
   };
+  const handleToggleWishlist = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    productId: string | number,
+  ) => {
+    e.stopPropagation();
+    e.preventDefault();
+    toggleWishlist(productId as string, {
+      onSuccess: () => {},
+      onError: (err) => {
+        console.error("Failed to toggle wishlist", err);
+      },
+    });
+  };
 
-  const WishlistButton = ({ productId }: { productId: string | number }) => (
+  const WishlistButton = ({
+    productId,
+    isTogglingWishlist,
+  }: {
+    productId: string;
+    isTogglingWishlist: boolean;
+  }) => (
     <Button
       onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        wishlist.toggle(String(productId));
+        handleToggleWishlist(e, productId);
       }}
-      className={`p-2 rounded-lg transition-colors h-10 w-10 hover:bg-black/10 text-black border shadow-[0_4px_12px_rgba(0,0,0,0.06)] ${wishlist.isIn(String(productId)) ? "bg-destructive text-white" : "bg-background/90 text-red-500"}`}
+      className={`p-2 rounded-lg transition-colors h-10 w-10 hover:bg-black/10 text-black border shadow-[0_4px_12px_rgba(0,0,0,0.06)] ${product.isWishlisted ? "bg-destructive text-white" : "bg-background/90 text-red-500"}`}
       aria-label="Toggle wishlist"
     >
-      <Heart className="w-4 h-4" />
+      {isTogglingWishlist ? (
+        <Loader className="w-4 h-4 animate-spin" />
+      ) : (
+        <Heart className="w-4 h-4" />
+      )}
     </Button>
   );
 
@@ -79,26 +115,10 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
               Best Seller
             </span>
           )}
-          {/* {discount > 0 && (
-              <span className="bg-destructive text-destructive-foreground text-xs px-3 py-1 rounded-full font-medium">
-                {discount}% OFF
-              </span>
-            )} */}
         </div>
 
-        {/* Actions */}
-        {/* <div className="absolute top-3 right-3 z-10 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <WishlistButton productId={product.id} />
-          <button
-            className="p-2 bg-background/90 rounded-full hover:bg-background transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
-            aria-label="Add to cart"
-          >
-            <ShoppingBag className="w-4 h-4" />
-          </button>
-        </div> */}
-
         <Image
-          src={product.image}
+          src={imageSrc}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
@@ -125,7 +145,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
                 {formatPrice(product.originalPrice)}
               </p>
               <div className="flex gap-4">
-                <WishlistButton productId={product.id} />
+                <WishlistButton productId={product.id} isTogglingWishlist={isTogglingWishlist} />
                 {/* <Button
                   className="p-2 bg-background/90 rounded-lg hover:bg-black/10 w-10 h-10 transition-colors shadow-[0_4px_12px_rgba(0,0,0,0.06)] text-black border "
                   aria-label="Add to cart"

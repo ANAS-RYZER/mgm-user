@@ -1,3 +1,5 @@
+"use client";
+
 import { staggerContainer, staggerItem } from '@/lib/animations';
 import { motion } from 'framer-motion';
 import { Award, Gem, Shield, Wrench } from 'lucide-react';

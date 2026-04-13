@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Header from "@/commonui/Header";
 import Footer from "@/commonui/Footer";
 import AnimatedPage from "@/components/AnimatedPage";
@@ -11,7 +11,6 @@ import { CatalogueToolbar } from "@/modules/catalogue/components/CatalogueToolba
 import { ProductGrid } from "@/modules/catalogue/components/ProductGrid";
 import { EmptyState } from "@/modules/catalogue/components/EmptyState";
 import { useDebounce } from "@/hooks/useDebounce";
-import { getProductsUserAll } from "@/modules/catalogue/hooks/useGetAllProduct";
 import { mapApiProductToProduct } from "@/modules/productId/lib/mapProduct";
 import type { Product } from "@/lib/products";
 import { formatPrice } from "@/lib/products";
@@ -21,6 +20,7 @@ import {
 } from "@/modules/productId/hooks/useCatalogueFilters";
 import { useSearchParams } from "next/navigation";
 import MGMLoader from "@/components/MGMLoader";
+import { useGetProductsUserAll } from "../hooks/useGetAllProduct";
 
 const SEARCH_DEBOUNCE_MS = 400;
 const DEFAULT_MAX_PRICE = 300000;
@@ -38,9 +38,6 @@ export default function Catalogue() {
   const category = useSearchParams().get("category") || "";
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
 
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useDebounce(searchQuery, SEARCH_DEBOUNCE_MS);
@@ -48,9 +45,9 @@ export default function Catalogue() {
   const [sortBy, setSortBy] = useState("featured");
   const [viewMode] = useState<"grid" | "list">("grid");
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([
-    category,
-  ]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    () => (category ? [category] : [])
+  );
   const [selectedMetals, setSelectedMetals] = useState<string[]>([]);
   const [selectedCollections, setSelectedCollections] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([
@@ -73,6 +70,50 @@ export default function Catalogue() {
     setSearchQuery("");
   }, [maxProductPrice]);
 
+  const params = {
+    search: debouncedSearch.trim() || undefined,
+    category: selectedCategories[0],
+    minPrice: priceRange[0] || undefined,
+    maxPrice: priceRange[1] || undefined,
+    purity: selectedMetals.length
+      ? selectedMetals.map(normalizeMetalToPurity).join(",")
+      : undefined,
+  };
+
+  const { data, isLoading, error, refetch } =
+    useGetProductsUserAll(params);
+
+  const products: Product[] = useMemo(() => {
+    if (!data) return [];
+
+    let mapped = data.data.map(mapApiProductToProduct);
+
+    switch (sortBy) {
+      case "price-low":
+        mapped.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        mapped.sort((a, b) => b.price - a.price);
+        break;
+      case "newest":
+        mapped = mapped
+          .filter((p) => p.isNew)
+          .concat(mapped.filter((p) => !p.isNew));
+        break;
+      case "rating":
+        mapped.sort(
+          (a, b) => ((b as any).rating || 0) - ((a as any).rating || 0)
+        );
+        break;
+      default:
+        mapped = mapped
+          .filter((p) => p.isBestSeller)
+          .concat(mapped.filter((p) => !p.isBestSeller));
+    }
+
+    return mapped;
+  }, [data, sortBy]);
+
   const categories = useMemo(() => {
     const countByCategory = new Map<string, number>();
     for (const p of products) {
@@ -92,13 +133,15 @@ export default function Catalogue() {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category],
+        : [...prev, category]
     );
   };
 
   const toggleMetal = (metal: string) => {
     setSelectedMetals((prev) =>
-      prev.includes(metal) ? prev.filter((m) => m !== metal) : [...prev, metal],
+      prev.includes(metal)
+        ? prev.filter((m) => m !== metal)
+        : [...prev, metal]
     );
   };
 
@@ -106,74 +149,9 @@ export default function Catalogue() {
     setSelectedCollections((prev) =>
       prev.includes(collection)
         ? prev.filter((c) => c !== collection)
-        : [...prev, collection],
+        : [...prev, collection]
     );
   };
-
-  const fetchProducts = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const params = {
-        search: debouncedSearch.trim() || undefined,
-        category: selectedCategories[0],
-        minPrice: priceRange[0] || undefined,
-        maxPrice: priceRange[1] || undefined,
-        purity: selectedMetals.length
-          ? selectedMetals.map(normalizeMetalToPurity).join(",")
-          : undefined,
-      };
-
-      const res = await getProductsUserAll(params);
-      if (!res) {
-        setProducts([]);
-        setIsLoading(false);
-        return;
-      }
-      let mapped = res.data.map(mapApiProductToProduct);
-
-      switch (sortBy) {
-        case "price-low":
-          mapped.sort((a, b) => a.price - b.price);
-          break;
-        case "price-high":
-          mapped.sort((a, b) => b.price - a.price);
-          break;
-        case "newest":
-          mapped = mapped
-            .filter((p) => p.isNew)
-            .concat(mapped.filter((p) => !p.isNew));
-          break;
-        case "rating":
-          mapped.sort(
-            (a, b) => ((b as any).rating || 0) - ((a as any).rating || 0),
-          );
-          break;
-        default:
-          mapped = mapped
-            .filter((p) => p.isBestSeller)
-            .concat(mapped.filter((p) => !p.isBestSeller));
-      }
-
-      setProducts(mapped);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error(String(err)));
-      setProducts([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [
-    debouncedSearch,
-    selectedCategories,
-    selectedMetals,
-    selectedCollections,
-    priceRange,
-    sortBy,
-  ]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
 
   return (
     <AnimatedPage isLoading={false} className="min-h-screen bg-background">
@@ -218,9 +196,7 @@ export default function Catalogue() {
 
             <div className="flex-1 min-w-0">
               {isLoading ? (
-                <div>
-                  <MGMLoader />
-                </div>
+                <MGMLoader />
               ) : error ? (
                 <div className="py-12 text-center">
                   <p className="text-destructive mb-2">
@@ -228,7 +204,7 @@ export default function Catalogue() {
                   </p>
                   <button
                     type="button"
-                    onClick={() => fetchProducts()}
+                    onClick={() => refetch()}
                     className="text-primary underline"
                   >
                     Try again

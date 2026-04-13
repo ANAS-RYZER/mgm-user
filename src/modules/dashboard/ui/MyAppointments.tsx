@@ -5,58 +5,35 @@ import { AppointmentSearch } from "../components/appointment/AppointmentSearch";
 import { AppointmentTabs } from "../components/appointment/AppointmentTabs";
 import { AppointmentList } from "../components/appointment/AppointmentList";
 import { AppointmentModal } from "../components/appointment/AppointmentModal";
-import { useAppointments } from "../hooks/useAppointments";
+import { useState } from "react";
+import useGetAppointments from "../hooks/useAppointments";
 
 export const MyAppointments = ({ profile: _profile }: { profile: any }) => {
+  const [activeTab, setActiveTab] = useState<"all" | "upcoming" | "history">(
+    "all",
+  );
   const {
-    appointments,
-    activeTab,
-    setActiveTab,
-    selectedAppointment,
-    setSelectedAppointment,
-    searchTerm,
-    setSearchTerm,
-    cancelAppointment,
-    getStatusBadge,
-    getFilteredAppointments,
-  } = useAppointments();
-
-  const filteredAppointments = getFilteredAppointments();
-
-  const getTabAppointments = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (activeTab === "upcoming") {
-      return filteredAppointments.filter(apt => new Date(apt.date) >= today);
-    } else if (activeTab === "history") {
-      return filteredAppointments.filter(apt => new Date(apt.date) < today);
-    }
-    return filteredAppointments;
-  };
+    data: appointments,
+    isFetching:isAppointmentsLoading,
+    error,
+  } = useGetAppointments(activeTab);
+  console.log("Fetched Appointments:", appointments?.data);
 
   return (
-    <div className="p-6 lg:p-8 space-y-8">
+    <div className="px-2 py-6 md:p-6 lg:p-8 space-y-8">
       <AppointmentHeader />
 
-      <AppointmentSearch searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+      {/* <AppointmentSearch searchTerm={searchTerm} onSearchChange={setSearchTerm} /> */}
 
       <AppointmentTabs
         activeTab={activeTab}
         onTabChange={setActiveTab}
-        appointments={appointments}
+        appointments={appointments?.data}
       >
-        <AppointmentList
-          appointments={getTabAppointments()}
-          searchTerm={searchTerm}
-          onView={setSelectedAppointment}
-          onEdit={setSelectedAppointment}
-          onCancel={cancelAppointment}
-          getStatusBadge={getStatusBadge}
-        />
+        <AppointmentList isLoading={isAppointmentsLoading} appointments={appointments?.data} />
       </AppointmentTabs>
 
-      <AppointmentModal
+      {/* <AppointmentModal
         appointment={selectedAppointment}
         onClose={() => setSelectedAppointment(null)}
         onEdit={() => {
@@ -70,7 +47,7 @@ export const MyAppointments = ({ profile: _profile }: { profile: any }) => {
           }
         }}
         getStatusBadge={getStatusBadge}
-      />
+      /> */}
     </div>
   );
 };

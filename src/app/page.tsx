@@ -7,22 +7,19 @@ import { ArrowRight } from "lucide-react";
 
 import Header from "@/commonui/Header";
 import Footer from "@/commonui/Footer";
-import ProductCard from "@/commonui/ProductCard";
 import AnimatedPage from "@/components/AnimatedPage";
 
 import { Button } from "@/components/ui/button";
-import { products } from "@/lib/product";
 import {
   heroTextVariants,
 } from "@/lib/animations";
 
 import ShopByCategory from "@/modules/main/components/ShopByCategory";
 import Feature from "@/modules/main/components/feature";
+import FeaturedCollection from "@/modules/main/components/FeaturedCollection";
+import Seller from "@/modules/main/components/seller";
 
 export default function HomePage() {
-  const featuredProducts = products.slice(0, 4);
-  const bestSellers = products.filter((p) => p.isBestSeller);
-
   return (
     <AnimatedPage className="min-h-screen bg-background">
       <Header />
@@ -82,51 +79,12 @@ export default function HomePage() {
   
         <ShopByCategory />
 
-       <section className="py-20 px-16 bg-cream">
-          <div className="mx-auto px-4 ">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="flex flex-col md:flex-row md:items-end md:justify-between mb-12"
-            >
-              <div>
-                <span className="text-gold font-medium tracking-widest uppercase text-sm">
-                  Handpicked For You
-                </span>
-                <h2 className=" text-3xl md:text-4xl font-semibold text-foreground mt-2">
-                  Featured Collection
-                </h2>
-              </div>
-              <Link
-                href="/catalogue"
-                className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors mt-4 md:mt-0"
-              >
-                View All
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </motion.div>
+        <FeaturedCollection />
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts?.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} />
-              ))}
-            </div>
-          </div>
-        </section>
+        <Seller />
 
         {/* BEST SELLERS */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <h2 className=" text-4xl font-semibold mb-12">Best Sellers</h2>
-
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {bestSellers.map((p, i) => (
-                <ProductCard key={p.id} product={p} index={i} />
-              ))}
-            </div>
-          </div>
-        </section>
+       
       </main>
 
       <Footer />
