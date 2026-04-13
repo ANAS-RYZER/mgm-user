@@ -5,8 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Appointment } from "../../schema/appointment";
 
 interface AppointmentTabsProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
+  activeTab: "all" | "upcoming" | "history";
+  onTabChange: (tab: "all" | "upcoming" | "history") => void;
   appointments: Appointment[];
   children: React.ReactNode;
 }
@@ -17,29 +17,20 @@ export const AppointmentTabs = ({
   appointments,
   children,
 }: AppointmentTabsProps) => {
-  const getUpcomingCount = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return appointments.filter(apt => new Date(apt.date) >= today).length;
-  };
 
-  const getHistoryCount = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return appointments.filter(apt => new Date(apt.date) < today).length;
-  };
 
   return (
-    <Tabs value={activeTab} onValueChange={onTabChange} className="w-full">
-      <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-muted">
+    <Tabs value={activeTab} onValueChange={onTabChange as any} className="w-full">
+      <TabsList className="grid w-full grid-cols-3 h-auto md:p-1 px-2 bg-muted">
         <TabsTrigger value="all" className="data-[state=active]:bg-background">
-          All <Badge className="ml-1 bg-primary">{appointments.length}</Badge>
+          All 
+          
         </TabsTrigger>
         <TabsTrigger value="upcoming" className="data-[state=active]:bg-background">
-          Upcoming <Badge className="ml-1 bg-primary">{getUpcomingCount()}</Badge>
+          Upcoming 
         </TabsTrigger>
         <TabsTrigger value="history" className="data-[state=active]:bg-background">
-          History <Badge className="ml-1 bg-primary">{getHistoryCount()}</Badge>
+          History 
         </TabsTrigger>
       </TabsList>
 

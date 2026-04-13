@@ -80,7 +80,7 @@ export default function ProductListItem({ product }: ProductListItemProps) {
             size="sm"
             className="bg-gradient-mgm hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-lg w-full sm:w-auto"
           >
-            View Details
+            View Details ss
           </Button>
         </div>
       </div>

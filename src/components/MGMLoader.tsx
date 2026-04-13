@@ -1,12 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import React from "react";
 
-const MGMLoader = () => {
+const MGMLoader = ({margin="mt-40"}:{margin?: string}) => {
   return (
-    <div className="flex flex-col gap-2 items-center justify-center min-h-screen">
+    <div className={clsx(margin, "flex flex-col gap-2 items-center justify-center")}>
       <div className="relative flex  items-center justify-center">
         {/* 🔵 Background Circle */}
         <div className="relative w-28 h-28 rounded-full bg-primary flex items-center justify-center shadow-lg">

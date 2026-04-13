@@ -36,6 +36,7 @@ export interface Product {
     purity: string;
     makingCharges: string;
   };
+  isWishlisted?: boolean;
 }
 
 export interface Category {
