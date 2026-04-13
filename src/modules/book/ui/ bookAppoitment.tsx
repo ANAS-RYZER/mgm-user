@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import Lottie from "lottie-react";
 import sucess from "../../../../public/lottie/sucess.json";
 import { getSessionItem } from "@/lib/sessionStorage";
+import Link from "next/link";
 /* ----------------------------- Helpers ----------------------------- */
 
 function generateDates(count: number) {
@@ -181,12 +182,12 @@ export default function BookAppointmentPage() {
               </div>
             )}
 
-            <a
+            <Link
               href="/"
               className="inline-block bg-[#2a1a1a] text-[#f5f0e8] font-semibold py-3 px-8 rounded-lg hover:bg-[#3d2a2a] transition-colors"
             >
               Back to Home
-            </a>
+            </Link>
           </div>
         </main>
       </div>
