@@ -1,6 +1,6 @@
-import { toast, useToast } from "@/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { api} from "@/lib/httpClient";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const WISHLIST_QUERY_KEY = ["wishlist"] as const;
 

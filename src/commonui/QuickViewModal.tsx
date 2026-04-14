@@ -1,10 +1,9 @@
 "use client";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Heart, ShoppingCart } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/products";
-import { useWishlist } from "@/lib/use-wishlist";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -15,7 +14,6 @@ interface QuickViewModalProps {
 }
 
 const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
-  const wishlist = useWishlist();
   if (!product) return null;
 
   return (
@@ -67,15 +65,15 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
                 <div className="mt-4 flex items-center gap-3">
                   <Button
                     onClick={() => {
-                       wishlist.toggle((product.id));
+                      //  wishlist.toggle((product.id));
                     }}
                     className="relative bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 hover:from-yellow-400 hover:via-yellow-500 hover:to-yellow-600 text-foreground shadow-lg hover:shadow-xl border border-yellow-200/60 hover:border-yellow-300/80 transition-all duration-300 transform hover:scale-105 overflow-hidden group"
                   >
                     <span className="relative z-10 flex items-center">
-                      <Heart
+                      {/* <Heart
                         className={`w-4 h-4 mr-2 ${wishlist.isIn((product.id)) ? "text-red-500" : ""}`}
-                      />
-                      {wishlist.isIn((product.id)) ? "Saved" : "Wishlist"}
+                      /> */}
+                      {/* {wishlist.isIn((product.id)) ? "Saved" : "Wishlist"} */}
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 via-yellow-200/60 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 via-yellow-100/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

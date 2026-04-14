@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
-import PriceTicker from "./PriceTicker";
 import { useRouter } from "next/navigation";
 import useGetMe from "@/hooks/useGetMe";
 import { getSessionItem, setSessionItem } from "@/lib/sessionStorage";

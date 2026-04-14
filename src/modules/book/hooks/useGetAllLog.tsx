@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import api, { apiClient } from "@/lib/httpClient";
+import api from "@/lib/httpClient";
 
 export interface AppointmentSlot {
   slotCode: "MORNING" | "EVENING" | "NIGHT";

@@ -1,28 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  Heart,
-  ShoppingBag,
-  Trash2,
-  AlertTriangle,
-  Eye,
-  Search,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import { useState } from "react";
+import { Search } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Product } from "@/data/products";
-import Image from "next/image";
-import ProductCard from "@/commonui/ProductCard";
 import useGetAllWishlist from "../../hooks/useGetAllWishlist";
-import ProductListItem from "@/modules/catalogue/components/ProductListItem";
-import { ProductGrid } from "@/modules/catalogue/components/ProductGrid";
 import WishlistCard from "@/commonui/WishListCard";
 import MGMLoader from "@/components/MGMLoader";
-
-const defaultWishlistIds = ["1", "2", "3", "4", "5"];
 
 const Wishlist = ({ profile: _profile }: { profile: any }) => {
   const { toast } = useToast();

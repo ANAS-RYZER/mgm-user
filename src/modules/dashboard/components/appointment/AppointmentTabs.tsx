@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Appointment } from "../../schema/appointment";
 
@@ -14,7 +13,6 @@ interface AppointmentTabsProps {
 export const AppointmentTabs = ({
   activeTab,
   onTabChange,
-  appointments,
   children,
 }: AppointmentTabsProps) => {
 

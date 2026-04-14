@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import ProfilePicture from "@/modules/dashboard/components/profile/ProfilePicture";
 import ProfileForm from "@/modules/dashboard/components/profile/ProfileForm";
 import Preferences from "@/modules/dashboard/components/profile/Preferences";
