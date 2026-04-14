@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Gem, Send, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
 import { JewelryRequest } from "@/lib/custom-jewelry/types";
 import { useJewelryRequests } from "@/hooks/useJewelryRequests";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";

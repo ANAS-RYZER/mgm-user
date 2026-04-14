@@ -1,17 +1,13 @@
 "use client";
 import {
-  Calendar,
   Heart,
   Loader,
-  Plus,
   Share,
-  ShoppingBag,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Product, formatPrice } from "@/lib/product";
 import { cardVariants, hoverLift } from "@/lib/animations";
 import { useAppointmentProducts } from "@/lib/use-appointment-products";
-import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,8 +25,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const {
     mutate: toggleWishlist,
     isPending: isTogglingWishlist,
-    error,
-    isError,
+    
   } = useToggleWishlist();
 
   const imageSrc =

@@ -33,7 +33,7 @@ export default function DashboardPage() {
     handleSignOut,
     router,
   } = useDashboardNav("home");
-  const { data: profile , isFetching, isError } = useGetProfile();
+  const { data: profile , isFetching } = useGetProfile();
   const content = useMemo(
     () => DASHBOARD_CONTENT[activeTab]({ onNavigate: setActiveTab, profile }),
     [activeTab, setActiveTab, profile]

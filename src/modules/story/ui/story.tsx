@@ -2,13 +2,11 @@
 import { motion } from "framer-motion";
 import {
   Heart,
-  Sparkles,
   Crown,
   Gem,
   Clock,
   Users,
   Award,
-  MapPin,
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

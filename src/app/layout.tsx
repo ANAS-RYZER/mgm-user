@@ -5,21 +5,14 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
-});
 
 const poppins = Outfit({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-poppins',
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-poppins",
 });
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import NetworkStatus from "@/components/NetworkStatus";
-import MGMLoader from "@/components/MGMLoader";
 export const metadata: Metadata = {
   title: "MGM Mega Gold Mart",
   description: "MGM Mega Gold Mart",
@@ -50,9 +43,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <NetworkStatus />
           <Toaster />
-          <Suspense fallback={<LoadingFallback />}>
-            {children}
-          </Suspense>
+          <Suspense fallback={<LoadingFallback />}>{children}</Suspense>
         </ReactQueryProvider>
       </body>
     </html>

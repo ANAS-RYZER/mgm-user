@@ -1,10 +1,8 @@
 "use client";
 
 import { AppointmentHeader } from "../components/appointment/AppointmentHeader";
-import { AppointmentSearch } from "../components/appointment/AppointmentSearch";
 import { AppointmentTabs } from "../components/appointment/AppointmentTabs";
 import { AppointmentList } from "../components/appointment/AppointmentList";
-import { AppointmentModal } from "../components/appointment/AppointmentModal";
 import { useState } from "react";
 import useGetAppointments from "../hooks/useAppointments";
 

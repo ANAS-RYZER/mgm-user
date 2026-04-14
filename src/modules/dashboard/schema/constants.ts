@@ -1,4 +1,4 @@
-import { Home, Heart, Calendar, Sparkles, Settings } from "lucide-react";
+import { Home, Heart, Calendar, Settings } from "lucide-react";
 import type { DashboardMenuItem } from "./types";
 
 export const DASHBOARD_MENU_ITEMS: DashboardMenuItem[] = [

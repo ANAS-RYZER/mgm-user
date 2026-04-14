@@ -1,7 +1,6 @@
 import { Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
-import { use } from "react";
+
 
 const Footer = () => {
   return (

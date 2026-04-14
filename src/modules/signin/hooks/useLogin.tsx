@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { apiClient, auth } from "@/lib/httpClient";
 
 export const useLogin = () =>

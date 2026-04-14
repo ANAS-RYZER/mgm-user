@@ -1,8 +1,5 @@
 import { apiClient } from "@/lib/httpClient";
-import type {
-  GetProductsUserAllResponse,
-  GetProductsUserAllParams,
-} from "../schema/products.types";
+
 
 import type { ApiProduct } from "../schema/products.types";
 
